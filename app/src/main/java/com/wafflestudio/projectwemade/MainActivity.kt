@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.wafflestudio.projectwemade.component.LeftTopBar
 import com.wafflestudio.projectwemade.theme.ProjectWemadeAndroidTheme
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
@@ -22,8 +23,13 @@ class MainActivity : ComponentActivity() {
             ProjectWemadeAndroidTheme {
                 // A surface container using the 'background' color from the theme
                 Column(
-                    modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background),
                 ) {
+                    LeftTopBar(title = "test") {
+                        Text(text = "action")
+                    }
                     Greeting("Android")
                     Button(onClick = {}) {
                         Text(
