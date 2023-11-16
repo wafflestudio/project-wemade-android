@@ -12,8 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.wafflestudio.projectwemade.ui.theme.ProjectWemadeAndroidTheme
-import com.wafflestudio.projectwemade.ui.theme.WemadeColors
+import com.wafflestudio.projectwemade.theme.ProjectWemadeAndroidTheme
+import com.wafflestudio.projectwemade.theme.WemadeColors
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

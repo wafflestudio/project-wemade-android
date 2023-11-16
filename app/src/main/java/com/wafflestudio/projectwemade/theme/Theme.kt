@@ -1,13 +1,13 @@
-package com.wafflestudio.projectwemade.ui.theme
+package com.wafflestudio.projectwemade.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import com.wafflestudio.projectwemade.ui.theme.WemadeColors.Blue50
-import com.wafflestudio.projectwemade.ui.theme.WemadeColors.Red50
-import com.wafflestudio.projectwemade.ui.theme.WemadeColors.Yellow50
+import com.wafflestudio.projectwemade.theme.WemadeColors.Blue50
+import com.wafflestudio.projectwemade.theme.WemadeColors.Red50
+import com.wafflestudio.projectwemade.theme.WemadeColors.Yellow50
 
 private val DarkColorScheme = darkColorScheme(
     primary = Blue50,
