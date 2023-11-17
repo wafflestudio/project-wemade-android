@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,9 +27,14 @@ private fun TopBarButton(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.background(color = WemadeColors.White900)
+        modifier = Modifier
+            .background(color = WemadeColors.Blue50)
             .clip(RoundedCornerShape(16.dp))
-            .padding(horizontal = 12.dp, vertical = 9.dp)
+            .padding(horizontal = 12.dp, vertical = 9.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = WemadeColors.Blue50,
+            disabledContentColor = WemadeColors.Blue50
+        )
     ) {
         Text(
             text = text,
@@ -46,7 +52,8 @@ fun CenterTopBar(
     mainText: String
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .background(color = WemadeColors.Blue50),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween

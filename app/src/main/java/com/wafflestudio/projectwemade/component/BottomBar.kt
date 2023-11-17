@@ -34,12 +34,18 @@ private fun BottomBarButton(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.background(color = WemadeColors.Red50)
+        modifier = Modifier
             .clip(RoundedCornerShape(3.dp))
             .padding(horizontal = 12.dp, vertical = 9.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = WemadeColors.Red50,
+            disabledContainerColor = WemadeColors.Red50
+        )
     ) {
+        // TODO: 왜 글자색을 바꾸면 버튼이 사라질까요
         Text(
-            text = text
+            text = text,
+            //color = WemadeColors.Black900
         )
     }
 }
