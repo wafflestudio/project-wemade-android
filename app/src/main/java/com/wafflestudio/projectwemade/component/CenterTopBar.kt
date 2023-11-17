@@ -38,7 +38,8 @@ private fun TopBarButton(
     ) {
         Text(
             text = text,
-            fontSize = 20.sp
+            fontSize = 20.sp,
+            color = WemadeColors.Black900
         )
     }
 }

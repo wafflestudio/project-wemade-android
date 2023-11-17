@@ -42,10 +42,9 @@ private fun BottomBarButton(
             disabledContainerColor = WemadeColors.Red50
         )
     ) {
-        // TODO: 왜 글자색을 바꾸면 버튼이 사라질까요
         Text(
             text = text,
-            //color = WemadeColors.Black900
+            color = WemadeColors.Black900
         )
     }
 }

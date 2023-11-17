@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 object WemadeColors {
     val White900 = Color(0xFFFFFFFF)
-    val Black900 = Color(0x00000000)
+    val Black900 = Color(0xFF000000)
 
     val Gray100 = Color(0xFFEBEBEB)
     val Red50 = Color(0xFFFEE7E7)
