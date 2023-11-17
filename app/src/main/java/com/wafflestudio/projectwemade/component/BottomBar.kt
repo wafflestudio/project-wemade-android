@@ -15,26 +15,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.wafflestudio.projectwemade.ui.theme.WemadeColors
-
-@Composable
-fun PlaceHolder(){
-    Box() {}
-}
+import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
 private fun BottomBarButton(
     onClick: () -> Unit,
-    text: String
+    text: String,
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier
+        modifier = modifier
             .clip(RoundedCornerShape(3.dp))
             .padding(horizontal = 12.dp, vertical = 9.dp),
         colors = ButtonDefaults.buttonColors(
@@ -52,56 +46,30 @@ private fun BottomBarButton(
 @Composable
 fun BottomBar(
     modifier: Modifier = Modifier,
-    centerComposable: @Composable () -> Unit = { PlaceHolder() },
-    leftComposable: @Composable () -> Unit,
-    rightComposable: @Composable () -> Unit
+    leftComposable: @Composable () -> Unit = {},
+    rightComposable: @Composable () -> Unit = {}
 ) {
     // TODO: add design parameters
-    Row (
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .background(color = WemadeColors.Red50, shape = RectangleShape),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        // TODO: 위쪽만 색 다른 border 적용하기
-//        Canvas(modifier = Modifier) {
-//            val path = Path().apply {
-//                moveTo(size.width, 0f)
-//                lineTo(0f, 0f)
-//                lineTo(0f, size.height)
-//                lineTo(size.width, size.height)
-//                close()
-//            }
-//
-//            drawPath(
-//                path = path,
-//                color = WemadeColors.Red200,
-//                style = Stroke(width = 10.dp.toPx())
-//            )
-//        }
         leftComposable()
-        centerComposable()
         rightComposable()
     }
 }
 
 @Preview
 @Composable
-fun BottomBarPreview(){
-//    Box(modifier = Modifier.fillMaxSize()) {
-//        BottomBarLayout(
-//            centerComposable = {Button(onClick = {}){Text(text = "Home")}},
-//            leftComposable = {Button(onClick = {}){Text(text = "left")}},
-//            rightComposable = {Button(onClick = {}){Text(text = "right")}},
-//            modifier = Modifier.align(Alignment.BottomCenter)
-//        )
-//    }
+fun BottomBarPreview() {
     Box(modifier = Modifier.fillMaxSize()) {
         BottomBar(
             //centerComposable = {Button(onClick = {}){Text(text = "Home")}},
-            leftComposable = {BottomBarButton(onClick = {}, text = "left loooooooong")},
-            rightComposable = {BottomBarButton(onClick = {}, text = "right")},
+            leftComposable = { BottomBarButton(onClick = {}, text = "left loooooooong") },
+            rightComposable = { BottomBarButton(onClick = {}, text = "right") },
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }

@@ -1,4 +1,4 @@
-package com.wafflestudio.projectwemade.ui.theme
+package com.wafflestudio.projectwemade.theme
 
 import androidx.compose.ui.graphics.Color
 

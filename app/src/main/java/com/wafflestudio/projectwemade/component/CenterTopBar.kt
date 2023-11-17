@@ -1,8 +1,7 @@
 package com.wafflestudio.projectwemade.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,18 +15,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wafflestudio.projectwemade.ui.theme.WemadeColors
-
-// TODO: 디자인 제대로 나오면 여백, 색깔 등 리소스화해서 적용
+import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
-private fun TopBarButton(
+fun TopBarButton(
     onClick: () -> Unit,
-    text: String
+    text: String,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier
+        modifier = modifier
             .background(color = WemadeColors.Blue50)
             .clip(RoundedCornerShape(16.dp))
             .padding(horizontal = 12.dp, vertical = 9.dp),
@@ -46,36 +44,50 @@ private fun TopBarButton(
 
 @Composable
 fun CenterTopBar(
-    leftOnClick: () -> Unit,
-    leftText: String,
-    rightOnClick: () -> Unit,
-    rightText: String,
-    mainText: String
+    title: String,
+    modifier: Modifier = Modifier,
+    leftAction: @Composable () -> Unit = {},
+    rightAction: @Composable () -> Unit = {},
 ) {
-    Row(
-        modifier = Modifier
+    Box(
+        modifier = modifier
             .fillMaxWidth()
-            .background(color = WemadeColors.Blue50),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+            .background(color = WemadeColors.Blue50)
     ) {
-        TopBarButton(leftOnClick, leftText)
+        Box(
+            modifier = Modifier.align(Alignment.CenterStart)
+        ) {
+            leftAction()
+        }
         Text(
-            text = mainText,
-            fontSize = 30.sp
+            text = title,
+            modifier = Modifier.align(Alignment.Center),
+            fontSize = 30.sp,
         )
-        TopBarButton(onClick = rightOnClick, text = rightText)
+        Box(
+            modifier = Modifier.align(Alignment.CenterEnd)
+        ) {
+            rightAction()
+        }
     }
 }
 
 @Preview
 @Composable
-fun CenterTopBarPreview(){
+fun CenterTopBarPreview() {
     CenterTopBar(
-        leftOnClick = {},
-        leftText = "뒤로가기",
-        rightOnClick = {},
-        rightText = "장바구니",
-        mainText = "Text"
+        leftAction = {
+            TopBarButton(
+                onClick = {},
+                text = "뒤로가기"
+            )
+        },
+        rightAction = {
+            TopBarButton(
+                onClick = {},
+                text = "장바구니"
+            )
+        },
+        title = "Text"
     )
 }
