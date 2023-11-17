@@ -1,4 +1,4 @@
-package com.wafflestudio.projectwemade.model
+package com.wafflestudio.projectwemade.model.dto
 
 data class Menu(
     val name: String,
