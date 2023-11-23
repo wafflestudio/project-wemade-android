@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
-private fun BottomBarButton(
+fun BottomBarButton(
     onClick: () -> Unit,
     text: String,
     modifier: Modifier = Modifier,
@@ -52,8 +52,8 @@ fun BottomBar(
     // TODO: add design parameters
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .background(color = WemadeColors.Red50, shape = RectangleShape),
+            .fillMaxWidth(),
+            //.background(color = WemadeColors.Red50, shape = RectangleShape)
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

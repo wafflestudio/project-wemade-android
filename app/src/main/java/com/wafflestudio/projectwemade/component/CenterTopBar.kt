@@ -26,13 +26,13 @@ fun TopBarButton(
     Button(
         onClick = { onClick() },
         modifier = modifier
-            .background(color = WemadeColors.Blue50)
+//            .background(color = WemadeColors.Blue50)
             .clip(RoundedCornerShape(16.dp))
             .padding(horizontal = 12.dp, vertical = 9.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = WemadeColors.Blue50,
-            disabledContentColor = WemadeColors.Blue50
-        )
+//        colors = ButtonDefaults.buttonColors(
+//            containerColor = WemadeColors.Blue50,
+//            disabledContentColor = WemadeColors.Blue50
+//        )
     ) {
         Text(
             text = text,
@@ -52,7 +52,7 @@ fun CenterTopBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = WemadeColors.Blue50)
+//            .background(color = WemadeColors.Blue50)
     ) {
         Box(
             modifier = Modifier.align(Alignment.CenterStart)
