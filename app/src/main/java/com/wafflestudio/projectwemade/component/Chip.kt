@@ -27,7 +27,7 @@ fun Chip(
         modifier = modifier
             .clickable { onClick() }
             .clip(RoundedCornerShape(16.dp))
-            .background(if (selected) WemadeColors.Blue50 else WemadeColors.Gray100)
+            .background(if (selected) WemadeColors.Blue50 else WemadeColors.LightGray)
             .padding(horizontal = 12.dp, vertical = 9.dp),
         color = if (selected) WemadeColors.Black900 else WemadeColors.White900,
         style = MaterialTheme.typography.bodyMedium
