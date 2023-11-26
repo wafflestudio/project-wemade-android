@@ -16,7 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.wafflestudio.projectwemade.component.BottomNavigation
 import com.wafflestudio.projectwemade.feature.home.HomeScreen
-import com.wafflestudio.projectwemade.feature.menu.MenuScreen
+import com.wafflestudio.projectwemade.feature.order.MenuScreen
 import com.wafflestudio.projectwemade.feature.mypage.MypageScreen
 
 @Composable
@@ -35,7 +35,7 @@ fun MainScreen() {
                 tabComposable(MainTabItem.Home.route) {
                     HomeScreen()
                 }
-                tabComposable(MainTabItem.Menu.route) {
+                tabComposable(MainTabItem.Order.route) {
                     MenuScreen()
                 }
                 tabComposable(MainTabItem.Mypage.route) {

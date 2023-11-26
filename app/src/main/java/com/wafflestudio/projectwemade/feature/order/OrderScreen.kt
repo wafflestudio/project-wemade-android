@@ -1,4 +1,4 @@
-package com.wafflestudio.projectwemade.feature.menu
+package com.wafflestudio.projectwemade.feature.order
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

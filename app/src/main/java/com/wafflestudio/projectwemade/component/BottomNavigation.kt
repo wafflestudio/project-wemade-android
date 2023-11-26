@@ -20,7 +20,7 @@ import com.wafflestudio.projectwemade.feature.main.MainTabItem
 import com.wafflestudio.projectwemade.feature.main.navigateSingleTop
 
 private val tabItems = listOf(
-    MainTabItem.Menu,
+    MainTabItem.Order,
     MainTabItem.Home,
     MainTabItem.Mypage
 )
