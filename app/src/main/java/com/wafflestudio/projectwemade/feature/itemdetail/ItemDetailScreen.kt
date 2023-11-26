@@ -1,7 +1,9 @@
 package com.wafflestudio.projectwemade.feature.itemdetail
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
@@ -62,34 +64,25 @@ fun ItemDetailScreen(
                 ItemOptionCard(itemOption)
         }
 
-        BottomBar(
-            modifier = Modifier
-                .fillMaxWidth(),
-            leftComposable = {
-                Column (
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    BottomBarButton(
-                        onClick = {},
-                        text = "수량 선택"
-                    )
-                    BottomBarButton(
-                        onClick = { },
-                        text = "좋아요"
-                    )
+        BottomBar (
+            modifier = Modifier.fillMaxWidth(),
+            topComposable = {
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    ItemCounter(modifier = Modifier.align(Alignment.CenterEnd))
                 }
             },
-            rightComposable = {
-                Column (
-                    horizontalAlignment = Alignment.End
-                ) {
+            bottomComposable = {
+                Row (
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    BottomBarButton(onClick = { }, text = "S2")
+                    BottomBarButton(onClick = { }, text = "ㅁ")
                     BottomBarButton(
                         onClick = {},
-                        text = "장바구니 담기"
-                    )
-                    BottomBarButton(
-                        onClick = { },
-                        text = "바로 주문"
+                        text = "주문하기",
+                        modifier = Modifier.weight(1f)
                     )
                 }
             }

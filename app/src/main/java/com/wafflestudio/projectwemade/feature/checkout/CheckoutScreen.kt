@@ -77,10 +77,10 @@ fun CheckoutScreen(
 
         BottomBar (
             modifier = Modifier.fillMaxWidth(),
-            leftComposable = {},
-            rightComposable = {
+            topComposable = {},
+            bottomComposable = {
                 BottomBarButton(
-                    onClick = {},
+                    onClick = { },
                     text = "주문하기",
                     modifier = Modifier.fillMaxWidth()
                 )
