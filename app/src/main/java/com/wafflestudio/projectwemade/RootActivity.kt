@@ -20,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.wafflestudio.projectwemade.common.LocalNavController
+import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
 import com.wafflestudio.projectwemade.theme.ProjectWemadeAndroidTheme
@@ -51,6 +52,9 @@ fun SetupUI() {
                 }
                 rootComposable(NavigationRoutes.ITEM_DETAIL) {
                     ItemDetailScreen()
+                }
+                rootComposable(NavigationRoutes.CHECKOUT) {
+                    CheckoutScreen()
                 }
             }
         }

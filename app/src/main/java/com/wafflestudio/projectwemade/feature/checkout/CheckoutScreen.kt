@@ -9,23 +9,22 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wafflestudio.projectwemade.component.BottomBar
 import com.wafflestudio.projectwemade.component.BottomBarButton
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.MenuCard
 import com.wafflestudio.projectwemade.component.TopBarButton
-import com.wafflestudio.projectwemade.model.dto.Menu
 
 @Composable
 fun CheckoutScreen(
-    menuList: List<Menu>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    checkoutViewModel: CheckoutViewModel = hiltViewModel()
 ) {
     Column(
-       modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
-        CenterTopBar (
+        CenterTopBar(
             modifier = Modifier.fillMaxWidth(),
             title = "주문하기",
             leftAction = {
@@ -37,14 +36,14 @@ fun CheckoutScreen(
             rightAction = {}
         )
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
             Text(text = "주문 내역")
-            for(menu in menuList){
+            checkoutViewModel.cartMenus.forEach { menu ->
                 MenuCard(
                     menu = menu,
                     actionTopRight = {
@@ -75,7 +74,7 @@ fun CheckoutScreen(
             }
         }
 
-        BottomBar (
+        BottomBar(
             modifier = Modifier.fillMaxWidth(),
             topComposable = {},
             bottomComposable = {
@@ -87,63 +86,4 @@ fun CheckoutScreen(
             }
         )
     }
-}
-
-@Composable
-@Preview
-fun CheckoutScreenPreview(){
-    CheckoutScreen(
-        listOf(
-            Menu(
-                name = "아메리카노",
-                price = 4000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "카페라떼",
-                price = 5000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "아메리카노",
-                price = 4000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "카페라떼",
-                price = 5000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "아메리카노",
-                price = 4000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "카페라떼",
-                price = 5000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "아메리카노",
-                price = 4000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "카페라떼",
-                price = 5000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "아메리카노",
-                price = 4000,
-                image = "https://imageurl"
-            ),
-            Menu(
-                name = "카페라떼",
-                price = 5000,
-                image = "https://imageurl"
-            )
-        )
-    )
 }
