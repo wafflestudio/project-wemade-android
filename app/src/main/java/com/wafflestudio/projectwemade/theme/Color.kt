@@ -17,4 +17,7 @@ object WemadeColors {
     val Yellow50 = Color(0xFFFFF2D1)
 
     val MainGreen = Color(0xFF50FF81)
+
+    val HotRed = Color(0xFFD00019)
+    val IceBlue = Color(0xFF1C5BFF)
 }
