@@ -16,7 +16,7 @@ object WemadeColors {
     val Blue200 = Color(0xFF738EBB)
     val Yellow50 = Color(0xFFFFF2D1)
 
-    val MainGreen = Color(0xFF50FF81)
+    val MainGreen = Color(0xFF11C95A)
 
     val Brown = Color(0xFF463125)
 
