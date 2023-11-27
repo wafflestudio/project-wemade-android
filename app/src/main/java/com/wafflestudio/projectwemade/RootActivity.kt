@@ -1,7 +1,6 @@
 package com.wafflestudio.projectwemade
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContentScope
@@ -17,12 +16,9 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
@@ -32,11 +28,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.wafflestudio.projectwemade.common.BottomBarState
 import com.wafflestudio.projectwemade.common.LocalBottomBarState
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.common.rememberBottomBarState
-import com.wafflestudio.projectwemade.component.BottomBar
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
@@ -80,18 +74,16 @@ fun SetupUI() {
                 }
                 AnimatedVisibility(
                     visible = bottomBarState.isVisible,
-//                    enter = slideInVertically { fullHeight -> fullHeight },
-//                    exit = slideOutVertically { fullHeight -> fullHeight }
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    enter = slideInVertically { fullHeight -> fullHeight },
+                    exit = slideOutVertically { fullHeight -> fullHeight }
                 ) {
-                    Log.d("asdf", "root: ${bottomBarState.hashCode()}")
-                    Log.d("asdf", "root: ${bottomBarState.isVisible}")
                     Surface(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.BottomCenter),
+                            .fillMaxWidth(),
                         shadowElevation = 10.dp
                     ) {
-                        bottomBarState.content
+                        bottomBarState.content()
                     }
                 }
             }
