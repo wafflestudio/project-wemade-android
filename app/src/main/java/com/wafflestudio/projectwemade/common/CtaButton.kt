@@ -27,7 +27,7 @@ fun CtaButton(
     enabledColor: Color = MaterialTheme.colorScheme.primary,
     disabledColor: Color = WemadeColors.LightGray,
     enabledTextColor: Color = MaterialTheme.colorScheme.onPrimary,
-    disabledTextColor: Color = WemadeColors.MediumGray,
+    disabledTextColor: Color = WemadeColors.DarkGray,
 ) {
     Row(
         modifier = modifier
