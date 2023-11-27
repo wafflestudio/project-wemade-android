@@ -5,12 +5,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import com.wafflestudio.projectwemade.theme.WemadeColors.Blue50
 import com.wafflestudio.projectwemade.theme.WemadeColors.ExtraLightGray
 import com.wafflestudio.projectwemade.theme.WemadeColors.MainGreen
-import com.wafflestudio.projectwemade.theme.WemadeColors.Red50
 import com.wafflestudio.projectwemade.theme.WemadeColors.White900
-import com.wafflestudio.projectwemade.theme.WemadeColors.Yellow50
 
 private val DarkColorScheme = darkColorScheme(
     primary = MainGreen,
