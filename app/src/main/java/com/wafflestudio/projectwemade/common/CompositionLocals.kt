@@ -7,6 +7,6 @@ val LocalNavController = compositionLocalOf<NavController> {
     throw RuntimeException("")
 }
 
-val LocalBottomBarState = compositionLocalOf<BottomBarState> {
+val LocalBottomSurfaceState = compositionLocalOf<BottomSurfaceState> {
     throw RuntimeException("")
 }

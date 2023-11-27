@@ -28,9 +28,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.wafflestudio.projectwemade.common.LocalBottomBarState
+import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.common.LocalNavController
-import com.wafflestudio.projectwemade.common.rememberBottomBarState
+import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
@@ -50,12 +50,12 @@ class RootActivity : ComponentActivity() {
 @Composable
 fun SetupUI() {
     val navController = rememberNavController()
-    val bottomBarState = rememberBottomBarState()
+    val bottomSurfaceState = rememberBottomSurfaceState()
 
     ProjectWemadeAndroidTheme {
         CompositionLocalProvider(
             LocalNavController provides navController,
-            LocalBottomBarState provides bottomBarState
+            LocalBottomSurfaceState provides bottomSurfaceState
         ) {
             Box {
                 NavHost(
@@ -73,7 +73,7 @@ fun SetupUI() {
                     }
                 }
                 AnimatedVisibility(
-                    visible = bottomBarState.isVisible,
+                    visible = bottomSurfaceState.visible,
                     modifier = Modifier.align(Alignment.BottomCenter),
                     enter = slideInVertically { fullHeight -> fullHeight },
                     exit = slideOutVertically { fullHeight -> fullHeight }
@@ -83,7 +83,7 @@ fun SetupUI() {
                             .fillMaxWidth(),
                         shadowElevation = 10.dp
                     ) {
-                        bottomBarState.content()
+                        bottomSurfaceState.content()
                     }
                 }
             }

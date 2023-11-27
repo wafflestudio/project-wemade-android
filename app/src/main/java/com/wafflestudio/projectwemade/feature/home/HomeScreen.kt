@@ -10,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wafflestudio.projectwemade.common.LocalBottomBarState
+import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
 fun HomeScreen() {
-    val bottomBarState = LocalBottomBarState.current
+    val bottomSurfaceState = LocalBottomSurfaceState.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -26,13 +26,13 @@ fun HomeScreen() {
             modifier = Modifier
                 .align(Alignment.Center)
                 .clickable {
-                    bottomBarState.content = {
+                    bottomSurfaceState.content = {
                         Text(
                             text = "hello!!!",
                             modifier = Modifier.height(100.dp)
                         )
                     }
-                    bottomBarState.isVisible = bottomBarState.isVisible.not()
+                    bottomSurfaceState.visible = bottomSurfaceState.visible.not()
                 }
         )
     }

@@ -12,22 +12,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Stable
-class BottomBarState {
-    var isVisible by mutableStateOf(false)
+class BottomSurfaceState {
+    var visible by mutableStateOf(false)
     var content by mutableStateOf<@Composable () -> Unit>({
         Box(modifier = Modifier.height(100.dp))
     })
 
     override fun equals(other: Any?): Boolean {
-        return (other as? BottomBarState)?.let {
-            it.isVisible == isVisible && it.content == content
+        return (other as? BottomSurfaceState)?.let {
+            it.visible == visible && it.content == content
         } ?: false
     }
 
     override fun hashCode(): Int {
-        return (isVisible.hashCode() * 31) + content.hashCode()
+        return (visible.hashCode() * 31) + content.hashCode()
     }
 }
 
 @Composable
-fun rememberBottomBarState() = remember { BottomBarState() }
+fun rememberBottomSurfaceState() = remember { BottomSurfaceState() }
