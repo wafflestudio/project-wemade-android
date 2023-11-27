@@ -9,6 +9,7 @@ object WemadeColors {
     val DarkGray = Color(0xFFD9D9D9)
     val MediumGray = Color(0xFF666666)
     val LightGray = Color(0xFFE6E5E5)
+    val ExtraLightGray = Color(0xFFF8F8F8)
 
     val Red50 = Color(0xFFFEE7E7)
     val Red200 = Color(0xFFEB9393)
