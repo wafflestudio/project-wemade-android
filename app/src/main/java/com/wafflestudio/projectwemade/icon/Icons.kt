@@ -63,3 +63,15 @@ fun BagIcon(
         colorFilter = ColorFilter.tint(color)
     )
 }
+
+@Composable
+fun CheckboxIcon(
+    modifier: Modifier = Modifier,
+    checked: Boolean = false,
+) {
+    Image(
+        painter = painterResource(if (checked) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_unchecked),
+        modifier = modifier,
+        contentDescription = "",
+    )
+}

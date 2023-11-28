@@ -1,7 +1,6 @@
 package com.wafflestudio.projectwemade.feature.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.common.CtaButton
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
+import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.Chip
 import com.wafflestudio.projectwemade.component.OptionChip
 import com.wafflestudio.projectwemade.theme.WemadeColors
@@ -30,6 +31,7 @@ fun HomeScreen() {
     val bottomSurfaceState = LocalBottomSurfaceState.current
     var selectedChip by remember { mutableStateOf("커피") }
     var selectedOption by remember { mutableStateOf("기본") }
+    var checked by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,6 +96,11 @@ fun HomeScreen() {
                 bottomSurfaceState.visible = bottomSurfaceState.visible.not()
             },
             enabled = false,
+        )
+        Checkbox(
+            checked = checked,
+            onCheckChanged = { checked = it },
+            modifier = Modifier.size(40.dp)
         )
     }
 }
