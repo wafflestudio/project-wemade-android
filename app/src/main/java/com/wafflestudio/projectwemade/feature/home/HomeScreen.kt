@@ -23,6 +23,7 @@ import com.wafflestudio.projectwemade.common.CtaButton
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.Chip
+import com.wafflestudio.projectwemade.component.NumericStepper
 import com.wafflestudio.projectwemade.component.OptionChip
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
@@ -32,6 +33,7 @@ fun HomeScreen() {
     var selectedChip by remember { mutableStateOf("커피") }
     var selectedOption by remember { mutableStateOf("기본") }
     var checked by remember { mutableStateOf(false) }
+    var number by remember { mutableStateOf(1) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,6 +103,11 @@ fun HomeScreen() {
             checked = checked,
             onCheckChanged = { checked = it },
             modifier = Modifier.size(40.dp)
+        )
+        NumericStepper(
+            value = number,
+            onValueChanged = { number = it },
+            maxValue = 5,
         )
     }
 }

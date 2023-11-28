@@ -75,3 +75,29 @@ fun CheckboxIcon(
         contentDescription = "",
     )
 }
+
+@Composable
+fun AddIcon(
+    modifier: Modifier = Modifier,
+    color: Color
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_add),
+        modifier = modifier,
+        contentDescription = "",
+        colorFilter = ColorFilter.tint(color)
+    )
+}
+
+@Composable
+fun RemoveIcon(
+    modifier: Modifier = Modifier,
+    color: Color
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_remove),
+        modifier = modifier,
+        contentDescription = "",
+        colorFilter = ColorFilter.tint(color)
+    )
+}
