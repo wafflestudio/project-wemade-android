@@ -22,17 +22,19 @@ import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.common.CtaButton
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.component.Chip
+import com.wafflestudio.projectwemade.component.OptionChip
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
 fun HomeScreen() {
     val bottomSurfaceState = LocalBottomSurfaceState.current
     var selectedChip by remember { mutableStateOf("커피") }
+    var selectedOption by remember { mutableStateOf("기본") }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(WemadeColors.White900),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -47,6 +49,19 @@ fun HomeScreen() {
                     selected = it == selectedChip,
                     onClick = {
                         selectedChip = it
+                    }
+                )
+            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            listOf("기본", "진하게", "연하게").forEach {
+                OptionChip(
+                    text = it,
+                    selected = it == selectedOption,
+                    onClick = {
+                        selectedOption = it
                     }
                 )
             }
