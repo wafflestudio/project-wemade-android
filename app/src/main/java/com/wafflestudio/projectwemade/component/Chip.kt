@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,7 @@ fun Chip(
     text: String,
     modifier: Modifier = Modifier,
     selected: Boolean = false,
+    color: Color = WemadeColors.Brown,
     onClick: () -> Unit = {}
 ) {
     Text(
@@ -35,7 +37,7 @@ fun Chip(
                 indication = null,
                 onClick = onClick
             )
-            .background(color = if (selected) WemadeColors.Brown else WemadeColors.White900)
+            .background(color = if (selected) color else WemadeColors.White900)
             .then(
                 if (selected) {
                     Modifier
