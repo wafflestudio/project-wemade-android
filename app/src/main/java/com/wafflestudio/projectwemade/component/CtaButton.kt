@@ -1,4 +1,4 @@
-package com.wafflestudio.projectwemade.common
+package com.wafflestudio.projectwemade.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
