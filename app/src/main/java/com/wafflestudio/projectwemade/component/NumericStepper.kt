@@ -10,17 +10,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.icon.AddIcon
 import com.wafflestudio.projectwemade.icon.RemoveIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
+import com.wafflestudio.projectwemade.util.clearFocusOnKeyboardDismiss
 
 @Composable
 fun NumericStepper(
@@ -30,6 +38,7 @@ fun NumericStepper(
     minValue: Int = 1,
     maxValue: Int = Int.MAX_VALUE
 ) {
+    var text by remember(value) { mutableStateOf(value.toString()) }
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(4.dp))
@@ -50,18 +59,38 @@ fun NumericStepper(
                 color = WemadeColors.DarkGray
             )
         }
-        Box(
+        BasicTextField(
+            value = text,
+            onValueChange = {
+                text = it
+            },
             modifier = Modifier
-                .width(48.dp)
-                .height(32.dp)
-                .border(width = 1.dp, color = WemadeColors.LightGray),
-        ) {
-            Text(
-                text = value.toString(),
-                modifier = Modifier.align(Alignment.Center),
-                fontWeight = FontWeight.Medium,
-                style = MaterialTheme.typography.bodyLarge,
-            )
+                .clearFocusOnKeyboardDismiss()
+                .onFocusChanged {
+                    if (it.isFocused.not()) {
+                        text = text.toIntOrNull()?.let { newValue ->
+                            if (newValue in minValue..maxValue) {
+                                onValueChanged(newValue)
+                                newValue.toString()
+                            } else {
+                                value.toString()
+                            }
+                        } ?: value.toString()
+                    }
+                },
+            textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            singleLine = true,
+        ) { innerTextField ->
+            Row(
+                modifier = Modifier
+                    .width(48.dp)
+                    .height(32.dp)
+                    .border(width = 1.dp, color = WemadeColors.LightGray),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                innerTextField()
+            }
         }
         NumericStepperButton(
             onClick = { onValueChanged(value + 1) },
