@@ -5,20 +5,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import com.wafflestudio.projectwemade.theme.WemadeColors.Blue50
-import com.wafflestudio.projectwemade.theme.WemadeColors.Red50
-import com.wafflestudio.projectwemade.theme.WemadeColors.Yellow50
+import com.wafflestudio.projectwemade.theme.WemadeColors.ExtraLightGray
+import com.wafflestudio.projectwemade.theme.WemadeColors.MainGreen
+import com.wafflestudio.projectwemade.theme.WemadeColors.White900
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Blue50,
-    secondary = Red50,
-    tertiary = Yellow50
+    primary = MainGreen,
+    secondary = White900,
+    background = ExtraLightGray,
+    surface = White900,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Blue50,
-    secondary = Red50,
-    tertiary = Yellow50
+    primary = MainGreen,
+    secondary = White900,
+    background = ExtraLightGray,
+    surface = White900,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">project-wemade-android</string>
+    <string name="bottom_navigation_home">홈</string>
+    <string name="bottom_navigation_order">주문하기</string>
+    <string name="bottom_navigation_mypage">마이페이지</string>
 </resources>

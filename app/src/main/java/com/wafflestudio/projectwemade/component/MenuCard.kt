@@ -39,7 +39,7 @@ fun MenuCard(
     ) {
         Box(
             modifier = Modifier
-                .background(WemadeColors.Gray100, shape = RoundedCornerShape(5.dp))
+                .background(WemadeColors.LightGray, shape = RoundedCornerShape(5.dp))
                 .fillMaxHeight()
                 .aspectRatio(1f)
         )       //AsyncImage

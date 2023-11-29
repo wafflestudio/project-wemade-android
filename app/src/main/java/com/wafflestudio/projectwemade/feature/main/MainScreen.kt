@@ -68,9 +68,3 @@ fun NavGraphBuilder.tabComposable(
         content = content
     )
 }
-
-fun NavController.navigateSingleTop(route: String) {
-    navigate(route) {
-        launchSingleTop = true
-    }
-}

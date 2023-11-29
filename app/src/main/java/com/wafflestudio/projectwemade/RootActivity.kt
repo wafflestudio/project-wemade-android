@@ -4,22 +4,33 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.common.LocalNavController
+import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
@@ -39,22 +50,41 @@ class RootActivity : ComponentActivity() {
 @Composable
 fun SetupUI() {
     val navController = rememberNavController()
+    val bottomSurfaceState = rememberBottomSurfaceState()
+
     ProjectWemadeAndroidTheme {
         CompositionLocalProvider(
-            LocalNavController provides navController
+            LocalNavController provides navController,
+            LocalBottomSurfaceState provides bottomSurfaceState
         ) {
-            NavHost(
-                navController = navController,
-                startDestination = NavigationRoutes.MAIN
-            ) {
-                rootComposable(NavigationRoutes.MAIN) {
-                    MainScreen()
+            Box {
+                NavHost(
+                    navController = navController,
+                    startDestination = NavigationRoutes.MAIN
+                ) {
+                    rootComposable(NavigationRoutes.MAIN) {
+                        MainScreen()
+                    }
+                    rootComposable(NavigationRoutes.ITEM_DETAIL) {
+                        ItemDetailScreen()
+                    }
+                    rootComposable(NavigationRoutes.CHECKOUT) {
+                        CheckoutScreen()
+                    }
                 }
-                rootComposable(NavigationRoutes.ITEM_DETAIL) {
-                    ItemDetailScreen()
-                }
-                rootComposable(NavigationRoutes.CHECKOUT) {
-                    CheckoutScreen()
+                AnimatedVisibility(
+                    visible = bottomSurfaceState.visible,
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    enter = slideInVertically { fullHeight -> fullHeight },
+                    exit = slideOutVertically { fullHeight -> fullHeight }
+                ) {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        shadowElevation = 20.dp
+                    ) {
+                        bottomSurfaceState.content()
+                    }
                 }
             }
         }

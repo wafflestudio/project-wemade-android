@@ -6,3 +6,7 @@ import androidx.navigation.NavController
 val LocalNavController = compositionLocalOf<NavController> {
     throw RuntimeException("")
 }
+
+val LocalBottomSurfaceState = compositionLocalOf<BottomSurfaceState> {
+    throw RuntimeException("")
+}
