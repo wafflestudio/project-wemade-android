@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
+import com.wafflestudio.projectwemade.component.BorderButton
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.Chip
 import com.wafflestudio.projectwemade.component.NumericStepper
@@ -37,7 +39,8 @@ fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(WemadeColors.White900),
+            .background(WemadeColors.White900)
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -84,7 +87,8 @@ fun HomeScreen() {
                     )
                 }
                 bottomSurfaceState.visible = bottomSurfaceState.visible.not()
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         )
         CtaButton(
             text = "disabled",
@@ -97,6 +101,7 @@ fun HomeScreen() {
                 }
                 bottomSurfaceState.visible = bottomSurfaceState.visible.not()
             },
+            modifier = Modifier.fillMaxWidth(),
             enabled = false,
         )
         Checkbox(
@@ -108,6 +113,11 @@ fun HomeScreen() {
             value = number,
             onValueChanged = { number = it },
             maxValue = 5,
+        )
+        BorderButton(
+            text = "메뉴 추가하기",
+            onClick = {},
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
