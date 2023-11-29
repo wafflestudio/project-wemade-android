@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -53,7 +54,7 @@ fun BottomNavigation(
             tabItems.forEach {
                 val selected = it.route == currentRoute
                 BottomNavigationItem(
-                    title = it.title,
+                    title = stringResource(it.title),
                     icon = if (selected) {
                         it.selectedIcon
                     } else {
