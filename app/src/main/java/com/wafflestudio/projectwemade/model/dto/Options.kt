@@ -6,7 +6,6 @@ enum class Temperature {
 }
 
 enum class Strength {
-    DEFAULT,
-    RICH,
     LIGHT,
+    RICH
 }
