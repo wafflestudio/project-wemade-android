@@ -1,6 +1,5 @@
 package com.wafflestudio.projectwemade.repository
 
-import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -25,19 +24,19 @@ class MenuItemsRepository @Inject constructor() {
         val ref = database.getReference("menu_items")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                _menus.value = snapshot.children.map { snapshot ->
-                    val availableTemperature = snapshot.child("options")
+                _menus.value = snapshot.children.map { menu ->
+                    val availableTemperature = menu.child("options")
                         .child("temperature").children.map {
                             Temperature.values()[it.getValue(Int::class.java)?.minus(1) ?: 0]
                         }
-                    val availableStrength = snapshot.child("options")
+                    val availableStrength = menu.child("options")
                         .child("strength").children.map {
                             Strength.values()[it.getValue(Int::class.java)?.minus(1) ?: 0]
                         }
                     Menu(
-                        id = snapshot.child("id").getValue(Int::class.java) ?: 0,
-                        category = snapshot.child("category").getValue(String::class.java).orEmpty().toCategory(),
-                        name = snapshot.child("name").getValue(String::class.java) ?: "",
+                        id = menu.child("id").getValue(Int::class.java) ?: 0,
+                        category = menu.child("category").getValue(String::class.java).orEmpty().toCategory(),
+                        name = menu.child("name").getValue(String::class.java) ?: "",
                         availableTemperature = availableTemperature,
                         temperature = availableTemperature.firstOrNull(),
                         availableStrength = availableStrength,
@@ -48,7 +47,7 @@ class MenuItemsRepository @Inject constructor() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.d("asdf", "onCancelled: ${error.code} : ${error.message}")
+                // TODO: error handling
             }
         })
     }
