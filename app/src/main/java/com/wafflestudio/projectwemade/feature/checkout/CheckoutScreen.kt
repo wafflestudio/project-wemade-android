@@ -66,7 +66,7 @@ fun CheckoutScreen(
                         Button(
                             onClick = {},
                             content = {
-                                Text(text = menu.price.toString())
+                                Text(text = "price")
                             }
                         )
                     }
