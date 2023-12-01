@@ -16,7 +16,7 @@ import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
-fun MenuScreen(
+fun OrderScreen(
     orderViewModel: OrderViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
