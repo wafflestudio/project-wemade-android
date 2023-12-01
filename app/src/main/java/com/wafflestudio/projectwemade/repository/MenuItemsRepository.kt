@@ -41,7 +41,7 @@ class MenuItemsRepository @Inject constructor() {
                         temperature = availableTemperature.firstOrNull(),
                         availableStrength = availableStrength,
                         strength = availableStrength.firstOrNull(),
-                        image = "https://picsum.photos/200"
+                        image = menu.child("image").getValue(String::class.java) ?: "https://picsum.photos/200",
                     )
                 }
             }
