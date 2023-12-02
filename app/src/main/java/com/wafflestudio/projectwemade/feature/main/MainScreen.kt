@@ -9,14 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.wafflestudio.projectwemade.component.BottomNavigation
 import com.wafflestudio.projectwemade.feature.home.HomeScreen
-import com.wafflestudio.projectwemade.feature.order.MenuScreen
+import com.wafflestudio.projectwemade.feature.order.OrderScreen
 import com.wafflestudio.projectwemade.feature.mypage.MypageScreen
 
 @Composable
@@ -36,7 +35,7 @@ fun MainScreen() {
                     HomeScreen()
                 }
                 tabComposable(MainTabItem.Order.route) {
-                    MenuScreen()
+                    OrderScreen()
                 }
                 tabComposable(MainTabItem.Mypage.route) {
                     MypageScreen()

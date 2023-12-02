@@ -10,56 +10,57 @@ class CheckoutViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    val cartMenus = listOf(     //dummy
-        Menu(
-            name = "아메리카노",
-            price = 4000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "카페라떼",
-            price = 5000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "아메리카노",
-            price = 4000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "카페라떼",
-            price = 5000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "아메리카노",
-            price = 4000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "카페라떼",
-            price = 5000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "아메리카노",
-            price = 4000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "카페라떼",
-            price = 5000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "아메리카노",
-            price = 4000,
-            image = "https://imageurl"
-        ),
-        Menu(
-            name = "카페라떼",
-            price = 5000,
-            image = "https://imageurl"
-        )
-    )
+    val cartMenus = emptyList<Menu>()
+//    val cartMenus = listOf(     //dummy
+//        Menu(
+//            name = "아메리카노",
+//            price = 4000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "카페라떼",
+//            price = 5000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "아메리카노",
+//            price = 4000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "카페라떼",
+//            price = 5000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "아메리카노",
+//            price = 4000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "카페라떼",
+//            price = 5000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "아메리카노",
+//            price = 4000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "카페라떼",
+//            price = 5000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "아메리카노",
+//            price = 4000,
+//            image = "https://imageurl"
+//        ),
+//        Menu(
+//            name = "카페라떼",
+//            price = 5000,
+//            image = "https://imageurl"
+//        )
+//    )
 }

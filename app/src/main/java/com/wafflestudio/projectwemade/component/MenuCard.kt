@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.model.dto.Menu
 import com.wafflestudio.projectwemade.theme.WemadeColors
@@ -72,32 +71,31 @@ fun MenuCard(
     }
 }
 
-@Preview
-@Composable
-fun MenuCardPreview() {
-    val menu = Menu(
-        name = "아메리카노",
-        price = 4000,
-        image = "https://imageurl"
-    )
-
-    MenuCard(
-        menu = menu,
-        actionTopRight = {
-            Text(
-                text = "좋아요"
-            )
-        },
-        actionBottomLeft = {
-            Text(
-                text = menu.price.toString(),
-                style = MaterialTheme.typography.titleLarge
-            )
-        },
-        actionBottomRight = {
-            Text(
-                text = "장바구니 담기"
-            )
-        }
-    )
-}
+//@Preview
+//@Composable
+//fun MenuCardPreview() {
+//    val menu = Menu(
+//        name = "아메리카노",
+//        image = "https://imageurl"
+//    )
+//
+//    MenuCard(
+//        menu = menu,
+//        actionTopRight = {
+//            Text(
+//                text = "좋아요"
+//            )
+//        },
+//        actionBottomLeft = {
+//            Text(
+//                text = menu.price.toString(),
+//                style = MaterialTheme.typography.titleLarge
+//            )
+//        },
+//        actionBottomRight = {
+//            Text(
+//                text = "장바구니 담기"
+//            )
+//        }
+//    )
+//}
