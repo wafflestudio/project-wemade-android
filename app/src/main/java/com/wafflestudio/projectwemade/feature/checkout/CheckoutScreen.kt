@@ -1,5 +1,6 @@
 package com.wafflestudio.projectwemade.feature.checkout
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,19 +18,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.wafflestudio.projectwemade.NavigationRoutes
+import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.BorderButton
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.MenuCard
 import com.wafflestudio.projectwemade.component.NumericStepper
-import com.wafflestudio.projectwemade.component.TopBarButton
+import com.wafflestudio.projectwemade.icon.LeftArrow
 
 @Composable
 fun CheckoutScreen(
     modifier: Modifier = Modifier,
     checkoutViewModel: CheckoutViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -37,9 +41,10 @@ fun CheckoutScreen(
             modifier = Modifier.fillMaxWidth(),
             title = "주문하기",
             leftAction = {
-                TopBarButton(
-                    onClick = { },
-                    text = "뒤로가기"
+                LeftArrow(
+                    modifier.clickable {
+                        navController.navigate(NavigationRoutes.MAIN)
+                    }
                 )
             },
             rightAction = {}

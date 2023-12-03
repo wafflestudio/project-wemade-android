@@ -31,8 +31,9 @@ import com.wafflestudio.projectwemade.component.BottomBar
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.NumericStepper
-import com.wafflestudio.projectwemade.component.TopBarButton
 import com.wafflestudio.projectwemade.icon.BagIcon
+import com.wafflestudio.projectwemade.icon.LeftArrow
+import com.wafflestudio.projectwemade.icon.LikeIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
@@ -51,9 +52,10 @@ fun ItemDetailScreen(
                 .fillMaxWidth(),
             title = "주문하기",
             leftAction = {
-                TopBarButton(
-                    onClick = { navController.navigate(NavigationRoutes.MAIN) },
-                    text = "뒤로가기"
+                LeftArrow(
+                    modifier.clickable {
+                        navController.navigate(NavigationRoutes.MAIN)
+                    }
                 )
             },
             rightAction = {
@@ -125,7 +127,7 @@ fun ItemDetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(7.dp)
                 ) {
-                    BagIcon(modifier = Modifier
+                    LikeIcon(modifier = Modifier
                         .width(48.dp)
                         .height(48.dp)
                     )
@@ -138,7 +140,8 @@ fun ItemDetailScreen(
                         onClick = {
                             navController.navigate(NavigationRoutes.CHECKOUT)
                         },
-                        modifier = Modifier.height(48.dp)
+                        modifier = Modifier
+                            .height(48.dp)
                             .weight(1f)
                     )
                 }
