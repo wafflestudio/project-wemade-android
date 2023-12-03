@@ -78,6 +78,10 @@ dependencies {
 
     // hilt compose navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    // Coil (async image)
+    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }
 
 kapt {

@@ -1,23 +1,28 @@
 package com.wafflestudio.projectwemade.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import coil.compose.rememberAsyncImagePainter
 import com.wafflestudio.projectwemade.model.dto.Menu
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
@@ -25,48 +30,65 @@ import com.wafflestudio.projectwemade.theme.WemadeColors
 fun MenuCard(
     menu: Menu,
     modifier: Modifier = Modifier,
-    actionTopRight: @Composable () -> Unit = {},
+    actionTopLeft: @Composable () -> Unit = {},
     actionBottomLeft: @Composable () -> Unit = {},
     actionBottomRight: @Composable () -> Unit = {},
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(110.dp)
+    Box (
+        modifier = modifier.fillMaxWidth()
             .background(WemadeColors.White900)
-            .padding(horizontal = 13.dp, vertical = 11.dp),
-        horizontalArrangement = Arrangement.spacedBy(17.dp)
     ) {
         Box(
-            modifier = Modifier
-                .background(WemadeColors.LightGray, shape = RoundedCornerShape(5.dp))
-                .fillMaxHeight()
-                .aspectRatio(1f)
-        )       //AsyncImage
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.align(Alignment.TopStart)
+                .zIndex(1f)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            actionTopLeft()
+        }
+        Row(
+            modifier = modifier
+                .align(Alignment.Center)
+                .fillMaxWidth()
+                .padding(20.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(64.dp)
+                    .height(64.dp)
+                    .background(WemadeColors.LightGray, shape = RoundedCornerShape(5.dp))
+            ) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(Alignment.Center),
+                    painter = rememberAsyncImagePainter(menu.image),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = menu.name,
                     style = MaterialTheme.typography.titleLarge
                 )
-                actionTopRight()
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                actionBottomLeft()
-                actionBottomRight()
+                Box (
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Box(
+                        modifier = Modifier.align(Alignment.BottomStart)
+                    ) {
+                        actionBottomLeft()
+                    }
+                    Box (
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                    ) {
+                        actionBottomRight()
+                    }
+                }
             }
         }
     }
@@ -83,9 +105,12 @@ fun MenuCardPreview() {
 
     MenuCard(
         menu = menu,
-        actionTopRight = {
-            Text(
-                text = "좋아요"
+        actionTopLeft = {
+            Checkbox(
+                checked = false,
+                onCheckChanged = {},
+                modifier = Modifier.padding(top = 6.dp, start = 7.dp)
+                    .size(28.dp)
             )
         },
         actionBottomLeft = {
