@@ -104,7 +104,7 @@ fun ItemDetailScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 itemDetailViewModel.itemOptions.forEach { itemOption ->
-                    ItemOptionCard(itemOption)
+                    ItemOptionRow(itemOption)
                 }
             }
         }

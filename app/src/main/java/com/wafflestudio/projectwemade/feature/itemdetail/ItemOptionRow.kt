@@ -34,7 +34,7 @@ fun OptionChips(
 }
 
 @Composable
-fun ItemOptionCard (
+fun ItemOptionRow (
     itemOption: ItemOption,
     modifier: Modifier = Modifier
 ) {
@@ -55,7 +55,7 @@ fun ItemOptionCard (
 @Composable
 @Preview
 fun ItemOptionCardPreview(){
-    ItemOptionCard(
+    ItemOptionRow(
         itemOption = ItemOption(
             optionName = "농도",
             options = listOf<String>("기본", "진하게", "연하게")
