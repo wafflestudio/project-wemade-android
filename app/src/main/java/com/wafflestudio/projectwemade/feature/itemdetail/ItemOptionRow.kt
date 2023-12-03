@@ -3,12 +3,15 @@ package com.wafflestudio.projectwemade.feature.itemdetail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.wafflestudio.projectwemade.component.Chip
+import androidx.compose.ui.unit.dp
+import com.wafflestudio.projectwemade.component.OptionChip
 
 data class ItemOption(
     val optionName: String,
@@ -21,16 +24,17 @@ fun OptionChips(
     modifier: Modifier = Modifier
 ){
     Row (
-        modifier = modifier
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         for(option in options){
-            Chip(option)
+            OptionChip(text = option)
         }
     }
 }
 
 @Composable
-fun ItemOptionCard (
+fun ItemOptionRow (
     itemOption: ItemOption,
     modifier: Modifier = Modifier
 ) {
@@ -40,7 +44,9 @@ fun ItemOptionCard (
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = itemOption.optionName
+            text = itemOption.optionName,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyMedium
         )
         OptionChips(itemOption.options)
     }
@@ -49,7 +55,7 @@ fun ItemOptionCard (
 @Composable
 @Preview
 fun ItemOptionCardPreview(){
-    ItemOptionCard(
+    ItemOptionRow(
         itemOption = ItemOption(
             optionName = "농도",
             options = listOf<String>("기본", "진하게", "연하게")

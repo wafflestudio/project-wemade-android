@@ -101,3 +101,31 @@ fun RemoveIcon(
         colorFilter = ColorFilter.tint(color)
     )
 }
+
+@Composable
+fun LikeIcon(
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.LightGray,
+    enabled: Boolean = false
+) {
+    Image(
+        painter = painterResource(
+            if (enabled) R.drawable.ic_like
+            else R.drawable.ic_like_outline
+        ),
+        modifier = modifier,
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(color)
+    )
+}
+
+@Composable
+fun LeftArrow(
+    modifier: Modifier = Modifier
+){
+    Image(
+        painter = painterResource(R.drawable.ic_arrow),
+        contentDescription = null,
+        modifier = modifier
+    )
+}

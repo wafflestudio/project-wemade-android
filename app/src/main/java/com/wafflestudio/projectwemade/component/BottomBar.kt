@@ -1,5 +1,6 @@
 package com.wafflestudio.projectwemade.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,6 +51,8 @@ fun BottomBar(
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         topComposable()
         bottomComposable()

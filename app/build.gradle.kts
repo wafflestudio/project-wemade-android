@@ -80,6 +80,10 @@ dependencies {
     // hilt compose navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
+    // Coil (async image)
+    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    
     // firebase
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
     implementation("com.google.firebase:firebase-database")
