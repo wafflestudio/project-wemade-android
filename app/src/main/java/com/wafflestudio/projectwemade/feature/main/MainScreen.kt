@@ -15,8 +15,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.wafflestudio.projectwemade.component.BottomNavigation
 import com.wafflestudio.projectwemade.feature.home.HomeScreen
-import com.wafflestudio.projectwemade.feature.order.OrderScreen
 import com.wafflestudio.projectwemade.feature.mypage.MypageScreen
+import com.wafflestudio.projectwemade.feature.order.OrderScreen
 
 @Composable
 fun MainScreen() {
