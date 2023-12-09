@@ -18,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.wafflestudio.projectwemade.util.launchApi
 
+//로그인 기능 테스트하려고 만든 화면
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuthScreen(
@@ -49,30 +51,37 @@ fun AuthScreen(
         Text(
             text = "sign up",
             modifier = Modifier.clickable {
-                authViewModel.signUp(
-                    username = username,
-                    password = password,
+                launchApi(
+                    context = context,
                     onSuccess = {
-                        Toast.makeText(context, "sign up success", Toast.LENGTH_SHORT)
-                    },
-                    onFailure = {
-                        Toast.makeText(context, "sign up success", Toast.LENGTH_SHORT)
-                    })
+                        Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                    }
+                ) {
+                    authViewModel.signUp(
+                        username = username,
+                        password = password
+                    )
+                }
             }
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = "sign in",
             modifier = Modifier.clickable {
-                authViewModel.signIn(
-                    username = username,
-                    password = password,
+                launchApi(
+                    context = context,
                     onSuccess = {
-                        Toast.makeText(context, "sign in success", Toast.LENGTH_SHORT)
+                        Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show()
                     },
-                    onFailure = {
-                        Toast.makeText(context, "sign in success", Toast.LENGTH_SHORT)
-                    })
+                    onError = {
+                        Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    }
+                ) {
+                    authViewModel.signIn(
+                        username = username,
+                        password = password,
+                    )
+                }
             }
         )
     }

@@ -14,21 +14,17 @@ class AuthViewModel @Inject constructor(
 
     val user: StateFlow<User?> get() = userRepository.user
 
-    fun signUp(username: String, password: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    fun signUp(username: String, password: String) {
         userRepository.signUp(
             username = username,
             password = password,
-            onSuccess = onSuccess,
-            onFailure = onFailure
         )
     }
 
-    fun signIn(username: String, password: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    fun signIn(username: String, password: String) {
         userRepository.signIn(
             username = username,
             password = password,
-            onSuccess = onSuccess,
-            onFailure = onFailure
         )
     }
 }

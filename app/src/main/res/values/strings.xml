@@ -3,4 +3,8 @@
     <string name="bottom_navigation_home">홈</string>
     <string name="bottom_navigation_order">주문하기</string>
     <string name="bottom_navigation_mypage">마이페이지</string>
+    <string name="error_unknown">알 수 없는 에러입니다.</string>
+    <string name="error_duplicated_username">이미 가입된 사원번호입니다.</string>
+    <string name="error_unknown_username">가입되지 않은 사원번호입니다.</string>
+    <string name="error_incorrect_password">잘못된 비밀번호입니다.</string>
 </resources>
