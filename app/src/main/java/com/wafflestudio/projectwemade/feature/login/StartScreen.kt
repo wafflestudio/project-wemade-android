@@ -40,7 +40,7 @@ fun StartScreen() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 29.dp)
+                .padding(bottom = 30.dp)
                 .align(Alignment.BottomCenter),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
