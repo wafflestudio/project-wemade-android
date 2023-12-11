@@ -29,7 +29,7 @@ fun StartScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(WemadeColors.MainGreen)
-            .padding(horizontal = 20.dp, vertical = 29.dp)
+            .padding(horizontal = 20.dp)
     ) {
         WhiteCup(
             modifier = Modifier
@@ -40,6 +40,7 @@ fun StartScreen() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(bottom = 29.dp)
                 .align(Alignment.BottomCenter),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
