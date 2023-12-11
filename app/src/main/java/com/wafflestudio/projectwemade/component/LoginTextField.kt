@@ -39,7 +39,7 @@ fun LoginTextField(
                 shape = RoundedCornerShape(4.dp)
             )
             .border(
-                width = 2.dp,
+                width = 1.dp,
                 color = WemadeColors.MediumGray,
                 shape = RoundedCornerShape(4.dp)
             ),
