@@ -29,7 +29,7 @@ fun StartScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(WemadeColors.MainGreen)
-            .padding(horizontal = 24.dp, vertical = 29.dp)
+            .padding(horizontal = 20.dp, vertical = 29.dp)
     ) {
         WhiteCup(
             modifier = Modifier
