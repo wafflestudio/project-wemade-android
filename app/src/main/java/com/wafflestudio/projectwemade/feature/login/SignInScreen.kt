@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.common.LocalNavController
@@ -33,8 +32,8 @@ import com.wafflestudio.projectwemade.theme.WemadeColors
 @Composable
 fun SignInScreen() {
     val navController = LocalNavController.current
-    var id by remember { mutableStateOf(TextFieldValue("")) }
-    var pw by remember { mutableStateOf(TextFieldValue("")) }
+    var id by remember { mutableStateOf("") }
+    var pw by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
