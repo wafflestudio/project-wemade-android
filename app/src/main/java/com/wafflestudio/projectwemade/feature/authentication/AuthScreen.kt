@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.wafflestudio.projectwemade.util.launchApi
+import com.wafflestudio.projectwemade.R
 
 //로그인 기능 테스트하려고 만든 화면
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,37 +51,48 @@ fun AuthScreen(
         Text(
             text = "sign up",
             modifier = Modifier.clickable {
-                launchApi(
-                    context = context,
-                    onSuccess = {
-                        Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                authViewModel.signUp(
+                    username = username,
+                    password = password,
+                    onUsernameDuplicated = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.error_duplicated_username),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    onInvalidUsername = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.error_invalid_username_format),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                ) {
-                    authViewModel.signUp(
-                        username = username,
-                        password = password
-                    )
-                }
+                )
             }
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = "sign in",
             modifier = Modifier.clickable {
-                launchApi(
-                    context = context,
-                    onSuccess = {
-                        Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show()
+                authViewModel.signIn(
+                    username = username,
+                    password = password,
+                    onUserNotFound = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.error_unknown_username),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     },
-                    onError = {
-                        Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    onPasswordMismatch = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.error_incorrect_password),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                ) {
-                    authViewModel.signIn(
-                        username = username,
-                        password = password,
-                    )
-                }
+                )
             }
         )
     }

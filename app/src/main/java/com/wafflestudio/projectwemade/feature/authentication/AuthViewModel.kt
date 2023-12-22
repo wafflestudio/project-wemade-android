@@ -14,17 +14,40 @@ class AuthViewModel @Inject constructor(
 
     val user: StateFlow<User?> get() = userRepository.user
 
-    fun signUp(username: String, password: String) {
+    fun signUp(
+        username: String,
+        password: String,
+        onUsernameDuplicated: () -> Unit,
+        onInvalidUsername: () -> Unit,
+    ) {
+        if (username.isEmpty() || password.isEmpty()) {
+            return
+        }
+        if (Regex("\\d{8}").matches(username).not()) {
+            onInvalidUsername()
+            return
+        }
         userRepository.signUp(
             username = username,
             password = password,
+            onUsernameDuplicated = onUsernameDuplicated
         )
     }
 
-    fun signIn(username: String, password: String) {
+    fun signIn(
+        username: String,
+        password: String,
+        onUserNotFound: () -> Unit,
+        onPasswordMismatch: () -> Unit,
+    ) {
+        if (username.isEmpty() || password.isEmpty()) {
+            return
+        }
         userRepository.signIn(
             username = username,
             password = password,
+            onUserNotFound = onUserNotFound,
+            onPasswordMismatch = onPasswordMismatch
         )
     }
 }

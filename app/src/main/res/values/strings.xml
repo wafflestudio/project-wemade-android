@@ -7,4 +7,5 @@
     <string name="error_duplicated_username">이미 가입된 사원번호입니다.</string>
     <string name="error_unknown_username">가입되지 않은 사원번호입니다.</string>
     <string name="error_incorrect_password">잘못된 비밀번호입니다.</string>
+    <string name="error_invalid_username_format">사원번호 형식이 잘못되었습니다.</string>
 </resources>
