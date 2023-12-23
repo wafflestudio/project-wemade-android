@@ -140,3 +140,36 @@ fun LeftArrow(
         modifier = modifier
     )
 }
+
+@Composable
+fun ListIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_list),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun SupportIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_support),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun SettingsIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_settings),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
