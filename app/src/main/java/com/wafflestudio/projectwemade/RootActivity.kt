@@ -34,6 +34,7 @@ import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
+import com.wafflestudio.projectwemade.feature.mypage.MypageScreen
 import com.wafflestudio.projectwemade.theme.ProjectWemadeAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -70,6 +71,9 @@ fun SetupUI() {
                     }
                     rootComposable(NavigationRoutes.CHECKOUT) {
                         CheckoutScreen()
+                    }
+                    rootComposable(NavigationRoutes.MYPAGE) {
+                        MypageScreen()
                     }
                 }
                 AnimatedVisibility(
