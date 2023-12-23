@@ -52,6 +52,17 @@ fun MypageIcon(
 }
 
 @Composable
+fun ProfileRoundIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_profile_round),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun BagIcon(
     modifier: Modifier = Modifier,
     color: Color = WemadeColors.Black900,
