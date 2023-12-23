@@ -155,12 +155,14 @@ fun RightArrow(
 
 @Composable
 fun ListIcon(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.Black900
 ) {
     Image(
         painter = painterResource(R.drawable.ic_list),
         contentDescription = null,
-        modifier = modifier
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(color)
     )
 }
 
@@ -181,6 +183,17 @@ fun SettingsIcon(
 ) {
     Image(
         painter = painterResource(R.drawable.ic_settings),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun CalendarIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_calendar),
         contentDescription = null,
         modifier = modifier
     )
