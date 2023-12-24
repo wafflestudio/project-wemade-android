@@ -1,4 +1,4 @@
-package com.wafflestudio.projectwemade.feature.home
+package com.wafflestudio.projectwemade.feature.mypage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

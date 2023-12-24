@@ -1,4 +1,4 @@
-package com.wafflestudio.projectwemade.feature.home
+package com.wafflestudio.projectwemade.feature.mypage
 
 import androidx.compose.runtime.Composable
 
