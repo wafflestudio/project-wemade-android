@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,11 +45,11 @@ fun SupportsNavigation(
                     text = it.title,
                     style = MaterialTheme.typography.titleSmall,
                     color = if(selected) WemadeColors.Black900
-                    else WemadeColors.MediumGray
+                    else WemadeColors.MediumGray,
+                    modifier = Modifier.padding(vertical = 16.dp)
                 )
                 Divider(
                     thickness = 1.dp,
-                    modifier = Modifier.fillMaxWidth(),
                     color = if(selected) WemadeColors.Black900
                     else WemadeColors.LightGray
                 )

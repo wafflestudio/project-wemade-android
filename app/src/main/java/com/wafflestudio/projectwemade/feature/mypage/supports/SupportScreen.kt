@@ -1,6 +1,7 @@
 package com.wafflestudio.projectwemade.feature.mypage.supports
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.feature.main.tabComposable
 import com.wafflestudio.projectwemade.icon.LeftArrow
@@ -20,6 +22,7 @@ import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
 fun SupportScreen() {
+    val navController = LocalNavController.current
     val supportsScreenController = rememberNavController()
     Column(
         modifier = Modifier
@@ -30,10 +33,13 @@ fun SupportScreen() {
             title = "고객센터",
             modifier = Modifier.fillMaxWidth(),
             leftAction = {
-                LeftArrow(modifier = Modifier.size(32.dp))
+                LeftArrow(
+                    modifier = Modifier.size(32.dp)
+                        .clickable { navController.popBackStack() }
+                )
             }
         )
-        Divider(thickness = 1.dp, color = WemadeColors.LightGray, modifier = Modifier.fillMaxWidth())
+        Divider(thickness = 1.dp, color = WemadeColors.LightGray)
         SupportsNavigation(
             navController = supportsScreenController,
             modifier = Modifier.fillMaxWidth()

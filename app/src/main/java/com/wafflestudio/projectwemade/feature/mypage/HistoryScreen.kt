@@ -2,6 +2,7 @@ package com.wafflestudio.projectwemade.feature.mypage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.icon.CalendarIcon
 import com.wafflestudio.projectwemade.icon.LeftArrow
@@ -34,6 +36,7 @@ import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
 fun HistoryScreen() {
+    val navController = LocalNavController.current
     val selectedOption = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -46,7 +49,10 @@ fun HistoryScreen() {
                 .fillMaxWidth()
                 .background(WemadeColors.White900),
             leftAction = {
-                LeftArrow(modifier = Modifier.size(32.dp))
+                LeftArrow(
+                    modifier = Modifier.size(32.dp)
+                        .clickable { navController.popBackStack() }
+                )
             }
         )
         Spacer(modifier = Modifier
