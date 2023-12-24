@@ -154,6 +154,28 @@ fun RightArrow(
 }
 
 @Composable
+fun UpArrow(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painterResource(R.drawable.ic_arrow),
+        contentDescription = null,
+        modifier = modifier.rotate(90f)
+    )
+}
+
+@Composable
+fun DownArrow(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painterResource(R.drawable.ic_arrow),
+        contentDescription = null,
+        modifier = modifier.rotate(270f)
+    )
+}
+
+@Composable
 fun ListIcon(
     modifier: Modifier = Modifier,
     color: Color = WemadeColors.Black900
