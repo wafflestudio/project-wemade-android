@@ -1,6 +1,7 @@
 package com.wafflestudio.projectwemade.feature.mypage
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.wafflestudio.projectwemade.NavigationRoutes
+import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.icon.ListIcon
 import com.wafflestudio.projectwemade.icon.ProfileRoundIcon
@@ -29,6 +32,7 @@ import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
 fun MypageScreen() {
+    val navController = LocalNavController.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -72,15 +76,24 @@ fun MypageScreen() {
             ) {
                 MypageOptionCard(
                     icon = { ListIcon(modifier = Modifier.size(36.dp)) },
-                    label = "주문내역"
+                    label = "주문내역",
+                    modifier  = Modifier.clickable {
+                        navController.navigate(NavigationRoutes.HISTORY)
+                    }
                 )
                 MypageOptionCard(
                     icon = { SupportIcon(modifier = Modifier.size(36.dp)) },
-                    label = "고객센터"
+                    label = "고객센터",
+                    modifier = Modifier.clickable {
+                        navController.navigate(NavigationRoutes.SUPPORTS)
+                    }
                 )
                 MypageOptionCard(
                     icon = { SettingsIcon(modifier = Modifier.size(36.dp)) },
-                    label = "설정"
+                    label = "설정",
+                    modifier = Modifier.clickable {
+                        navController.navigate(NavigationRoutes.SETTINGS)
+                    }
                 )
             }
         }
