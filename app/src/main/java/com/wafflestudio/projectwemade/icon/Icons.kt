@@ -64,6 +64,17 @@ fun ProfileRoundIcon(
 }
 
 @Composable
+fun ProfileAddPhotoIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_profile_add_photo),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun BagIcon(
     modifier: Modifier = Modifier,
     color: Color = WemadeColors.Black900,
@@ -216,6 +227,17 @@ fun CalendarIcon(
 ) {
     Image(
         painter = painterResource(R.drawable.ic_calendar),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun LogoutIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_logout),
         contentDescription = null,
         modifier = modifier
     )
