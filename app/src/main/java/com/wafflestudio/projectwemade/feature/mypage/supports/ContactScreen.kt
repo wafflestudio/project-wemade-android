@@ -18,11 +18,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,10 +32,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.icon.AddIcon
 import com.wafflestudio.projectwemade.icon.DownArrow
-import com.wafflestudio.projectwemade.icon.UpArrow
 import com.wafflestudio.projectwemade.theme.WemadeColors
 import okio.utf8Size
 
@@ -49,9 +49,9 @@ private val contactOptions = listOf(
 
 @Composable
 fun ContactScreen() {
-    var isMenuExpanded by remember{ mutableStateOf(false) }
+    val isMenuExpanded = remember{ mutableStateOf(false) }
     var contactContent by remember{ mutableStateOf("") }
-    var selectedOption by remember{ mutableStateOf("") }
+    val selectedOption = remember{ mutableStateOf("") }
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -79,12 +79,12 @@ fun ContactScreen() {
                     )
                     .padding(16.dp)
                     .clickable {
-                        isMenuExpanded = !isMenuExpanded
+                        isMenuExpanded.value = !isMenuExpanded.value
                     }
             ) {
-                if(selectedOption != "") {
+                if(selectedOption.value != "") {
                     Text(
-                        text = selectedOption,
+                        text = selectedOption.value,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.align(Alignment.CenterStart)
                     )
@@ -97,39 +97,23 @@ fun ContactScreen() {
                         modifier = Modifier.align(Alignment.CenterStart)
                     )
                 }
-                if(isMenuExpanded) {
-                    UpArrow(
-                        modifier = Modifier
-                            .size(10.dp)
-                            .align(Alignment.CenterEnd)
-                    )
-                } else {
-                    DownArrow(
-                        modifier = Modifier
-                            .size(10.dp)
-                            .align(Alignment.CenterEnd)
-                    )
-                }
+                DownArrow(
+                    modifier = Modifier
+                        .size(10.dp)
+                        .align(Alignment.CenterEnd)
+                )
             }
-            DropdownMenu(
-                expanded = isMenuExpanded,
-                onDismissRequest = { isMenuExpanded = false }
-            ) {
-                contactOptions.forEach(){
-                    DropdownMenuItem(
-                        text = {
-                            Text(
-                                text = it,
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(20.dp)
-                            )
-                        },
-                        onClick = {
-                            selectedOption = it
-                            isMenuExpanded = false
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    )
+            if(isMenuExpanded.value){
+
+                Dialog(onDismissRequest = { isMenuExpanded.value = false }) {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp),
+                        color = WemadeColors.White900
+                    ) {
+                        OptionDialog(selectedOption, isMenuExpanded)
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -210,7 +194,7 @@ fun ContactScreen() {
             onClick = { },
             modifier = Modifier
                 .fillMaxWidth(),
-            enabled = (contactContent != "" && selectedOption != "")
+            enabled = (contactContent != "" && selectedOption.value != "")
         )
     }
 }
@@ -237,6 +221,32 @@ fun ContactsPhoto(
                 .size(24.dp)
                 .align(Alignment.Center)
         )
+    }
+}
+
+@Composable
+fun OptionDialog(
+    selectedOption: MutableState<String>,
+    isMenuExpanded: MutableState<Boolean>,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        contactOptions.forEach(){
+            Text(
+                text = it,
+                style = MaterialTheme.typography.bodyMedium,
+                color = WemadeColors.Black900,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 12.dp)
+                    .clickable {
+                        selectedOption.value = it
+                        isMenuExpanded.value = false
+                    }
+            )
+        }
     }
 }
 
