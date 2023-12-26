@@ -117,61 +117,61 @@ fun ContactScreen() {
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            BasicTextField(
-                value = contactContent,
-                onValueChange = {
-                    if (contactContent.utf8Size() < 500) contactContent = it
-                },
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .defaultMinSize(minHeight = 200.dp),
-                textStyle = MaterialTheme.typography.bodyMedium,
-                decorationBox = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                color = WemadeColors.White900,
-                                shape = RoundedCornerShape(4.dp)
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = WemadeColors.LightGray,
-                                shape = RoundedCornerShape(4.dp)
-                            )
-                            .padding(16.dp)
-                    ) {
-                        if(contactContent == "") {
-                            Text(
-                                text = "문의 내용을 입력해주세요.(500자 이내)",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = WemadeColors.MediumGray
-                            )
-                        }
-                        else {
-                            it()
-                        }
-                        Row(
-                            modifier = Modifier.align(Alignment.BottomEnd)
-                        ) {
-                            Text(
-                                text = "(",
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                            Text(
-                                text = contactContent.utf8Size().toString(),
-                                color = WemadeColors.MainGreen,
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Text(
-                                text = "/500)",
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
+                    .defaultMinSize(minHeight = 200.dp)
+                    .background(
+                        color = WemadeColors.White900,
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = WemadeColors.LightGray,
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(16.dp)
+            ) {
+                BasicTextField(
+                    value = contactContent,
+                    onValueChange = {
+                        if (contactContent.utf8Size() < 500) contactContent = it
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.TopCenter),
+                    textStyle = MaterialTheme.typography.bodyMedium,
+                    decorationBox = {
+                        it()
                     }
+                )
+                if(contactContent == "") {
+                    Text(
+                        text = "문의 내용을 입력해주세요.(500자 이내)",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = WemadeColors.MediumGray,
+                        modifier = Modifier.align(Alignment.TopStart)
+                    )
                 }
-            )
+                Row(
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                ) {
+                    Text(
+                        text = "(",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Text(
+                        text = contactContent.utf8Size().toString(),
+                        color = WemadeColors.MainGreen,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "/500)",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "사진등록",
