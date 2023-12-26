@@ -19,11 +19,13 @@ import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.feature.main.tabComposable
 import com.wafflestudio.projectwemade.icon.LeftArrow
 import com.wafflestudio.projectwemade.theme.WemadeColors
+import java.util.Random
 
 @Composable
 fun SupportScreen() {
     val navController = LocalNavController.current
     val supportsScreenController = rememberNavController()
+    val cardNum = Random().nextInt(5)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,6 +43,7 @@ fun SupportScreen() {
         )
         Divider(thickness = 1.dp, color = WemadeColors.LightGray)
         SupportsNavigation(
+            cardNum = cardNum,
             navController = supportsScreenController,
             modifier = Modifier.fillMaxWidth()
         )
@@ -57,7 +60,7 @@ fun SupportScreen() {
                     ContactScreen()
                 }
                 tabComposable(SupportsTabItem.ContactHistory.route){
-                    ContactHistoryScreen()
+                    ContactHistoryScreen(cardNum)
                 }
             }
         }

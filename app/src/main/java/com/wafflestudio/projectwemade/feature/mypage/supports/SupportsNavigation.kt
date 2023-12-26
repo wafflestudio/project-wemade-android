@@ -1,10 +1,14 @@
 package com.wafflestudio.projectwemade.feature.mypage.supports
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,6 +28,7 @@ private val tabItems = listOf(
 private val weightEach = 1f / tabItems.size
 @Composable
 fun SupportsNavigation(
+    cardNum: Int,
     navController: NavController,
     modifier: Modifier = Modifier
 ){
@@ -41,13 +46,30 @@ fun SupportsNavigation(
                     },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = it.title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = if(selected) WemadeColors.Black900
-                    else WemadeColors.MediumGray,
-                    modifier = Modifier.padding(vertical = 16.dp)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = it.title,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = if(selected) WemadeColors.Black900
+                        else WemadeColors.MediumGray,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    )
+                    if(it.route == "contactHistory" && cardNum != 0){
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = cardNum.toString(),
+                            color = WemadeColors.White900,
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier.background(
+                                    color = WemadeColors.MainGreen,
+                                    shape = RoundedCornerShape(14.dp)
+                                )
+                                .padding(horizontal = 6.dp)
+                        )
+                    }
+                }
                 Divider(
                     thickness = 1.dp,
                     color = if(selected) WemadeColors.Black900

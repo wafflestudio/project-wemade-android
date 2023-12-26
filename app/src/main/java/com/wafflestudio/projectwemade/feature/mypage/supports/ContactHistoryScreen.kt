@@ -30,11 +30,11 @@ import com.wafflestudio.projectwemade.icon.DownArrow
 import com.wafflestudio.projectwemade.icon.ListIcon
 import com.wafflestudio.projectwemade.icon.UpArrow
 import com.wafflestudio.projectwemade.theme.WemadeColors
-import java.util.Random
 
 @Composable
-fun ContactHistoryScreen() {
-    val cardNum = Random().nextInt(5)
+fun ContactHistoryScreen(
+    cardNum : Int
+) {
     val cardOpened = List(cardNum){mutableStateOf(false)}
     if (cardNum != 0){
         LazyColumn(
