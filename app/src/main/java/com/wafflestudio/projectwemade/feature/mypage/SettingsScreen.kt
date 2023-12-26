@@ -47,6 +47,10 @@ fun SettingsScreen(){
                 )
             }
         )
+        Divider(
+            thickness = 1.dp,
+            color = WemadeColors.LightGray
+        )
         Column(
             modifier = Modifier
                 .weight(1f)
