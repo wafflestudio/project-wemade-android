@@ -44,7 +44,8 @@ fun MypageScreen() {
                 .align(Alignment.TopCenter)
         ) {
             CenterTopBar(
-                title = "마이페이지"
+                title = "마이페이지",
+                modifier = Modifier.height(48.dp)
             )
             Divider(
                 thickness = 1.dp,
