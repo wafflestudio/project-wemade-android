@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,8 +25,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wafflestudio.projectwemade.R
@@ -41,11 +48,46 @@ fun SignUpScreen(
 ) {
     val navController = LocalNavController.current
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
 
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
     var pwCheck by remember { mutableStateOf("") }
     var privacyChecked by remember { mutableStateOf(false) }
+
+    val handleSignUp = {
+        if (privacyChecked) {
+            authViewModel.signUp(
+                username = id,
+                password = pw,
+                passwordConfirm = pwCheck,
+                onUsernameDuplicated = {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.error_duplicated_username),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                onPasswordInsecure = {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.error_insecure_password),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                onPasswordTypo = {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.error_password_typo),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                onSuccess = {
+                    navController.popBackStack()
+                }
+            )
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -90,17 +132,25 @@ fun SignUpScreen(
                 LoginTextField(
                     value = id,
                     onValueChange = { newId -> id = newId },
-                    placeholderString = "사원번호(예:20230508)"
+                    hint = "사원번호(예:20230508)",
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                    keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down)})
                 )
                 LoginTextField(
                     value = pw,
                     onValueChange = { newPw -> pw = newPw },
-                    placeholderString = "비밀번호"
+                    hint = "비밀번호",
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Password),
+                    keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down)})
                 )
                 LoginTextField(
                     value = pwCheck,
                     onValueChange = { newPwCheck -> pwCheck = newPwCheck },
-                    placeholderString = "비밀번호 확인"
+                    hint = "비밀번호 확인",
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    keyboardActions = KeyboardActions(onDone = { handleSignUp() })
                 )
             }
         }
@@ -138,37 +188,7 @@ fun SignUpScreen(
             CtaButton(
                 text = "회원가입",
                 onClick = {
-                    if (privacyChecked) {
-                        authViewModel.signUp(
-                            username = id,
-                            password = pw,
-                            passwordConfirm = pwCheck,
-                            onUsernameDuplicated = {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.error_duplicated_username),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            },
-                            onPasswordInsecure = {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.error_insecure_password),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            },
-                            onPasswordTypo = {
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.error_password_typo),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            },
-                            onSuccess = {
-                                navController.popBackStack()
-                            }
-                        )
-                    }
+                    handleSignUp()
                 },
                 modifier = Modifier.fillMaxWidth()
             )
