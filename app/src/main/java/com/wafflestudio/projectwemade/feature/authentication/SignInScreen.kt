@@ -3,7 +3,6 @@ package com.wafflestudio.projectwemade.feature.authentication
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wafflestudio.projectwemade.NavigationRoutes
@@ -43,7 +43,7 @@ fun SignInScreen(
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(WemadeColors.White900)
@@ -52,7 +52,8 @@ fun SignInScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.Center)
+                .padding(top = 136.dp)
+                .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
             LogoIcon(
@@ -69,10 +70,12 @@ fun SignInScreen(
             ) {
                 Text(
                     text = "어서오세요, 그린텀블러입니다.",
+                    fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
                     text = "주문 서비스 이용을 위해 로그인해 주세요.",
+                    fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -126,7 +129,6 @@ fun SignInScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 30.dp)
-                .align(Alignment.BottomCenter)
         )
     }
 }
