@@ -114,7 +114,12 @@ fun SignInScreen(
                         ).show()
                     },
                     onSuccess = {
-                        navController.navigate(NavigationRoutes.MAIN)
+                        navController.navigate(NavigationRoutes.MAIN) {
+                            popUpTo(route = NavigationRoutes.START) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
                     }
                 )
             },
