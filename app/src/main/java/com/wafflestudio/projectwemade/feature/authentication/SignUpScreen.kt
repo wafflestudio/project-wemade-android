@@ -90,6 +90,11 @@ fun SignUpScreen(
                 ).show()
             },
             onSuccess = {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.alert_signup_success),
+                    Toast.LENGTH_SHORT
+                ).show()
                 navController.popBackStack()
             }
         )
