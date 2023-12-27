@@ -29,6 +29,7 @@ fun AuthScreen(
     val context = LocalContext.current
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordConfirm by remember { mutableStateOf("") }
     val user by authViewModel.user.collectAsState()
 
     Column {
@@ -44,6 +45,12 @@ fun AuthScreen(
                 password = it
             }
         )
+        TextField(
+            value = passwordConfirm,
+            onValueChange = {
+                passwordConfirm = it
+            }
+        )
         Text(
             text = user?.username ?: "not signed in"
         )
@@ -54,6 +61,7 @@ fun AuthScreen(
                 authViewModel.signUp(
                     username = username,
                     password = password,
+                    passwordConfirm = passwordConfirm,
                     onUsernameDuplicated = {
                         Toast.makeText(
                             context,
@@ -61,10 +69,17 @@ fun AuthScreen(
                             Toast.LENGTH_SHORT
                         ).show()
                     },
-                    onInvalidUsername = {
+                    onPasswordInsecure = {
                         Toast.makeText(
                             context,
-                            context.getString(R.string.error_invalid_username_format),
+                            context.getString(R.string.error_insecure_password),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    onPasswordTypo = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.error_password_typo),
                             Toast.LENGTH_SHORT
                         ).show()
                     }

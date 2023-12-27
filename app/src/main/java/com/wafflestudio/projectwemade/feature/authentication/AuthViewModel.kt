@@ -17,14 +17,20 @@ class AuthViewModel @Inject constructor(
     fun signUp(
         username: String,
         password: String,
+        passwordConfirm: String,
         onUsernameDuplicated: () -> Unit,
-        onInvalidUsername: () -> Unit,
+        onPasswordInsecure: () -> Unit,
+        onPasswordTypo: () -> Unit,
     ) {
         if (username.isEmpty() || password.isEmpty()) {
             return
         }
-        if (Regex("\\d{8}").matches(username).not()) {
-            onInvalidUsername()
+        if (Regex("^(?=.*[A-Za-z])(?=.*\\d).{8,}\$").matches(password).not()) {
+            onPasswordInsecure()
+            return
+        }
+        if (password != passwordConfirm) {
+            onPasswordTypo()
             return
         }
         userRepository.signUp(
