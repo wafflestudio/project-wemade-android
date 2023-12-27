@@ -18,9 +18,11 @@ class AuthViewModel @Inject constructor(
         username: String,
         password: String,
         passwordConfirm: String,
+        privacyAgreed: Boolean,
         onUsernameDuplicated: () -> Unit,
         onPasswordInsecure: () -> Unit,
         onPasswordTypo: () -> Unit,
+        onPrivacyNotAgreed: () -> Unit,
         onSuccess: () -> Unit,
     ) {
         if (username.isEmpty() || password.isEmpty()) {
@@ -32,6 +34,10 @@ class AuthViewModel @Inject constructor(
         }
         if (password != passwordConfirm) {
             onPasswordTypo()
+            return
+        }
+        if (privacyAgreed.not()) {
+            onPrivacyNotAgreed()
             return
         }
         userRepository.signUp(

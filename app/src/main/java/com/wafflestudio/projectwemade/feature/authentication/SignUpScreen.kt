@@ -53,40 +53,46 @@ fun SignUpScreen(
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
     var pwCheck by remember { mutableStateOf("") }
-    var privacyChecked by remember { mutableStateOf(false) }
+    var privacyAgreed by remember { mutableStateOf(false) }
 
     val handleSignUp = {
-        if (privacyChecked) {
-            authViewModel.signUp(
-                username = id,
-                password = pw,
-                passwordConfirm = pwCheck,
-                onUsernameDuplicated = {
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.error_duplicated_username),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                },
-                onPasswordInsecure = {
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.error_insecure_password),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                },
-                onPasswordTypo = {
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.error_password_typo),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                },
-                onSuccess = {
-                    navController.popBackStack()
-                }
-            )
-        }
+        authViewModel.signUp(
+            username = id,
+            password = pw,
+            passwordConfirm = pwCheck,
+            privacyAgreed = privacyAgreed,
+            onUsernameDuplicated = {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_duplicated_username),
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            onPasswordInsecure = {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_insecure_password),
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            onPasswordTypo = {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_password_typo),
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            onPrivacyNotAgreed = {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_privacy_not_agreed),
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            onSuccess = {
+                navController.popBackStack()
+            }
+        )
     }
 
     Column(
@@ -134,15 +140,26 @@ fun SignUpScreen(
                     onValueChange = { newId -> id = newId },
                     hint = "사원번호(예:20230508)",
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                    keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down)})
+                    keyboardActions = KeyboardActions(onNext = {
+                        focusManager.moveFocus(
+                            FocusDirection.Down
+                        )
+                    })
                 )
                 LoginTextField(
                     value = pw,
                     onValueChange = { newPw -> pw = newPw },
                     hint = "비밀번호",
                     visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Password),
-                    keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down)})
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Password
+                    ),
+                    keyboardActions = KeyboardActions(onNext = {
+                        focusManager.moveFocus(
+                            FocusDirection.Down
+                        )
+                    })
                 )
                 LoginTextField(
                     value = pwCheck,
@@ -166,8 +183,8 @@ fun SignUpScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Checkbox(
-                    checked = privacyChecked,
-                    onCheckChanged = { privacyChecked = it },
+                    checked = privacyAgreed,
+                    onCheckChanged = { privacyAgreed = it },
                     modifier = Modifier
                         .align(Alignment.Top)
                         .size(24.dp)
