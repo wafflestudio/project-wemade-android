@@ -104,7 +104,7 @@ fun SignUpScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(WemadeColors.White900)
-            .padding(start = 20.dp, end = 20.dp, top = 60.dp)
+            .padding(horizontal = 20.dp)
     ) {
         Column(
             modifier = Modifier
@@ -112,6 +112,7 @@ fun SignUpScreen(
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
+            Spacer(modifier = Modifier.height(60.dp))
             LogoIcon(
                 modifier = Modifier
                     .width(60.dp)
@@ -180,7 +181,7 @@ fun SignUpScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(WemadeColors.White900)
-                .padding(bottom = 30.dp),
+                .padding(top = 20.dp, bottom = 30.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Row(

@@ -37,7 +37,7 @@ import com.wafflestudio.projectwemade.R
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.LoginTextField
-import com.wafflestudio.projectwemade.icon.LogoIcon
+import com.wafflestudio.projectwemade.icon.CupIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
@@ -89,11 +89,11 @@ fun SignInScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 136.dp)
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            LogoIcon(
+            Spacer(modifier = Modifier.height(136.dp))
+            CupIcon(
                 modifier = Modifier
                     .width(60.dp)
                     .height(108.dp)
@@ -145,7 +145,7 @@ fun SignInScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 30.dp)
+                .padding(top = 20.dp, bottom = 30.dp)
         )
     }
 }
