@@ -18,11 +18,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,26 +31,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.icon.AddIcon
 import com.wafflestudio.projectwemade.icon.DownArrow
 import com.wafflestudio.projectwemade.theme.WemadeColors
 import okio.utf8Size
 
-private val contactOptions = listOf(
-    "이용문의",
-    "서비스 불편 신고",
-    "건의사항",
-    "주문관련",
-    "기타"
-)
-
 @Composable
 fun ContactScreen() {
-    val isMenuExpanded = remember{ mutableStateOf(false) }
-    var contactContent by remember{ mutableStateOf("") }
-    val selectedOption = remember{ mutableStateOf("") }
+    var isMenuExpanded by remember { mutableStateOf(false) }
+    var contactContent by remember { mutableStateOf("") }
+    var selectedOption: ContactOption? by remember { mutableStateOf(null) }
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -65,54 +55,60 @@ fun ContactScreen() {
                 .weight(1f)
                 .verticalScroll(scrollState)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        color = WemadeColors.White900,
-                        shape = RoundedCornerShape(4.dp)
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = WemadeColors.LightGray,
-                        shape = RoundedCornerShape(4.dp)
-                    )
-                    .padding(16.dp)
-                    .clickable {
-                        isMenuExpanded.value = !isMenuExpanded.value
-                    }
-            ) {
-                if(selectedOption.value != "") {
-                    Text(
-                        text = selectedOption.value,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.align(Alignment.CenterStart)
-                    )
-                }
-                else {
-                    Text(
-                        text = "문의 유형을 선택해 주세요.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = WemadeColors.MediumGray,
-                        modifier = Modifier.align(Alignment.CenterStart)
-                    )
-                }
-                DownArrow(
+            Box {
+                Row(
                     modifier = Modifier
-                        .size(10.dp)
-                        .align(Alignment.CenterEnd)
-                )
-            }
-            if(isMenuExpanded.value){
-
-                Dialog(onDismissRequest = { isMenuExpanded.value = false }) {
-                    Surface(
+                        .clickable {
+                            isMenuExpanded = !isMenuExpanded
+                        }
+                        .fillMaxWidth()
+                        .background(
+                            color = WemadeColors.White900,
+                            shape = RoundedCornerShape(4.dp)
+                        )
+                        .border(
+                            width = 1.dp,
+                            color = WemadeColors.LightGray,
+                            shape = RoundedCornerShape(4.dp)
+                        )
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = selectedOption?.toString() ?: "문의 유형을 선택해 주세요.",
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (selectedOption != null) WemadeColors.Black900 else WemadeColors.MediumGray,
+                    )
+                    DownArrow(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp),
-                        color = WemadeColors.White900
-                    ) {
-                        OptionDialog(selectedOption, isMenuExpanded)
+                            .size(10.dp)
+                    )
+                }
+                DropdownMenu(
+                    expanded = isMenuExpanded,
+                    onDismissRequest = { isMenuExpanded = false },
+                    modifier = Modifier
+                        .background(WemadeColors.White900)
+                        .fillMaxWidth()
+                ) {
+                    ContactOption.values().forEach {
+                        Row(
+                            modifier = Modifier
+                                .background(WemadeColors.White900)
+                                .clickable {
+                                    selectedOption = it
+                                    isMenuExpanded = false
+                                }
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp, vertical = 12.dp)
+                        ) {
+                            Text(
+                                text = it.toString(),
+                                color = WemadeColors.Black900,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
                     }
                 }
             }
@@ -145,7 +141,7 @@ fun ContactScreen() {
                         it()
                     }
                 )
-                if(contactContent == "") {
+                if (contactContent == "") {
                     Text(
                         text = "문의 내용을 입력해주세요.(500자 이내)",
                         style = MaterialTheme.typography.bodyMedium,
@@ -194,7 +190,7 @@ fun ContactScreen() {
             onClick = { },
             modifier = Modifier
                 .fillMaxWidth(),
-            enabled = (contactContent != "" && selectedOption.value != "")
+            enabled = (contactContent != "" && selectedOption != null)
         )
     }
 }
@@ -203,7 +199,7 @@ fun ContactScreen() {
 fun ContactsPhoto(
     modifier: Modifier = Modifier
 ) {
-    Box (
+    Box(
         modifier = modifier
             .background(
                 color = WemadeColors.White900,
@@ -224,31 +220,31 @@ fun ContactsPhoto(
     }
 }
 
-@Composable
-fun OptionDialog(
-    selectedOption: MutableState<String>,
-    isMenuExpanded: MutableState<Boolean>,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier.fillMaxWidth()
-    ) {
-        contactOptions.forEach(){
-            Text(
-                text = it,
-                style = MaterialTheme.typography.bodyMedium,
-                color = WemadeColors.Black900,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
-                    .clickable {
-                        selectedOption.value = it
-                        isMenuExpanded.value = false
-                    }
-            )
-        }
-    }
-}
+//@Composable
+//fun OptionDialog(
+//    selectedOption: MutableState<String>,
+//    isMenuExpanded: Boolean,
+//    modifier: Modifier = Modifier
+//) {
+//    Column(
+//        modifier = modifier.fillMaxWidth()
+//    ) {
+//        contactOptions.forEach(){
+//            Text(
+//                text = it,
+//                style = MaterialTheme.typography.bodyMedium,
+//                color = WemadeColors.Black900,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 20.dp, vertical = 12.dp)
+//                    .clickable {
+//                        selectedOption.value = it
+//                        isMenuExpanded= false
+//                    }
+//            )
+//        }
+//    }
+//}
 
 
 @Preview
