@@ -25,22 +25,23 @@ private val tabItems = listOf(
     SupportsTabItem.Contact,
     SupportsTabItem.ContactHistory
 )
-private val weightEach = 1f / tabItems.size
+
 @Composable
 fun SupportsNavigation(
     cardNum: Int,
     navController: NavController,
     modifier: Modifier = Modifier
-){
+) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    Row (
+    Row(
         modifier = modifier.fillMaxWidth()
     ) {
-        tabItems.forEach{
+        tabItems.forEach {
             val selected = it.route == currentRoute
-            Column (
-                modifier = Modifier.weight(weightEach)
+            Column(
+                modifier = Modifier
+                    .weight(1f)
                     .clickable {
                         navController.navigateInSupportsScreen(it.route)
                     },
@@ -52,17 +53,17 @@ fun SupportsNavigation(
                     Text(
                         text = it.title,
                         style = MaterialTheme.typography.titleSmall,
-                        color = if(selected) WemadeColors.Black900
-                        else WemadeColors.MediumGray,
+                        color = if (selected) WemadeColors.Black900 else WemadeColors.MediumGray,
                         modifier = Modifier.padding(vertical = 16.dp)
                     )
-                    if(it.route == "contactHistory" && cardNum != 0){
+                    if (it.route == "contactHistory" && cardNum != 0) {
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = cardNum.toString(),
                             color = WemadeColors.White900,
                             style = MaterialTheme.typography.labelSmall,
-                            modifier = Modifier.background(
+                            modifier = Modifier
+                                .background(
                                     color = WemadeColors.MainGreen,
                                     shape = RoundedCornerShape(14.dp)
                                 )
@@ -72,15 +73,14 @@ fun SupportsNavigation(
                 }
                 Divider(
                     thickness = 1.dp,
-                    color = if(selected) WemadeColors.Black900
-                    else WemadeColors.LightGray
+                    color = if (selected) WemadeColors.Black900 else WemadeColors.LightGray
                 )
             }
         }
     }
 }
 
-fun NavController.navigateInSupportsScreen(route: String){
+fun NavController.navigateInSupportsScreen(route: String) {
     navigate(route) {
         launchSingleTop = true
         popUpTo(SupportsTabItem.Contact.route)

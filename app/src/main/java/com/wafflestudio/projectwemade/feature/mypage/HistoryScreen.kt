@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.common.LocalNavController
@@ -92,6 +93,7 @@ fun HistoryScreen() {
                         Spacer(modifier = Modifier.height(60.dp))
                         Text(
                             text = "해당 기간 주문 내역이 없습니다.",
+                            fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Spacer(modifier = Modifier.height(12.dp))

@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CenterTopBar
@@ -83,6 +84,7 @@ fun SettingsScreen(){
                     Column {
                         Text(
                             text = "회원탈퇴",
+                            fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Spacer(modifier = Modifier.height(4.dp))

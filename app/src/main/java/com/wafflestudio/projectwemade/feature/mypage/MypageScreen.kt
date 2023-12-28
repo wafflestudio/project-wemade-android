@@ -55,7 +55,8 @@ fun MypageScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 36.dp, horizontal = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(20.dp)
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 ProfileRoundIcon(
                     modifier = Modifier
