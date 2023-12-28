@@ -66,7 +66,7 @@ fun LoginTextField(
                     .padding(vertical = 15.dp, horizontal = 13.dp)
             ) {
                 innerTextField()
-                if(isFocused.not() && value.isEmpty()) {
+                if (isFocused.not() && value.isEmpty()) {
                     Text(
                         text = hint,
                         style = MaterialTheme.typography.bodyLarge,
