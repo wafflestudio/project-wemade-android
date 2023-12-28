@@ -2,6 +2,7 @@ package com.wafflestudio.projectwemade.repository
 
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.wafflestudio.projectwemade.model.dto.Menu
 import com.wafflestudio.projectwemade.model.dto.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -70,5 +71,17 @@ class UserRepository @Inject constructor() {
 
     fun signOut() {
         _user.value = null
+    }
+
+    fun addToFavorites(menu: Menu) {
+
+    }
+
+    fun removeFromFavorites(menuUid: String) {
+
+    }
+
+    fun getFavorites(): List<Menu> {
+        return emptyList()
     }
 }

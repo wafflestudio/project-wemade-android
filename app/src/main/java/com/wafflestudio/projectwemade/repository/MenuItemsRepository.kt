@@ -22,7 +22,7 @@ class MenuItemsRepository @Inject constructor() {
         val database =
             Firebase.database("https://wemade-project-default-rtdb.asia-southeast1.firebasedatabase.app")
         val ref = database.getReference("menu_items")
-        ref.addValueEventListener(object : ValueEventListener {
+        ref.addValueEventListener(object : ValueEventListener {     // get raw menus
             override fun onDataChange(snapshot: DataSnapshot) {
                 _menus.value = snapshot.children.map { menu ->
                     val availableTemperature = menu.child("options")
@@ -35,6 +35,7 @@ class MenuItemsRepository @Inject constructor() {
                         }
                     Menu(
                         id = menu.child("id").getValue(Int::class.java) ?: 0,
+                        uid = "",
                         category = menu.child("category").getValue(String::class.java).orEmpty().toCategory(),
                         name = menu.child("name").getValue(String::class.java) ?: "",
                         availableTemperature = availableTemperature,
@@ -50,5 +51,9 @@ class MenuItemsRepository @Inject constructor() {
                 // TODO: error handling
             }
         })
+    }
+
+    fun getMenu(menuId: String): Menu {
+        return Menu.Default
     }
 }
