@@ -144,12 +144,14 @@ fun LikeIcon(
 
 @Composable
 fun LeftArrow(
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.ExtraDarkGray
+){
     Image(
         painter = painterResource(R.drawable.ic_arrow),
         contentDescription = null,
-        modifier = modifier
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(color)
     )
 }
 

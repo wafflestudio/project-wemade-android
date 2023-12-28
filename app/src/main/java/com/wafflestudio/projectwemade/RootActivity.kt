@@ -33,8 +33,8 @@ import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
-import com.wafflestudio.projectwemade.feature.login.LoginScreen
 import com.wafflestudio.projectwemade.feature.login.SignInScreen
+import com.wafflestudio.projectwemade.feature.login.SignUpScreen
 import com.wafflestudio.projectwemade.feature.login.StartScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
 import com.wafflestudio.projectwemade.feature.mypage.HistoryScreen
@@ -89,11 +89,11 @@ fun SetupUI() {
                     rootComposable(NavigationRoutes.START) {
                         StartScreen()
                     }
-                    rootComposable(NavigationRoutes.LOGIN) {
-                        LoginScreen()
-                    }
                     rootComposable(NavigationRoutes.SIGN_IN) {
                         SignInScreen()
+                    }
+                    rootComposable(NavigationRoutes.SIGN_UP) {
+                        SignUpScreen()
                     }
                 }
                 AnimatedVisibility(
