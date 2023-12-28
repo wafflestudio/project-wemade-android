@@ -1,7 +1,6 @@
 package com.wafflestudio.projectwemade.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,12 +27,12 @@ import com.wafflestudio.projectwemade.theme.WemadeColors
 @Composable
 fun FavoriteMenuCard(
     menu: Menu,
+    checked: Boolean,
+    onCheckChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
-            .clickable { onClick() }
             .fillMaxWidth()
             .background(WemadeColors.White900),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -63,8 +62,8 @@ fun FavoriteMenuCard(
                     style = MaterialTheme.typography.titleMedium
                 )
                 Checkbox(
-                    checked = false,
-                    onCheckChanged = {}
+                    checked = checked,
+                    onCheckChanged = { onCheckChanged(it) }
                 )
             }
             if (menu.availableTemperature.size == 1) {

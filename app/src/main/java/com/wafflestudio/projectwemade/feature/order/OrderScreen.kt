@@ -2,8 +2,10 @@ package com.wafflestudio.projectwemade.feature.order
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,30 +13,42 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wafflestudio.projectwemade.R
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.Chip
+import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.FavoriteMenuCard
 import com.wafflestudio.projectwemade.component.MenuCard
+import com.wafflestudio.projectwemade.component.NumericStepper
+import com.wafflestudio.projectwemade.icon.BagIcon
 import com.wafflestudio.projectwemade.model.dto.Category
+import com.wafflestudio.projectwemade.model.dto.Temperature
 import com.wafflestudio.projectwemade.theme.WemadeColors
 import kotlinx.coroutines.launch
 
@@ -50,9 +64,91 @@ fun OrderScreen(
     val pages = listOf("Favorite", "메뉴")
     val pagerState = rememberPagerState(pageCount = { 2 })
 
-    val menus by orderViewModel.menus.collectAsState()
     val selectedCategory by orderViewModel.selectedCategory.collectAsState()
     val categoryMenus by orderViewModel.categoryMenus.collectAsState()
+    val favoriteMenus by orderViewModel.favoriteMenus.collectAsState()
+
+    LaunchedEffect(Unit) {
+        orderViewModel.selectedFavMenus.collect { menus ->
+            if (menus.isEmpty()) {
+                bottomSurfaceState.visible = false
+            } else {
+                bottomSurfaceState.content = {
+                    Column(
+                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                        ) {
+                            Row {
+                                Spacer(modifier = Modifier.weight(1f))
+                                Text(
+                                    text = stringResource(R.string.order_favorite_close),
+                                    modifier = Modifier.clickable {
+                                        orderViewModel.unselectAllFavorites()
+                                        bottomSurfaceState.visible = false
+                                    },
+                                    color = WemadeColors.DarkGray,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                            menus.forEach {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = it.data.name,
+                                        color = WemadeColors.Black900,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 24.sp,
+                                    )
+                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Text(
+                                        text = it.data.temperature.toString(),
+                                        color = when (it.data.temperature) {
+                                            Temperature.HOT -> WemadeColors.HotRed
+                                            else -> WemadeColors.IceBlue
+                                        },
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 14.sp,
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    NumericStepper(value = it.state, onValueChanged = { newValue ->
+                                        orderViewModel.setFavoriteQuantity(it.data.id, newValue)
+                                    })
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(7.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .background(color = WemadeColors.LightGray, shape = RoundedCornerShape(4.dp))
+                                    .size(48.dp)
+                            ) {
+                                BagIcon(
+                                    modifier = Modifier.align(Alignment.Center),
+                                    color = WemadeColors.DarkGray
+                                )
+                            }
+                            CtaButton(
+                                text = stringResource(R.string.order_favorite_button),
+                                onClick = {},
+                                modifier = Modifier
+                                    .height(48.dp)
+                                    .weight(1f)
+                            )
+                        }
+                    }
+                }
+                bottomSurfaceState.visible = true
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -89,18 +185,20 @@ fun OrderScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                             horizontalArrangement = Arrangement.spacedBy(20.dp)
                         ) {
-                            items(menus.size) { index ->
+                            items(favoriteMenus.size) { index ->
                                 FavoriteMenuCard(
-                                    menu = menus[index],
-                                    onClick = {
-                                        bottomSurfaceState.visible = true
+                                    menu = favoriteMenus[index].data,
+                                    checked = favoriteMenus[index].state > 0,
+                                    onCheckChanged = {
+                                        scope.launch {
+                                            orderViewModel.toggleFavorite(favoriteMenus[index].data.id)
+                                        }
                                     }
                                 )
                             }
                         }
                     }
                 }
-
                 1 -> {
                     Column(
                         modifier = Modifier
