@@ -13,11 +13,6 @@ import com.wafflestudio.projectwemade.model.dto.toCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.tasks.await
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.wafflestudio.projectwemade.model.dto.User
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
