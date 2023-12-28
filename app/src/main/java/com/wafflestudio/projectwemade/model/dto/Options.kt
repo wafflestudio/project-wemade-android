@@ -7,5 +7,12 @@ enum class Temperature {
 
 enum class Strength {
     LIGHT,
-    RICH
+    RICH;
+
+    override fun toString(): String {
+        return when (this) {
+            LIGHT -> "연하게"
+            RICH -> "진하게"
+        }
+    }
 }

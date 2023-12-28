@@ -1,7 +1,6 @@
 package com.wafflestudio.projectwemade.feature.itemdetail
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -29,10 +28,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.R
 import com.wafflestudio.projectwemade.common.LocalNavController
@@ -103,8 +103,8 @@ fun MenuDetailScreen(
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
+            AsyncImage(
+                model = menu.image,
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop
@@ -117,10 +117,13 @@ fun MenuDetailScreen(
             ) {
                 Text(
                     text = menu.name,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
-                    text = "상품설명Lorem ipsum dolor sit amet consectetur. Posuere bibendum non nisl id",
+                    text = "상품설명 Lorem ipsum dolor sit amet consectetur.",
+                    color = WemadeColors.DarkGray,
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -146,14 +149,14 @@ fun MenuDetailScreen(
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    Row (
+                    Row(
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         menu.availableTemperature.forEach {
                             OptionChip(
                                 text = it.toString(),
                                 selected = it == menu.temperature,
-                                color = if(it == Temperature.HOT) WemadeColors.HotRed else WemadeColors.IceBlue,
+                                color = if (it == Temperature.HOT) WemadeColors.HotRed else WemadeColors.IceBlue,
                                 onClick = {
                                     menuDetailViewModel.setTemperature(it)
                                 }
@@ -191,7 +194,8 @@ fun MenuDetailScreen(
         }
 
         BottomBar(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             topComposable = {
                 Box(
                     modifier = Modifier.fillMaxWidth()
@@ -208,28 +212,28 @@ fun MenuDetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(7.dp)
                 ) {
-                    LikeIcon(modifier = Modifier
-                        .size(48.dp)
-                        .border(
-                            color = if (isInFavorites) WemadeColors.MainGreen
-                            else WemadeColors.LightGray,
-                            shape = RoundedCornerShape(4.dp),
-                            width = 1.dp
-                        )
-                        .clickable {
-                            if (isInFavorites) {
-                                scope.launch {
-                                    menuDetailViewModel.removeFromFavorites()
-                                }
-                            } else {
-                                scope.launch {
-                                    menuDetailViewModel.addToFavorites()
+                    LikeIcon(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .border(
+                                color = if (isInFavorites) WemadeColors.MainGreen else WemadeColors.LightGray,
+                                shape = RoundedCornerShape(4.dp),
+                                width = 1.dp
+                            )
+                            .clickable {
+                                if (isInFavorites) {
+                                    scope.launch {
+                                        menuDetailViewModel.removeFromFavorites()
+                                    }
+                                } else {
+                                    scope.launch {
+                                        menuDetailViewModel.addToFavorites()
+                                    }
                                 }
                             }
-                        }
-                        .padding(8.dp),
+                            .padding(8.dp),
                         enabled = isInFavorites,
-                        color = if(isInFavorites) WemadeColors.MainGreen else WemadeColors.LightGray
+                        color = if (isInFavorites) WemadeColors.MainGreen else WemadeColors.DarkGray
                     )
                     BagIcon(
                         modifier = Modifier
@@ -242,7 +246,8 @@ fun MenuDetailScreen(
                             .padding(8.dp)
                             .clickable {
                                 navController.navigate(NavigationRoutes.CHECKOUT)
-                            }
+                            },
+                        color = WemadeColors.DarkGray
                     )
                     CtaButton(
                         text = "주문하기",

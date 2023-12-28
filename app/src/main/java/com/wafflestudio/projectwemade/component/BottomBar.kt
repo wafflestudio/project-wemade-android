@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -47,15 +48,18 @@ fun BottomBar(
     topComposable: @Composable () -> Unit = {},
     bottomComposable: @Composable () -> Unit = {}
 ) {
-    // TODO: add design parameters
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+    Surface(
+        shadowElevation = 50.dp
     ) {
-        topComposable()
-        bottomComposable()
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            topComposable()
+            bottomComposable()
+        }
     }
 }
 

@@ -112,7 +112,7 @@ fun SetupUI() {
                     Surface(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        shadowElevation = 20.dp
+                        shadowElevation = 50.dp,
                     ) {
                         bottomSurfaceState.content()
                     }
