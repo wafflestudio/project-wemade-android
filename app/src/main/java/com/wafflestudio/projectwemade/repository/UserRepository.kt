@@ -74,7 +74,6 @@ class UserRepository @Inject constructor() {
                             override fun onCancelled(error: DatabaseError) {
 
                             }
-
                         })
                         onSuccess()
                     } else {
