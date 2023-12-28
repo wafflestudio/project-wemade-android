@@ -41,6 +41,6 @@ fun OptionChip(
         color = if (selected) color else WemadeColors.DarkGray,
         fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
         textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.bodySmall
+        style = MaterialTheme.typography.bodyMedium
     )
 }
