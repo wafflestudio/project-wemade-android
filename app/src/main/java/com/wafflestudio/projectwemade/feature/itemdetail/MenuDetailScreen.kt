@@ -228,7 +228,8 @@ fun MenuDetailScreen(
                             }
                         }
                         .padding(8.dp),
-                        enabled = isInFavorites
+                        enabled = isInFavorites,
+                        color = if(isInFavorites) WemadeColors.MainGreen else WemadeColors.LightGray
                     )
                     BagIcon(
                         modifier = Modifier
