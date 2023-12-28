@@ -144,12 +144,14 @@ fun LikeIcon(
 
 @Composable
 fun LeftArrow(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.ExtraDarkGray
 ){
     Image(
         painter = painterResource(R.drawable.ic_arrow),
         contentDescription = null,
-        modifier = modifier
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(color)
     )
 }
 
@@ -239,6 +241,19 @@ fun LogoutIcon(
     Image(
         painter = painterResource(R.drawable.ic_logout),
         contentDescription = null,
-        modifier = modifier
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun LogoIcon(
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.MainGreen
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_cup_subtract),
+        contentDescription = null,
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(color)
     )
 }

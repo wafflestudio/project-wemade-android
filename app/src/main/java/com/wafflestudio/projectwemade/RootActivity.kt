@@ -31,6 +31,9 @@ import androidx.navigation.compose.rememberNavController
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
+import com.wafflestudio.projectwemade.feature.authentication.SignInScreen
+import com.wafflestudio.projectwemade.feature.authentication.SignUpScreen
+import com.wafflestudio.projectwemade.feature.authentication.StartScreen
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
@@ -63,9 +66,10 @@ fun SetupUI() {
             Box {
                 NavHost(
                     navController = navController,
-                    startDestination = NavigationRoutes.MAIN
+                    // startDestination = NavigationRoutes.MAIN
+                    startDestination = NavigationRoutes.START
                 ) {
-                    rootComposable(NavigationRoutes.MAIN) {
+                    rootMainComposable(NavigationRoutes.MAIN) {
                         MainScreen()
                     }
                     rootComposable(NavigationRoutes.ITEM_DETAIL) {
@@ -74,14 +78,23 @@ fun SetupUI() {
                     rootComposable(NavigationRoutes.CHECKOUT) {
                         CheckoutScreen()
                     }
-                    rootComposable(NavigationRoutes.HISTORY){
+                    rootComposable(NavigationRoutes.HISTORY) {
                         HistoryScreen()
                     }
-                    rootComposable(NavigationRoutes.SUPPORTS){
+                    rootComposable(NavigationRoutes.SUPPORTS) {
                         SupportScreen()
                     }
-                    rootComposable(NavigationRoutes.SETTINGS){
+                    rootComposable(NavigationRoutes.SETTINGS) {
                         SettingsScreen()
+                    }
+                    rootMainComposable(NavigationRoutes.START) {
+                        StartScreen()
+                    }
+                    rootComposable(NavigationRoutes.SIGN_IN) {
+                        SignInScreen()
+                    }
+                    rootComposable(NavigationRoutes.SIGN_UP) {
+                        SignUpScreen()
                     }
                 }
                 AnimatedVisibility(
@@ -132,6 +145,28 @@ fun NavGraphBuilder.rootComposable(
                     visibilityThreshold = IntOffset.VisibilityThreshold
                 )
             )
+        },
+        content = content
+    )
+}
+
+fun NavGraphBuilder.rootMainComposable(
+    route: String,
+    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
+) {
+    composable(
+        route = route,
+        enterTransition = {
+            fadeIn(initialAlpha = 0f)
+        },
+        exitTransition = {
+            fadeOut(targetAlpha = 0f)
+        },
+        popEnterTransition = {
+            fadeIn(initialAlpha = 0f)
+        },
+        popExitTransition = {
+            fadeOut(targetAlpha = 0f)
         },
         content = content
     )

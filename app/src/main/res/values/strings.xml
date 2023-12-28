@@ -3,4 +3,12 @@
     <string name="bottom_navigation_home">홈</string>
     <string name="bottom_navigation_order">주문하기</string>
     <string name="bottom_navigation_mypage">마이페이지</string>
+    <string name="error_unknown">알 수 없는 에러입니다.</string>
+    <string name="error_duplicated_username">이미 가입된 사원번호입니다.</string>
+    <string name="error_unknown_username">가입되지 않은 사원번호입니다.</string>
+    <string name="error_incorrect_password">잘못된 비밀번호입니다.</string>
+    <string name="error_insecure_password">비밀번호는 영문, 숫자 혼합 8글자 이상이어야 합니다.</string>
+    <string name="error_password_typo">비밀번호를 다시 확인해 주세요.</string>
+    <string name="error_privacy_not_agreed">개인정보 수집 및 이용약관에 동의해주세요.</string>
+    <string name="alert_signup_success">회원가입에 성공하였습니다.</string>
 </resources>
