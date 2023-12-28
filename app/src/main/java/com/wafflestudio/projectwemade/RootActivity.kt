@@ -66,7 +66,8 @@ fun SetupUI() {
             Box {
                 NavHost(
                     navController = navController,
-                    startDestination = NavigationRoutes.MAIN
+                    // startDestination = NavigationRoutes.MAIN
+                    startDestination = NavigationRoutes.START
                 ) {
                     rootComposable(NavigationRoutes.MAIN) {
                         MainScreen()
