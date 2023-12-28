@@ -220,33 +220,6 @@ fun ContactsPhoto(
     }
 }
 
-//@Composable
-//fun OptionDialog(
-//    selectedOption: MutableState<String>,
-//    isMenuExpanded: Boolean,
-//    modifier: Modifier = Modifier
-//) {
-//    Column(
-//        modifier = modifier.fillMaxWidth()
-//    ) {
-//        contactOptions.forEach(){
-//            Text(
-//                text = it,
-//                style = MaterialTheme.typography.bodyMedium,
-//                color = WemadeColors.Black900,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(horizontal = 20.dp, vertical = 12.dp)
-//                    .clickable {
-//                        selectedOption.value = it
-//                        isMenuExpanded= false
-//                    }
-//            )
-//        }
-//    }
-//}
-
-
 @Preview
 @Composable
 fun ContactScreenPreview() {
