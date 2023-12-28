@@ -2,6 +2,7 @@ package com.wafflestudio.projectwemade.feature.itemdetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,8 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,7 +51,8 @@ fun ItemDetailScreen(
     ) {
         CenterTopBar(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .background(WemadeColors.White900),
             title = "주문하기",
             leftAction = {
                 LeftArrow(
@@ -70,6 +73,7 @@ fun ItemDetailScreen(
         Column(
             modifier = Modifier
                 .weight(1f)
+                .background(WemadeColors.White900)
                 .verticalScroll(rememberScrollState())
         ) {
             Image(
@@ -97,7 +101,7 @@ fun ItemDetailScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(9.dp)
-                    .background(color = WemadeColors.LightGray)
+                    .background(color = WemadeColors.ExtraLightGray)
             )
             Column (
                 modifier = Modifier.padding(20.dp),
@@ -110,7 +114,8 @@ fun ItemDetailScreen(
         }
 
         BottomBar(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .background(WemadeColors.White900),
             topComposable = {
                 Box(
                     modifier = Modifier.fillMaxWidth()
@@ -128,12 +133,17 @@ fun ItemDetailScreen(
                     horizontalArrangement = Arrangement.spacedBy(7.dp)
                 ) {
                     LikeIcon(modifier = Modifier
-                        .width(48.dp)
-                        .height(48.dp)
+                        .size(48.dp)
+                        .border(
+                            color = WemadeColors.LightGray,
+                            shape = RoundedCornerShape(4.dp),
+                            width = 1.dp
+                        )
+                        .padding(8.dp)
                     )
                     BagIcon(modifier = Modifier
-                        .width(48.dp)
-                        .height(48.dp)
+                        .size(48.dp)
+                        .padding(8.dp)
                     )
                     CtaButton(
                         text = "주문하기",
