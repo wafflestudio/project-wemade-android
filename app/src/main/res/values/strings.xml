@@ -11,4 +11,5 @@
     <string name="error_password_typo">비밀번호를 다시 확인해 주세요.</string>
     <string name="error_privacy_not_agreed">개인정보 수집 및 이용약관에 동의해주세요.</string>
     <string name="alert_signup_success">회원가입에 성공하였습니다.</string>
+    <string name="error_menu_not_found">메뉴를 찾을 수 없습니다.</string>
 </resources>
