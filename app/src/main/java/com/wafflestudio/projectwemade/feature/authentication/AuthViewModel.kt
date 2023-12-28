@@ -66,4 +66,8 @@ class AuthViewModel @Inject constructor(
             onSuccess = onSuccess
         )
     }
+
+    fun signOut() {
+        userRepository.signOut()
+    }
 }

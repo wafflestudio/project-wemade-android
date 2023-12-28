@@ -65,4 +65,8 @@ class UserRepository @Inject constructor() {
             }
         }
     }
+
+    fun signOut() {
+        _user.value = null
+    }
 }
