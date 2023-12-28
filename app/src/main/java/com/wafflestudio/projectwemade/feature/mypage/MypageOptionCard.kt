@@ -1,7 +1,7 @@
 package com.wafflestudio.projectwemade.feature.mypage
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,38 +23,39 @@ import com.wafflestudio.projectwemade.icon.RightArrow
 fun MypageOptionCard(
     icon: @Composable () -> Unit,
     label: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
-    Box(
-        modifier = modifier.fillMaxWidth()
+    Row(
+        modifier = modifier
+            .clickable { onClick() }
+            .height(60.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row (
-            modifier = Modifier.align(Alignment.CenterStart),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            icon()
-            Text(
-                text = label,
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.titleSmall
-            )
-        }
+        icon()
+        Text(
+            text = label,
+            modifier = Modifier.weight(1f),
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleSmall
+        )
         RightArrow(
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .width(20.dp)
                 .height(20.dp)
-                .align(Alignment.CenterEnd)
         )
     }
+
 }
 
 @Preview
 @Composable
 fun MapageOptionCardPreview() {
     MypageOptionCard(
-        icon = {ListIcon(modifier = Modifier.size(36.dp))},
+        icon = { ListIcon(modifier = Modifier.size(36.dp)) },
         label = "주문내역"
     )
 }

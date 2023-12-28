@@ -1,7 +1,6 @@
 package com.wafflestudio.projectwemade.feature.mypage
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CenterTopBar
@@ -64,7 +64,8 @@ fun MypageScreen() {
                         .height(64.dp)
                 )
                 Text(
-                    text = "OOO님,\n안녕하세요!",
+                    text = "OOO 님,\n안녕하세요!",
+                    fontSize = 20.sp,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -72,26 +73,25 @@ fun MypageScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {
                 MypageOptionCard(
                     icon = { ListIcon(modifier = Modifier.size(36.dp)) },
                     label = "주문내역",
-                    modifier  = Modifier.clickable {
+                    onClick = {
                         navController.navigate(NavigationRoutes.HISTORY)
                     }
                 )
                 MypageOptionCard(
                     icon = { SupportIcon(modifier = Modifier.size(36.dp)) },
                     label = "고객센터",
-                    modifier = Modifier.clickable {
+                    onClick = {
                         navController.navigate(NavigationRoutes.SUPPORTS)
                     }
                 )
                 MypageOptionCard(
                     icon = { SettingsIcon(modifier = Modifier.size(36.dp)) },
                     label = "설정",
-                    modifier = Modifier.clickable {
+                    onClick = {
                         navController.navigate(NavigationRoutes.SETTINGS)
                     }
                 )
@@ -99,7 +99,9 @@ fun MypageScreen() {
         }
         Text(
             text = "로그아웃",
-            modifier = Modifier.padding(bottom = 30.dp).align(Alignment.BottomCenter),
+            modifier = Modifier
+                .padding(bottom = 30.dp)
+                .align(Alignment.BottomCenter),
             style = MaterialTheme.typography.bodyMedium,
             color = WemadeColors.DarkGray,
             textDecoration = TextDecoration.Underline
