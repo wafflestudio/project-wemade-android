@@ -21,6 +21,7 @@ class AuthViewModel @Inject constructor(
         onUsernameDuplicated: () -> Unit,
         onPasswordInsecure: () -> Unit,
         onPasswordTypo: () -> Unit,
+        onSuccess: () -> Unit,
     ) {
         if (username.isEmpty() || password.isEmpty()) {
             return
@@ -36,7 +37,8 @@ class AuthViewModel @Inject constructor(
         userRepository.signUp(
             username = username,
             password = password,
-            onUsernameDuplicated = onUsernameDuplicated
+            onUsernameDuplicated = onUsernameDuplicated,
+            onSuccess = onSuccess
         )
     }
 
@@ -45,6 +47,7 @@ class AuthViewModel @Inject constructor(
         password: String,
         onUserNotFound: () -> Unit,
         onPasswordMismatch: () -> Unit,
+        onSuccess: () -> Unit,
     ) {
         if (username.isEmpty() || password.isEmpty()) {
             return
@@ -53,7 +56,8 @@ class AuthViewModel @Inject constructor(
             username = username,
             password = password,
             onUserNotFound = onUserNotFound,
-            onPasswordMismatch = onPasswordMismatch
+            onPasswordMismatch = onPasswordMismatch,
+            onSuccess = onSuccess
         )
     }
 }

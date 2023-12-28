@@ -1,5 +1,6 @@
-package com.wafflestudio.projectwemade.feature.login
+package com.wafflestudio.projectwemade.feature.authentication
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +22,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wafflestudio.projectwemade.NavigationRoutes
+import com.wafflestudio.projectwemade.R
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.LoginTextField
@@ -30,10 +34,15 @@ import com.wafflestudio.projectwemade.icon.LogoIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    authViewModel: AuthViewModel = hiltViewModel()
+) {
     val navController = LocalNavController.current
+    val context = LocalContext.current
+
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -58,35 +67,57 @@ fun SignInScreen() {
                 modifier = Modifier.align(Alignment.Start),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text (
+                Text(
                     text = "어서오세요, 그린텀블러입니다.",
                     style = MaterialTheme.typography.titleLarge
                 )
-                Text (
+                Text(
                     text = "주문 서비스 이용을 위해 로그인해 주세요.",
                     style = MaterialTheme.typography.titleMedium
                 )
             }
             Spacer(modifier = Modifier.height(60.dp))
-            Column (
+            Column(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 LoginTextField(
                     value = id,
-                    onValueChange = {newId -> id = newId},
+                    onValueChange = { newId -> id = newId },
                     placeholderString = "사원번호(예:20230508)"
                 )
                 LoginTextField(
                     value = pw,
-                    onValueChange = {newPw -> pw = newPw},
+                    onValueChange = { newPw -> pw = newPw },
                     placeholderString = "비밀번호"
                 )
             }
         }
         CtaButton(
             text = "로그인",
-            onClick = { navController.navigate(NavigationRoutes.MAIN) },
+            onClick = {
+                authViewModel.signIn(
+                    username = id,
+                    password = pw,
+                    onUserNotFound = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.error_unknown_username),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    onPasswordMismatch = {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.error_incorrect_password),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    onSuccess = {
+                        navController.navigate(NavigationRoutes.MAIN)
+                    }
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 30.dp)

@@ -20,6 +20,7 @@ class UserRepository @Inject constructor() {
         username: String,
         password: String,
         onUsernameDuplicated: () -> Unit,
+        onSuccess: () -> Unit
     ) {
         userReference.orderByChild("username").equalTo(username).get().addOnSuccessListener {
             if (it.exists()) {
@@ -32,6 +33,7 @@ class UserRepository @Inject constructor() {
                     child("username").setValue(username)
                     child("password").setValue(password)
                 }
+                onSuccess()
             }
         }
     }
@@ -41,6 +43,7 @@ class UserRepository @Inject constructor() {
         password: String,
         onUserNotFound: () -> Unit,
         onPasswordMismatch: () -> Unit,
+        onSuccess: () -> Unit,
     ) {
         userReference.orderByChild("username").equalTo(username).get().addOnSuccessListener {
             if (it.exists()) {
@@ -50,6 +53,7 @@ class UserRepository @Inject constructor() {
                             uid = user.child("uid").getValue(String::class.java) ?: "",
                             username = user.child("username").getValue(String::class.java) ?: ""
                         )
+                        onSuccess()
                     } else {
                         onPasswordMismatch()
                         return@addOnSuccessListener

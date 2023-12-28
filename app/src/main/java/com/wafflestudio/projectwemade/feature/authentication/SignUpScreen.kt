@@ -1,5 +1,6 @@
-package com.wafflestudio.projectwemade.feature.login
+package com.wafflestudio.projectwemade.feature.authentication
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,8 +23,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.wafflestudio.projectwemade.NavigationRoutes
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.wafflestudio.projectwemade.R
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.CtaButton
@@ -32,12 +35,16 @@ import com.wafflestudio.projectwemade.icon.LogoIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    authViewModel: AuthViewModel = hiltViewModel()
+) {
     val navController = LocalNavController.current
-    var name by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
     var pwCheck by remember { mutableStateOf("") }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,11 +84,6 @@ fun SignUpScreen() {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 LoginTextField(
-                    value = name,
-                    onValueChange = { newName -> name = newName },
-                    placeholderString = "이름"
-                )
-                LoginTextField(
                     value = id,
                     onValueChange = { newId -> id = newId },
                     placeholderString = "사원번호(예:20230508)"
@@ -93,8 +95,8 @@ fun SignUpScreen() {
                 )
                 LoginTextField(
                     value = pwCheck,
-                    onValueChange = {newPwCheck -> pwCheck = newPwCheck},
-                    placeholderString = "비밀번호"
+                    onValueChange = { newPwCheck -> pwCheck = newPwCheck },
+                    placeholderString = "비밀번호 확인"
                 )
             }
         }
@@ -128,7 +130,37 @@ fun SignUpScreen() {
             }
             CtaButton(
                 text = "로그인",
-                onClick = { navController.navigate(NavigationRoutes.MAIN) },
+                onClick = {
+                    authViewModel.signUp(
+                        username = id,
+                        password = pw,
+                        passwordConfirm = pwCheck,
+                        onUsernameDuplicated = {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.error_duplicated_username),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        },
+                        onPasswordInsecure = {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.error_insecure_password),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        },
+                        onPasswordTypo = {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.error_password_typo),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        },
+                        onSuccess = {
+                            navController.popBackStack()
+                        }
+                    )
+                },
                 modifier = Modifier.fillMaxWidth()
             )
         }

@@ -31,11 +31,11 @@ import androidx.navigation.compose.rememberNavController
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
+import com.wafflestudio.projectwemade.feature.authentication.SignInScreen
+import com.wafflestudio.projectwemade.feature.authentication.SignUpScreen
+import com.wafflestudio.projectwemade.feature.authentication.StartScreen
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
-import com.wafflestudio.projectwemade.feature.login.SignInScreen
-import com.wafflestudio.projectwemade.feature.login.SignUpScreen
-import com.wafflestudio.projectwemade.feature.login.StartScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
 import com.wafflestudio.projectwemade.feature.mypage.HistoryScreen
 import com.wafflestudio.projectwemade.feature.mypage.SettingsScreen
