@@ -33,6 +33,9 @@ import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
+import com.wafflestudio.projectwemade.feature.login.LoginScreen
+import com.wafflestudio.projectwemade.feature.login.SignInScreen
+import com.wafflestudio.projectwemade.feature.login.StartScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
 import com.wafflestudio.projectwemade.feature.mypage.HistoryScreen
 import com.wafflestudio.projectwemade.feature.mypage.SettingsScreen
@@ -74,14 +77,23 @@ fun SetupUI() {
                     rootComposable(NavigationRoutes.CHECKOUT) {
                         CheckoutScreen()
                     }
-                    rootComposable(NavigationRoutes.HISTORY){
+                    rootComposable(NavigationRoutes.HISTORY) {
                         HistoryScreen()
                     }
-                    rootComposable(NavigationRoutes.SUPPORTS){
+                    rootComposable(NavigationRoutes.SUPPORTS) {
                         SupportScreen()
                     }
-                    rootComposable(NavigationRoutes.SETTINGS){
+                    rootComposable(NavigationRoutes.SETTINGS) {
                         SettingsScreen()
+                    }
+                    rootComposable(NavigationRoutes.START) {
+                        StartScreen()
+                    }
+                    rootComposable(NavigationRoutes.LOGIN) {
+                        LoginScreen()
+                    }
+                    rootComposable(NavigationRoutes.SIGN_IN) {
+                        SignInScreen()
                     }
                 }
                 AnimatedVisibility(
