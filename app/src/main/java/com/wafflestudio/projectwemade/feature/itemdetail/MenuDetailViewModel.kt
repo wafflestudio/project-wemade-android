@@ -20,6 +20,9 @@ class MenuDetailViewModel @Inject constructor(
     private val _editingMenu = MutableStateFlow(Menu.Default)
     val editingMenu: StateFlow<Menu> get() = _editingMenu
 
+    private val _isInFavorites = MutableStateFlow(false)
+    val isInFavorites: StateFlow<Boolean> get() = _isInFavorites
+
     suspend fun initializeMenu(
         menuId: Int,
         onMenuNotFound: () -> Unit
@@ -40,5 +43,9 @@ class MenuDetailViewModel @Inject constructor(
 
     suspend fun addToFavorites() {
         userRepository.addToFavorites(_editingMenu.value)
+    }
+
+    suspend fun removeFromFavorites() {
+        userRepository.removeFromFavorites(_editingMenu.value.uid)
     }
 }

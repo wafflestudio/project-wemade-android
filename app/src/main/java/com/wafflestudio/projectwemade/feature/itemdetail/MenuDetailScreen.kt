@@ -58,6 +58,7 @@ fun MenuDetailScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val menu by menuDetailViewModel.editingMenu.collectAsState()
+    val isInFavorites by menuDetailViewModel.isInFavorites.collectAsState()
 
     LaunchedEffect(Unit) {
         menuDetailViewModel.initializeMenu(
@@ -130,7 +131,8 @@ fun MenuDetailScreen(
                     .background(color = WemadeColors.ExtraLightGray)
             )
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -209,16 +211,24 @@ fun MenuDetailScreen(
                     LikeIcon(modifier = Modifier
                         .size(48.dp)
                         .border(
-                            color = WemadeColors.LightGray,
+                            color = if (isInFavorites) WemadeColors.MainGreen
+                            else WemadeColors.LightGray,
                             shape = RoundedCornerShape(4.dp),
                             width = 1.dp
                         )
                         .clickable {
-                            scope.launch {
-                                menuDetailViewModel.addToFavorites()
+                            if (isInFavorites) {
+                                scope.launch {
+                                    menuDetailViewModel.removeFromFavorites()
+                                }
+                            } else {
+                                scope.launch {
+                                    menuDetailViewModel.addToFavorites()
+                                }
                             }
                         }
-                        .padding(8.dp)
+                        .padding(8.dp),
+                        enabled = isInFavorites
                     )
                     BagIcon(
                         modifier = Modifier
