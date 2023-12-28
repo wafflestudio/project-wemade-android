@@ -6,7 +6,9 @@ import com.wafflestudio.projectwemade.model.dto.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class UserRepository @Inject constructor() {
 
     private var userReference =
