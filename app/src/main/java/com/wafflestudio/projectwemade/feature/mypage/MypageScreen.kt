@@ -1,6 +1,7 @@
 package com.wafflestudio.projectwemade.feature.mypage
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,24 +16,33 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CenterTopBar
+import com.wafflestudio.projectwemade.feature.authentication.AuthViewModel
 import com.wafflestudio.projectwemade.icon.ListIcon
 import com.wafflestudio.projectwemade.icon.ProfileRoundIcon
 import com.wafflestudio.projectwemade.icon.SettingsIcon
 import com.wafflestudio.projectwemade.icon.SupportIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
+import com.wafflestudio.projectwemade.util.navigateAsOrigin
 
 @Composable
-fun MypageScreen() {
+fun MypageScreen(
+    authViewModel: AuthViewModel = hiltViewModel()
+) {
     val navController = LocalNavController.current
+    val user by authViewModel.user.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +74,7 @@ fun MypageScreen() {
                         .height(64.dp)
                 )
                 Text(
-                    text = "OOO 님,\n안녕하세요!",
+                    text = "${user?.username} 님,\n안녕하세요!",
                     fontSize = 20.sp,
                     style = MaterialTheme.typography.titleMedium
                 )
@@ -100,6 +110,10 @@ fun MypageScreen() {
         Text(
             text = "로그아웃",
             modifier = Modifier
+                .clickable {
+                    authViewModel.signOut()
+                    navController.navigateAsOrigin(NavigationRoutes.START)
+                }
                 .padding(bottom = 30.dp)
                 .align(Alignment.BottomCenter),
             style = MaterialTheme.typography.bodyMedium,
