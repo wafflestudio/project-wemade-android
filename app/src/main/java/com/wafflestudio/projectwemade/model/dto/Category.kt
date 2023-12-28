@@ -4,7 +4,16 @@ enum class Category {
     COFFEE,
     TEA,
     MILK,
-    ADE,
+    ADE;
+
+    override fun toString(): String {
+        return when (this) {
+            COFFEE -> "Coffee"
+            TEA -> "Tea"
+            MILK -> "Milk"
+            ADE -> "Ade"
+        }
+    }
 }
 
 fun String.toCategory(): Category {
