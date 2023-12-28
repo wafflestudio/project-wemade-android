@@ -68,7 +68,7 @@ fun OrderScreen(
                         text = it.name,
                         modifier = Modifier.clickable {
                             scope.launch {
-                                orderViewModel.removeFromFavorites(it.uid)
+                                orderViewModel.removeFromFavorites(it.id)
                             }
                         }
                     )

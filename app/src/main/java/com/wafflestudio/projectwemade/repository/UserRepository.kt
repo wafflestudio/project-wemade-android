@@ -92,17 +92,13 @@ class UserRepository @Inject constructor() {
         _user.value = null
     }
 
-    suspend fun addToFavorites(
-        menu: Menu
-    ) {
+    suspend fun addToFavorites(menu: Menu) {
         _user.value?.let { user ->
             userReference.orderByChild("username").equalTo(user.username).get().await().let {
                 if (it.exists()) {
                     it.children.first().let { userSnapshot ->
-                        val key = userSnapshot.ref.child("favorites").push().key!!
-                        userSnapshot.ref.child("favorites").child(key).apply {
+                        userSnapshot.ref.child("favorites").child(menu.id.toString()).apply {
                             child("id").setValue(menu.id)
-                            child("uid").setValue(key)
                             child("name").setValue(menu.name)
                             child("category").setValue(menu.category.toString())
                             child("image").setValue(menu.image)
@@ -125,11 +121,11 @@ class UserRepository @Inject constructor() {
         }
     }
 
-    suspend fun removeFromFavorites(menuUid: String) {
+    suspend fun removeFromFavorites(menuId: Int) {
         _user.value?.let { user ->
             userReference.orderByChild("username").equalTo(user.username).get().await().let {
                 if (it.exists()) {
-                    it.children.first().child("favorites").child(menuUid).ref.removeValue()
+                    it.children.first().child("favorites").child(menuId.toString()).ref.removeValue()
                 }
             }
         }
@@ -152,7 +148,6 @@ class UserRepository @Inject constructor() {
 
             Menu(
                 id = menu.child("id").getValue(Int::class.java) ?: 0,
-                uid = menu.child("uid").getValue(String::class.java) ?: "",
                 category = menu.child("category").getValue(String::class.java).orEmpty()
                     .toCategory(),
                 name = menu.child("name").getValue(String::class.java) ?: "",

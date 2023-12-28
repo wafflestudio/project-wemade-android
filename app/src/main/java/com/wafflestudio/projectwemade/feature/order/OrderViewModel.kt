@@ -18,7 +18,7 @@ class OrderViewModel @Inject constructor(
     val favorites: StateFlow<List<Menu>> get() = userRepository.favorites
 
 
-    suspend fun removeFromFavorites(menuUid: String) {
-        userRepository.removeFromFavorites(menuUid)
+    suspend fun removeFromFavorites(menuId: Int) {
+        userRepository.removeFromFavorites(menuId)
     }
 }

@@ -2,7 +2,6 @@ package com.wafflestudio.projectwemade.model.dto
 
 data class Menu(
     val id: Int,
-    val uid: String, // for favorite menu
     val name: String,
     val category: Category,
     val image: String,
@@ -14,7 +13,6 @@ data class Menu(
     companion object {
         val Default = Menu(
             id = 0,
-            uid = "",
             name = "",
             category = Category.COFFEE,
             image = "https://neurosciencenews.com/files/2023/06/coffee-brain-caffeine-neuroscincces.jpg",

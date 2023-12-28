@@ -64,7 +64,6 @@ class MenuItemsRepository @Inject constructor() {
             }
         return Menu(
             id = menu.child("id").getValue(Int::class.java) ?: 0,
-            uid = "",
             category = menu.child("category").getValue(String::class.java).orEmpty().toCategory(),
             name = menu.child("name").getValue(String::class.java) ?: "",
             availableTemperature = availableTemperature,

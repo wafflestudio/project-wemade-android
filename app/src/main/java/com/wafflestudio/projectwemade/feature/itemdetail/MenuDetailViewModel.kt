@@ -11,7 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -25,14 +25,8 @@ class MenuDetailViewModel @Inject constructor(
     val editingMenu: StateFlow<Menu> get() = _editingMenu
 
     private val favorites get() = userRepository.favorites
-    private val _isInFavorites = favorites.map { favoritesList ->
-        var ret = false
-        favoritesList.forEach{
-            if(it.id == _editingMenu.value.id){
-                ret = true
-            }
-        }
-        ret
+    private val _isInFavorites = combine(favorites, _editingMenu) { favoritesList, menu ->
+        favoritesList.any { it.id == menu.id }
     }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
     val isInFavorites: StateFlow<Boolean> get() = _isInFavorites
 
@@ -60,6 +54,6 @@ class MenuDetailViewModel @Inject constructor(
     }
 
     suspend fun removeFromFavorites() {
-        userRepository.removeFromFavorites(_editingMenu.value.uid)
+        userRepository.removeFromFavorites(_editingMenu.value.id)
     }
 }
