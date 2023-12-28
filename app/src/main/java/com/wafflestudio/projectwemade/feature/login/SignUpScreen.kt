@@ -29,7 +29,7 @@ import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.LoginTextField
-import com.wafflestudio.projectwemade.icon.GreenCup
+import com.wafflestudio.projectwemade.icon.LogoIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
@@ -51,49 +51,50 @@ fun SignUpScreen() {
                 .align(Alignment.Center)
                 .verticalScroll(rememberScrollState())
         ) {
-            GreenCup(
+            LogoIcon(
                 modifier = Modifier
                     .width(60.dp)
                     .height(108.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
+                color = WemadeColors.MainGreen
             )
             Spacer(modifier = Modifier.height(76.dp))
             Column(
                 modifier = Modifier.align(Alignment.Start),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text (
+                Text(
                     text = "어서오세요, 그린텀블러입니다.",
                     style = MaterialTheme.typography.titleLarge
                 )
-                Text (
+                Text(
                     text = "주문 서비스 이용을 위해 회원가입해 주세요.",
                     style = MaterialTheme.typography.titleMedium
                 )
             }
             Spacer(modifier = Modifier.height(60.dp))
-            Column (
+            Column(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 LoginTextField(
                     value = name,
-                    onValueChange = {newName -> name = newName},
+                    onValueChange = { newName -> name = newName },
                     placeholderString = "이름"
                 )
                 LoginTextField(
                     value = id,
-                    onValueChange = {newId -> id = newId},
+                    onValueChange = { newId -> id = newId },
                     placeholderString = "사원번호(예:20230508)"
                 )
                 LoginTextField(
                     value = pw,
-                    onValueChange = {newPw -> pw = newPw},
+                    onValueChange = { newPw -> pw = newPw },
                     placeholderString = "비밀번호"
                 )
             }
         }
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 30.dp)
@@ -111,7 +112,7 @@ fun SignUpScreen() {
                 )
                 Column {
                     Text(
-                        text = "개인정보 수집 및 이용약관 동의 [필수]" ,
+                        text = "개인정보 수집 및 이용약관 동의 [필수]",
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(

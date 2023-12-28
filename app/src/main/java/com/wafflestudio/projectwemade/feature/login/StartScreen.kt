@@ -19,7 +19,7 @@ import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.BorderButton
 import com.wafflestudio.projectwemade.component.CtaButton
-import com.wafflestudio.projectwemade.icon.WhiteCup
+import com.wafflestudio.projectwemade.icon.LogoIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
@@ -31,11 +31,12 @@ fun StartScreen() {
             .background(WemadeColors.MainGreen)
             .padding(horizontal = 20.dp)
     ) {
-        WhiteCup(
+        LogoIcon(
             modifier = Modifier
                 .width(100.dp)
                 .height(180.dp)
-                .align(Alignment.Center)
+                .align(Alignment.Center),
+            color = WemadeColors.White900
         )
         Column(
             modifier = Modifier

@@ -213,17 +213,6 @@ fun SupportIcon(
 }
 
 @Composable
-fun WhiteCup(
-    modifier: Modifier = Modifier
-) {
-    Image(
-        painter = painterResource(R.drawable.ic_cup_white),
-        contentDescription = null,
-        modifier = modifier
-    )
-}
-
-@Composable
 fun SettingsIcon(
     modifier: Modifier = Modifier
 ) {
@@ -257,12 +246,14 @@ fun LogoutIcon(
 }
 
 @Composable
-fun GreenCup(
-    modifier: Modifier = Modifier
+fun LogoIcon(
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.MainGreen
 ) {
     Image(
-        painter = painterResource(R.drawable.ic_cup_green),
+        painter = painterResource(R.drawable.ic_cup_subtract),
         contentDescription = null,
-        modifier = modifier
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(color)
     )
 }

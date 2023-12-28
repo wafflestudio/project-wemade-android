@@ -27,7 +27,7 @@ import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.LoginTextField
-import com.wafflestudio.projectwemade.icon.GreenCup
+import com.wafflestudio.projectwemade.icon.LogoIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
@@ -47,11 +47,12 @@ fun SignInScreen() {
                 .align(Alignment.Center)
                 .verticalScroll(rememberScrollState())
         ) {
-            GreenCup(
+            LogoIcon(
                 modifier = Modifier
                     .width(60.dp)
                     .height(108.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
+                color = WemadeColors.MainGreen
             )
             Spacer(modifier = Modifier.height(76.dp))
             Column(
