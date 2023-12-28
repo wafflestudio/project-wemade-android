@@ -69,7 +69,7 @@ fun SetupUI() {
                     // startDestination = NavigationRoutes.MAIN
                     startDestination = NavigationRoutes.START
                 ) {
-                    rootComposable(NavigationRoutes.MAIN) {
+                    rootMainComposable(NavigationRoutes.MAIN) {
                         MainScreen()
                     }
                     rootComposable(NavigationRoutes.ITEM_DETAIL) {
@@ -87,7 +87,7 @@ fun SetupUI() {
                     rootComposable(NavigationRoutes.SETTINGS) {
                         SettingsScreen()
                     }
-                    rootComposable(NavigationRoutes.START) {
+                    rootMainComposable(NavigationRoutes.START) {
                         StartScreen()
                     }
                     rootComposable(NavigationRoutes.SIGN_IN) {
@@ -145,6 +145,28 @@ fun NavGraphBuilder.rootComposable(
                     visibilityThreshold = IntOffset.VisibilityThreshold
                 )
             )
+        },
+        content = content
+    )
+}
+
+fun NavGraphBuilder.rootMainComposable(
+    route: String,
+    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
+) {
+    composable(
+        route = route,
+        enterTransition = {
+            fadeIn(initialAlpha = 0f)
+        },
+        exitTransition = {
+            fadeOut(targetAlpha = 0f)
+        },
+        popEnterTransition = {
+            fadeIn(initialAlpha = 0f)
+        },
+        popExitTransition = {
+            fadeOut(targetAlpha = 0f)
         },
         content = content
     )
