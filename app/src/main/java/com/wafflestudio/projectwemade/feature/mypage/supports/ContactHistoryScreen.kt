@@ -1,5 +1,6 @@
 package com.wafflestudio.projectwemade.feature.mypage.supports
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,23 +34,22 @@ import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
 fun ContactHistoryScreen(
-    cardNum : Int
+    cardNum: Int
 ) {
-    val cardOpened = List(cardNum){mutableStateOf(false)}
-    if (cardNum != 0){
+    val cardOpened = List(cardNum) { mutableStateOf(false) }
+    if (cardNum != 0) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
-        ){
-            cardOpened.forEach{
-                item{ContactHistoryCard(isOpened = it)}
+        ) {
+            cardOpened.forEach {
+                item { ContactHistoryCard(isOpened = it) }
             }
         }
-    }
-    else {
+    } else {
         Box(
-           modifier = Modifier
-               .fillMaxSize()
-               .background(WemadeColors.ExtraLightGray)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(WemadeColors.ExtraLightGray)
         ) {
             Column(
                 modifier = Modifier.align(Alignment.Center),
@@ -77,17 +77,19 @@ fun ContactHistoryCard(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        Box(
+        Row(
             modifier = Modifier
+                .clickable { isOpened.value = !isOpened.value }
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
-                .clickable { isOpened.value = !isOpened.value }
         ) {
             Column(
+                modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(14.dp)
+                    horizontalArrangement = Arrangement.spacedBy(14.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
                         modifier = Modifier
@@ -108,70 +110,63 @@ fun ContactHistoryCard(
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
-            if(isOpened.value){
+            if (isOpened.value) {
                 UpArrow(
                     modifier = Modifier
                         .size(12.dp)
-                        //.background(WemadeColors.White900)
-                        .align(Alignment.CenterEnd)
                 )
-            }
-            else {
+            } else {
                 DownArrow(
                     modifier = Modifier
                         .size(12.dp)
-                        //.background(WemadeColors.White900)
-                        .align(Alignment.CenterEnd)
                 )
             }
         }
-        if(isOpened.value) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp)
-                    .border(
-                        width = 1.dp,
-                        color = WemadeColors.LightGray,
-                        shape = RoundedCornerShape(4.dp)
-                    )
-                    .padding(16.dp)
+        AnimatedVisibility(isOpened.value) {
+            Column(
+                modifier = Modifier.padding(bottom = 16.dp)
             ) {
-                Text(
-                    text = "답변제목",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = WemadeColors.DarkGray
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp)
-                    .defaultMinSize(minHeight = 120.dp)
-                    .border(
-                        width = 1.dp,
-                        color = WemadeColors.LightGray,
-                        shape = RoundedCornerShape(4.dp)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                        .border(
+                            width = 1.dp,
+                            color = WemadeColors.LightGray,
+                            shape = RoundedCornerShape(4.dp)
+                        )
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "답변제목",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = WemadeColors.DarkGray
                     )
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = "답변내용",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = WemadeColors.DarkGray
-                )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                        .defaultMinSize(minHeight = 120.dp)
+                        .border(
+                            width = 1.dp,
+                            color = WemadeColors.LightGray,
+                            shape = RoundedCornerShape(4.dp)
+                        )
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "답변내용",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = WemadeColors.DarkGray
+                    )
+                }
             }
-            Divider(
-                thickness = 1.dp,
-                color = WemadeColors.LightGray
-            )
         }
-        else {
-            Divider(
-                thickness = 1.dp,
-                color = WemadeColors.LightGray
-            )
-        }
+        Divider(
+            thickness = 1.dp,
+            color = WemadeColors.LightGray
+        )
     }
 }
