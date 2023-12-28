@@ -1,6 +1,8 @@
 package com.wafflestudio.projectwemade.repository
 
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.wafflestudio.projectwemade.model.dto.Menu
@@ -64,7 +66,15 @@ class UserRepository @Inject constructor() {
                             uid = user.child("uid").getValue(String::class.java) ?: "",
                             username = user.child("username").getValue(String::class.java) ?: "",
                         )
-                        _favorites.value = parseFavorites(user)
+                        user.ref.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                _favorites.value = parseFavorites(snapshot)
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+
+                            }
+                        })
                         onSuccess()
                     } else {
                         onPasswordMismatch()
@@ -80,18 +90,6 @@ class UserRepository @Inject constructor() {
 
     fun signOut() {
         _user.value = null
-    }
-
-    suspend fun fetchFavorites() {
-        _user.value?.let { user ->
-            userReference.orderByChild("username").equalTo(user.username).get().await().let {
-                if (it.exists()) {
-                    it.children.first().let { userSnapshot ->
-                        _favorites.value = parseFavorites(userSnapshot)
-                    }
-                }
-            }
-        }
     }
 
     suspend fun addToFavorites(
@@ -125,7 +123,6 @@ class UserRepository @Inject constructor() {
                 }
             }
         }
-        fetchFavorites()
     }
 
     suspend fun removeFromFavorites(menuUid: String) {
@@ -136,7 +133,6 @@ class UserRepository @Inject constructor() {
                 }
             }
         }
-        fetchFavorites()
     }
 
     private fun parseFavorites(userSnapshot: DataSnapshot): List<Menu> {
