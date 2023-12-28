@@ -15,12 +15,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.wafflestudio.projectwemade.component.BottomNavigation
 import com.wafflestudio.projectwemade.feature.home.HomeScreen
-import com.wafflestudio.projectwemade.feature.order.OrderScreen
 import com.wafflestudio.projectwemade.feature.mypage.MypageScreen
+import com.wafflestudio.projectwemade.feature.order.OrderScreen
 
 @Composable
 fun MainScreen() {
-    val mainScreenController = rememberNavController()      // MainScreen 내부에서 탭 이동에 쓰이는 navController
+    val mainScreenController =
+        rememberNavController()      // MainScreen 내부에서 탭 이동에 쓰이는 navController
     Column(
         modifier = Modifier.fillMaxSize()
     ) {

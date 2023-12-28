@@ -6,6 +6,7 @@ object WemadeColors {
     val White900 = Color(0xFFFFFFFF)
     val Black900 = Color(0xFF000000)
 
+    val ExtraDarkGray = Color(0xFF1C1B1F)
     val DarkGray = Color(0xFF666666)
     val MediumGray = Color(0xFF989898)
     val NormalGray = Color(0xFFC3C3C3)

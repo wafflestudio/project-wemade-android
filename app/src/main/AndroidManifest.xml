@@ -19,7 +19,8 @@
             android:name=".RootActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Projectwemadeandroid">
+            android:theme="@style/Theme.Projectwemadeandroid"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

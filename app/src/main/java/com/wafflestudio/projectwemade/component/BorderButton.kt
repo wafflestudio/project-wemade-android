@@ -21,7 +21,9 @@ fun BorderButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    color: Color = WemadeColors.Black900,
+    textColor: Color = WemadeColors.Black900,
+    borderColor: Color = WemadeColors.Black900,
+    fontWeight: FontWeight = FontWeight.Normal,
 ) {
     Row(
         modifier = modifier
@@ -32,7 +34,7 @@ fun BorderButton(
             )
             .border(
                 width = 1.dp,
-                color = color,
+                color = borderColor,
                 shape = RoundedCornerShape(4.dp)
             )
             .padding(12.dp),
@@ -40,8 +42,8 @@ fun BorderButton(
     ) {
         Text(
             text = text,
-            color = color,
-            fontWeight = FontWeight.Normal,
+            color = textColor,
+            fontWeight = fontWeight,
             style = MaterialTheme.typography.titleMedium
         )
     }

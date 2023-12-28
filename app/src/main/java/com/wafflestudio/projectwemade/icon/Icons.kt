@@ -3,6 +3,7 @@ package com.wafflestudio.projectwemade.icon
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -48,6 +49,28 @@ fun MypageIcon(
         modifier = modifier,
         contentDescription = "",
         colorFilter = ColorFilter.tint(color)
+    )
+}
+
+@Composable
+fun ProfileRoundIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_profile_round),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun ProfileAddPhotoIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_profile_add_photo),
+        contentDescription = null,
+        modifier = modifier
     )
 }
 
@@ -121,11 +144,116 @@ fun LikeIcon(
 
 @Composable
 fun LeftArrow(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.ExtraDarkGray
 ){
     Image(
         painter = painterResource(R.drawable.ic_arrow),
         contentDescription = null,
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(color)
+    )
+}
+
+@Composable
+fun RightArrow(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_arrow),
+        contentDescription = null,
+        modifier = modifier.rotate(180f)
+    )
+}
+
+@Composable
+fun UpArrow(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painterResource(R.drawable.ic_arrow),
+        contentDescription = null,
+        modifier = modifier.rotate(90f)
+    )
+}
+
+@Composable
+fun DownArrow(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painterResource(R.drawable.ic_arrow),
+        contentDescription = null,
+        modifier = modifier.rotate(270f)
+    )
+}
+
+@Composable
+fun ListIcon(
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.Black900
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_list),
+        contentDescription = null,
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(color)
+    )
+}
+
+@Composable
+fun SupportIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_support),
+        contentDescription = null,
         modifier = modifier
+    )
+}
+
+@Composable
+fun SettingsIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_settings),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun CalendarIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_calendar),
+        contentDescription = null,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun LogoutIcon(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_logout),
+        contentDescription = null,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun LogoIcon(
+    modifier: Modifier = Modifier,
+    color: Color = WemadeColors.MainGreen
+) {
+    Image(
+        painter = painterResource(R.drawable.ic_cup_subtract),
+        contentDescription = null,
+        modifier = modifier,
+        colorFilter = ColorFilter.tint(color)
     )
 }
