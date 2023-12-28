@@ -2,6 +2,7 @@ package com.wafflestudio.projectwemade.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -51,6 +52,7 @@ fun CenterTopBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .height(48.dp)
             .padding(vertical = 8.dp, horizontal = 21.dp)
     ) {
         Box(
@@ -61,6 +63,7 @@ fun CenterTopBar(
         Text(
             text = title,
             modifier = Modifier.align(Alignment.Center),
+            fontSize = 20.sp,
             style = MaterialTheme.typography.titleLarge
         )
         Box(
