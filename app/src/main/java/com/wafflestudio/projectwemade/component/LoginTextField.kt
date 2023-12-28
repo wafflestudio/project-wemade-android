@@ -18,10 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.theme.WemadeColors
+import com.wafflestudio.projectwemade.util.clearFocusOnKeyboardDismiss
 
 @Composable
 fun LoginTextField(
@@ -33,11 +36,18 @@ fun LoginTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
+    var isFocused by remember { mutableStateOf(false) }
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier,
-        textStyle = MaterialTheme.typography.bodyLarge,
+        modifier = modifier
+            .clearFocusOnKeyboardDismiss()
+            .onFocusEvent {
+                isFocused = it.isFocused
+            },
+        textStyle = MaterialTheme.typography.bodyLarge.copy(
+            fontWeight = FontWeight.SemiBold
+        ),
         singleLine = true,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
@@ -49,16 +59,14 @@ fun LoginTextField(
                     .clip(RoundedCornerShape(4.dp))
                     .background(color = WemadeColors.White900)
                     .border(
-                        width = 1.dp,
-                        color = WemadeColors.MediumGray,
+                        width = if (isFocused) 2.dp else 1.dp,
+                        color = if (isFocused) WemadeColors.MainGreen else WemadeColors.MediumGray,
                         shape = RoundedCornerShape(4.dp)
                     )
                     .padding(vertical = 15.dp, horizontal = 13.dp)
             ) {
-                if (value.isNotEmpty()) {
-                    innerTextField()
-                }
-                else {
+                innerTextField()
+                if(isFocused.not() && value.isEmpty()) {
                     Text(
                         text = hint,
                         style = MaterialTheme.typography.bodyLarge,
@@ -72,11 +80,11 @@ fun LoginTextField(
 
 @Preview
 @Composable
-fun LoginTextFieldPreview(){
+fun LoginTextFieldPreview() {
     var text by remember { mutableStateOf("id") }
     LoginTextField(
         value = text,
-        onValueChange = {newText -> text = newText},
+        onValueChange = { newText -> text = newText },
         hint = "placeholder"
     )
 }
