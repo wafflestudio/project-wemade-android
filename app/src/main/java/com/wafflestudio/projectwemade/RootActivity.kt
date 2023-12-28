@@ -23,11 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
@@ -35,7 +38,7 @@ import com.wafflestudio.projectwemade.feature.authentication.SignInScreen
 import com.wafflestudio.projectwemade.feature.authentication.SignUpScreen
 import com.wafflestudio.projectwemade.feature.authentication.StartScreen
 import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
-import com.wafflestudio.projectwemade.feature.itemdetail.ItemDetailScreen
+import com.wafflestudio.projectwemade.feature.itemdetail.MenuDetailScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
 import com.wafflestudio.projectwemade.feature.mypage.HistoryScreen
 import com.wafflestudio.projectwemade.feature.mypage.SettingsScreen
@@ -72,8 +75,11 @@ fun SetupUI() {
                     rootMainComposable(NavigationRoutes.MAIN) {
                         MainScreen()
                     }
-                    rootComposable(NavigationRoutes.ITEM_DETAIL) {
-                        ItemDetailScreen()
+                    rootComposable(
+                        "${NavigationRoutes.MENU_DETAIL}/{menuId}",
+                        arguments = listOf(navArgument("menuId") { type = NavType.IntType })
+                    ) { backStackEntry ->
+                        MenuDetailScreen(backStackEntry.arguments?.getInt("menuId") ?: 0)
                     }
                     rootComposable(NavigationRoutes.CHECKOUT) {
                         CheckoutScreen()
@@ -118,10 +124,12 @@ fun SetupUI() {
 
 fun NavGraphBuilder.rootComposable(
     route: String,
+    arguments: List<NamedNavArgument> = emptyList(),
     content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
 ) {
     composable(
         route = route,
+        arguments = arguments,
         enterTransition = {
             slideInHorizontally(
                 initialOffsetX = { fullWidth -> fullWidth },

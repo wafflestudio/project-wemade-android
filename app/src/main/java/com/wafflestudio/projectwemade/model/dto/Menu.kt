@@ -6,9 +6,9 @@ data class Menu(
     val name: String,
     val category: Category,
     val image: String,
-    val availableTemperature: List<Temperature>?,
+    val availableTemperature: List<Temperature>,
     val temperature: Temperature?,
-    val availableStrength: List<Strength>?,
+    val availableStrength: List<Strength>,
     val strength: Strength?,
 ) {
     companion object {

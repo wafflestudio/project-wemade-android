@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ItemDetailViewModel @Inject constructor(
+class MenuDetailViewModel @Inject constructor(
     private val menuItemsRepository: MenuItemsRepository,
     private val userRepository: UserRepository,
 ) : ViewModel() {
@@ -20,8 +20,14 @@ class ItemDetailViewModel @Inject constructor(
     private val _editingMenu = MutableStateFlow(Menu.Default)
     val editingMenu: StateFlow<Menu> get() = _editingMenu
 
-    fun initializeMenu(menuId: String) {
-        _editingMenu.value = menuItemsRepository.getMenu(menuId)
+    suspend fun initializeMenu(
+        menuId: Int,
+        onMenuNotFound: () -> Unit
+    ) {
+        _editingMenu.value = menuItemsRepository.getMenu(
+            menuId = menuId,
+            onMenuNotFound = onMenuNotFound
+        )
     }
 
     fun setTemperature(temperature: Temperature) {
@@ -32,11 +38,7 @@ class ItemDetailViewModel @Inject constructor(
         _editingMenu.value = _editingMenu.value.copy(strength = strength)
     }
 
-    fun addToFavorites() {
+    suspend fun addToFavorites() {
         userRepository.addToFavorites(_editingMenu.value)
-    }
-
-    fun removeFromFavorites() {
-        userRepository.removeFromFavorites(_editingMenu.value.uid)
     }
 }

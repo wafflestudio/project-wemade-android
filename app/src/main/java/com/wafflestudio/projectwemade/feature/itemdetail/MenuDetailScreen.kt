@@ -1,5 +1,6 @@
 package com.wafflestudio.projectwemade.feature.itemdetail
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,9 +19,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,21 +37,41 @@ import com.wafflestudio.projectwemade.component.BottomBar
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.NumericStepper
+import com.wafflestudio.projectwemade.component.OptionChip
 import com.wafflestudio.projectwemade.icon.BagIcon
 import com.wafflestudio.projectwemade.icon.LeftArrow
 import com.wafflestudio.projectwemade.icon.LikeIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
+import kotlinx.coroutines.launch
 
 @Composable
-fun ItemDetailScreen(
+fun MenuDetailScreen(
+    menuId: Int,
     modifier: Modifier = Modifier,
-    itemDetailViewModel: ItemDetailViewModel = hiltViewModel()
+    menuDetailViewModel: MenuDetailViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val menu by menuDetailViewModel.editingMenu.collectAsState()
+
+    LaunchedEffect(Unit) {
+        menuDetailViewModel.initializeMenu(
+            menuId = menuId,
+            onMenuNotFound = {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_menu_not_found),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        )
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = WemadeColors.LightGray)
+            .background(color = WemadeColors.White900)
     ) {
         CenterTopBar(
             modifier = Modifier
@@ -78,14 +104,14 @@ fun ItemDetailScreen(
                 modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 24.dp, horizontal = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 Text(
-                    text = "아이템 이름",
+                    text = menu.name,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
@@ -99,12 +125,31 @@ fun ItemDetailScreen(
                     .height(9.dp)
                     .background(color = WemadeColors.LightGray)
             )
-            Column (
+            Column(
                 modifier = Modifier.padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                itemDetailViewModel.itemOptions.forEach { itemOption ->
-                    ItemOptionRow(itemOption)
+                Row {
+                    menu.availableTemperature.forEach {
+                        OptionChip(
+                            text = it.toString(),
+                            selected = it == menu.temperature,
+                            onClick = {
+                                menuDetailViewModel.setTemperature(it)
+                            }
+                        )
+                    }
+                }
+                Row {
+                    menu.availableStrength.forEach {
+                        OptionChip(
+                            text = it.toString(),
+                            selected = it == menu.strength,
+                            onClick = {
+                                menuDetailViewModel.setStrength(it)
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -130,10 +175,16 @@ fun ItemDetailScreen(
                     LikeIcon(modifier = Modifier
                         .width(48.dp)
                         .height(48.dp)
+                        .clickable {
+                            scope.launch {
+                                menuDetailViewModel.addToFavorites()
+                            }
+                        }
                     )
-                    BagIcon(modifier = Modifier
-                        .width(48.dp)
-                        .height(48.dp)
+                    BagIcon(
+                        modifier = Modifier
+                            .width(48.dp)
+                            .height(48.dp)
                     )
                     CtaButton(
                         text = "주문하기",
