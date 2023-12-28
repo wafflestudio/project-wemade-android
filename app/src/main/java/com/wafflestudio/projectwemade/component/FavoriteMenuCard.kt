@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +26,7 @@ import com.wafflestudio.projectwemade.model.dto.Temperature
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
-fun MenuCard(
+fun FavoriteMenuCard(
     menu: Menu,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
@@ -50,13 +51,22 @@ fun MenuCard(
         Column(
             modifier = Modifier.height(42.dp),
             verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Start
         ) {
-            Text(
-                text = menu.name,
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.titleMedium
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = menu.name,
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Checkbox(
+                    checked = false,
+                    onCheckChanged = {}
+                )
+            }
             if (menu.availableTemperature.size == 1) {
                 Text(
                     text = "${menu.temperature.toString()} ONLY",
