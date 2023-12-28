@@ -2,12 +2,14 @@ package com.wafflestudio.projectwemade.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.wafflestudio.projectwemade.model.dto.Menu
 import com.wafflestudio.projectwemade.model.dto.Temperature
@@ -29,53 +32,76 @@ fun FavoriteMenuCard(
     menu: Menu,
     checked: Boolean,
     onCheckChanged: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
-    Column(
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .background(WemadeColors.White900),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            model = menu.image,
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
+        Checkbox(
+            checked = checked,
+            onCheckChanged = { onCheckChanged(it) },
             modifier = Modifier
-                .size(165.dp)
-                .clip(shape = RoundedCornerShape(12.dp))
-                .fillMaxHeight()
+                .size(28.dp)
+                .offset(x = (-14).dp, y= (-14).dp)
         )
-        Spacer(modifier = Modifier.height(16.dp))
         Column(
-            modifier = Modifier.height(42.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            AsyncImage(
+                model = menu.image,
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(165.dp)
+                    .clip(shape = RoundedCornerShape(12.dp))
+                    .fillMaxHeight()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Column(
+                modifier = Modifier.height(42.dp),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = menu.name,
-                    fontWeight = FontWeight.SemiBold,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Checkbox(
-                    checked = checked,
-                    onCheckChanged = { onCheckChanged(it) }
-                )
-            }
-            if (menu.availableTemperature.size == 1) {
-                Text(
-                    text = "${menu.temperature.toString()} ONLY",
-                    color = when (menu.temperature) {
-                        Temperature.HOT -> WemadeColors.HotRed
-                        else -> WemadeColors.IceBlue
-                    },
-                    fontWeight = FontWeight.SemiBold,
-                    style = MaterialTheme.typography.bodySmall
-                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = menu.name,
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+                Row {
+                    if (menu.availableTemperature.isNotEmpty()) {
+                        Text(
+                            text = menu.temperature.toString(),
+                            color = when (menu.temperature) {
+                                Temperature.HOT -> WemadeColors.HotRed
+                                else -> WemadeColors.IceBlue
+                            },
+                            fontWeight = FontWeight.SemiBold,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                    if (menu.availableTemperature.isNotEmpty() && menu.availableStrength.isNotEmpty()) {
+                        Text(
+                            text = "|",
+                            color = WemadeColors.NormalGray,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                    if (menu.availableStrength.isNotEmpty()) {
+                        Text(
+                            text = menu.strength.toString(),
+                            color = WemadeColors.DarkGray,
+                            fontWeight = FontWeight.Medium,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
             }
         }
     }
