@@ -199,7 +199,7 @@ fun OrderScreen(
             rightAction = {
                 BagIcon(
                     modifier = Modifier.clickable {
-                        navController.navigate(NavigationRoutes.CHECKOUT)
+                        navController.navigate(NavigationRoutes.CART)
                     }
                 )
             }

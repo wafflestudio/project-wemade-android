@@ -78,7 +78,7 @@ fun NumericStepper(
                         } ?: value.toString()
                     }
                 },
-            textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
+            textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             singleLine = true,
         ) { innerTextField ->

@@ -47,7 +47,7 @@ fun CartNumericStepper(
     ) {
         CartNumericStepperButton(
             onClick = { onValueChanged(value - 1) },
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(27.dp),
             enabled = value > minValue
         ) {
             RemoveIcon(
@@ -73,14 +73,14 @@ fun CartNumericStepper(
                         } ?: value.toString()
                     }
                 },
-            textStyle = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
+            textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             singleLine = true,
         ) { innerTextField ->
             Row(
                 modifier = Modifier
                     .width(48.dp)
-                    .height(32.dp),
+                    .height(27.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 innerTextField()
@@ -88,7 +88,7 @@ fun CartNumericStepper(
         }
         CartNumericStepperButton(
             onClick = { onValueChanged(value + 1) },
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(27.dp),
             enabled = value < maxValue
         ) {
             AddIcon(

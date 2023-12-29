@@ -3,7 +3,6 @@ package com.wafflestudio.projectwemade
 object NavigationRoutes {
     const val MAIN = "main"
     const val MENU_DETAIL = "menu_detail"
-    const val CHECKOUT = "checkout"
     const val CART = "cart"
     const val HISTORY = "history"
     const val SUPPORTS = "supports"
