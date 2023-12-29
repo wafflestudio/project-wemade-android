@@ -13,7 +13,7 @@ data class Menu(
     companion object {
         val Default = Menu(
             id = 0,
-            name = "",
+            name = "Default Name",
             category = Category.COFFEE,
             image = "https://neurosciencenews.com/files/2023/06/coffee-brain-caffeine-neuroscincces.jpg",
             availableTemperature = listOf(Temperature.HOT),

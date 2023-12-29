@@ -12,6 +12,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,7 +25,6 @@ import com.wafflestudio.projectwemade.component.BorderButton
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.CtaButton
-import com.wafflestudio.projectwemade.component.MenuCard
 import com.wafflestudio.projectwemade.icon.LeftArrow
 
 @Composable
@@ -31,6 +33,8 @@ fun CartScreen(
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
+    val cartMenus = cartViewModel.cartMenus.collectAsState()
+    val isChecked = remember{List(cartMenus.value.size){mutableStateOf(false)}}
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -61,32 +65,36 @@ fun CartScreen(
                 verticalAlignment = Alignment.CenterVertically
             ){
                 // TODO: viewModel 구현 후 기능 넣기
-                Checkbox(checked = false, onCheckChanged = {})
+                Checkbox(
+                    checked = isChecked.filter { it.value }.size == cartMenus.value.size,
+                    onCheckChanged = {
+                        isChecked.forEach{it.value = true}
+                    }
+                )
                 Row(
                   modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = "전체 선택",
+                        text = "전체 선택 (",
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    // TODO: 전체선택 기능 넣기
                     Text(
-                        text = "2/2",
+                        text = isChecked.filter { it.value }.size.toString()
+                                + "/" + cartMenus.value.size.toString() + ")",
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
             }
-            cartViewModel.cartMenus.forEach { menu ->
-                MenuCard(
-                    menu = menu,
-                )
+            cartMenus.value.forEachIndexed { idx, menu ->
+
             }
             BorderButton(
                 text = "메뉴 추가하기",
                 onClick = {
                     navController.navigate(NavigationRoutes.MAIN)
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(20.dp)
             )
         }
