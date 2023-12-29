@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -97,6 +98,7 @@ fun FavoriteMenuCard(
                     if (menu.availableTemperature.isNotEmpty() && menu.availableStrength.isNotEmpty()) {
                         Text(
                             text = "|",
+                            modifier = Modifier.padding(horizontal = 2.dp),
                             color = WemadeColors.NormalGray,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium

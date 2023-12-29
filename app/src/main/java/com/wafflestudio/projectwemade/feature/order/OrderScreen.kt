@@ -25,6 +25,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -157,12 +159,12 @@ fun OrderScreen(
                         }
                     }
                 }
-                bottomSurfaceState.visible = true
-            } else {
-                bottomSurfaceState.visible = false
             }
         }
     }
+
+    bottomSurfaceState.visible =
+        favoriteTabState is FavoriteTabState.Viewing && (favoriteTabState as FavoriteTabState.Viewing).selectedMenu.data != null && pagerState.currentPage == 0
 
     DisposableEffect(Unit) {
         onDispose { bottomSurfaceState.visible = false }
@@ -172,16 +174,31 @@ fun OrderScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         CenterTopBar(
-            title = stringResource(R.string.order_app_bar)
+            title = stringResource(R.string.order_app_bar),
+            rightAction = {
+                BagIcon(
+                    modifier = Modifier.clickable {
+                        navController.navigate(NavigationRoutes.CHECKOUT)
+                    }
+                )
+            }
         )
         TabRow(
             selectedTabIndex = pagerState.currentPage,
-            modifier = Modifier
+            modifier = Modifier,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                    color = if (pagerState.currentPage == 0) WemadeColors.MainGreen else WemadeColors.Brown
+                )
+            }
         ) {
             pages.forEachIndexed { index, title ->
                 Tab(
                     text = { Text(text = title) },
                     selected = pagerState.currentPage == index,
+                    selectedContentColor = if (pagerState.currentPage == 0) WemadeColors.MainGreen else WemadeColors.Brown,
+                    unselectedContentColor = WemadeColors.DarkGray,
                     onClick = {
                         scope.launch {
                             if (index == 1) {
@@ -234,6 +251,7 @@ fun OrderScreen(
                         }
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(2),
+                            modifier = Modifier.weight(1f),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                             horizontalArrangement = Arrangement.spacedBy(20.dp),
                             contentPadding = PaddingValues(vertical = 15.dp)
