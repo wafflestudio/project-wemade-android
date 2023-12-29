@@ -83,7 +83,11 @@ fun CartScreen(
             }
             BorderButton(
                 text = "메뉴 추가하기",
-                onClick = { }
+                onClick = {
+                    navController.navigate(NavigationRoutes.MAIN)
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .padding(20.dp)
             )
         }
 
