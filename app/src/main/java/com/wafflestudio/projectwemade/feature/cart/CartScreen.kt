@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,9 +23,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.common.LocalNavController
 import com.wafflestudio.projectwemade.component.BorderButton
+import com.wafflestudio.projectwemade.component.CartNumericStepper
 import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.CtaButton
+import com.wafflestudio.projectwemade.component.MenuCard
 import com.wafflestudio.projectwemade.icon.LeftArrow
 
 @Composable
@@ -35,6 +38,7 @@ fun CartScreen(
     val navController = LocalNavController.current
     val cartMenus = cartViewModel.cartMenus.collectAsState()
     val isChecked = remember{List(cartMenus.value.size){mutableStateOf(false)}}
+    val orderQuantity = remember{List(cartMenus.value.size){ mutableIntStateOf(1) } }
     Column(
         modifier = modifier.fillMaxSize()
     ) {
