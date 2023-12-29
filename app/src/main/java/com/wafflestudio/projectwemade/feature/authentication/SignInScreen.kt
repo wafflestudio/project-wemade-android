@@ -39,7 +39,6 @@ import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.LoginTextField
 import com.wafflestudio.projectwemade.icon.LogoIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
-import com.wafflestudio.projectwemade.util.navigateAsOrigin
 
 @Composable
 fun SignInScreen(
@@ -71,7 +70,11 @@ fun SignInScreen(
                 ).show()
             },
             onSuccess = {
-                navController.navigateAsOrigin(NavigationRoutes.MAIN)
+                navController.navigate(NavigationRoutes.MAIN){
+                    popUpTo(navController.graph.startDestinationId){
+                        inclusive = true
+                    }
+                }
             }
         )
     }

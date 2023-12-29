@@ -34,7 +34,6 @@ import com.wafflestudio.projectwemade.icon.ProfileRoundIcon
 import com.wafflestudio.projectwemade.icon.SettingsIcon
 import com.wafflestudio.projectwemade.icon.SupportIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
-import com.wafflestudio.projectwemade.util.navigateAsOrigin
 
 @Composable
 fun MypageScreen(
@@ -112,7 +111,12 @@ fun MypageScreen(
             modifier = Modifier
                 .clickable {
                     authViewModel.signOut()
-                    navController.navigateAsOrigin(NavigationRoutes.START)
+                    navController.navigate(NavigationRoutes.START){
+                        popUpTo(NavigationRoutes.MAIN){
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
                 }
                 .padding(bottom = 30.dp)
                 .align(Alignment.BottomCenter),

@@ -68,7 +68,6 @@ fun CartScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ){
-                // TODO: viewModel 구현 후 기능 넣기
                 Checkbox(
                     checked = isChecked.filter { it.value }.size == cartMenus.value.size,
                     onCheckChanged = {
@@ -95,7 +94,9 @@ fun CartScreen(
             BorderButton(
                 text = "메뉴 추가하기",
                 onClick = {
-                    navController.navigate(NavigationRoutes.MAIN)
+                    navController.navigate(NavigationRoutes.MAIN){
+                        launchSingleTop = true
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -106,7 +107,9 @@ fun CartScreen(
         CtaButton(
             text = "주문하기",
             onClick = {
-                navController.navigate(NavigationRoutes.ORDER_COMPLETE)
+                navController.navigate(NavigationRoutes.ORDER_COMPLETE){
+                    popUpTo(NavigationRoutes.MAIN)
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
