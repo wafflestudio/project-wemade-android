@@ -33,7 +33,10 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -52,6 +55,7 @@ import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.FavoriteMenuCard
 import com.wafflestudio.projectwemade.component.MenuCard
 import com.wafflestudio.projectwemade.component.NumericStepper
+import com.wafflestudio.projectwemade.component.SimpleDialog
 import com.wafflestudio.projectwemade.icon.BagIcon
 import com.wafflestudio.projectwemade.model.dto.Category
 import com.wafflestudio.projectwemade.model.dto.Temperature
@@ -74,10 +78,25 @@ fun OrderScreen(
     val categoryMenus by orderViewModel.categoryMenus.collectAsState()
     val favorites by orderViewModel.favorites.collectAsState()
     val favoriteTabState by orderViewModel.favoriteTabState.collectAsState()
+    var showDialog by remember { mutableStateOf(false) }
 
     val handleRemoveEditingFavorites = suspend {
         orderViewModel.removeFavoritesToEdit()
         orderViewModel.exitEditMode()
+    }
+
+    if (showDialog) {
+        SimpleDialog(
+            onDismissRequest = { showDialog = false },
+            title = "선택한 상품을 관심강좌에서 제거할까요?",
+            onClickCancel = { showDialog = false },
+            onClickOK = {
+                scope.launch {
+                    handleRemoveEditingFavorites()
+                    showDialog = false
+                }
+            }
+        )
     }
 
     LaunchedEffect(Unit) {
@@ -201,8 +220,8 @@ fun OrderScreen(
                     unselectedContentColor = WemadeColors.DarkGray,
                     onClick = {
                         scope.launch {
-                            if (index == 1) {
-                                handleRemoveEditingFavorites()
+                            if (index == 1 && (favoriteTabState as? FavoriteTabState.Editing)?.checkedMenus?.isNotEmpty() == true) {
+                                showDialog = true
                             }
                             pagerState.animateScrollToPage(index)
                         }
@@ -219,7 +238,8 @@ fun OrderScreen(
                     Column(
                         modifier = Modifier
                             .background(WemadeColors.White900)
-                            .padding(start = 20.dp, end = 20.dp, top = 22.dp)
+                            .fillMaxSize()
+                            .padding(start = 20.dp, end = 20.dp, top = 15.dp)
                     ) {
                         if (favoriteTabState is FavoriteTabState.Editing) {
                             Text(
@@ -227,8 +247,10 @@ fun OrderScreen(
                                 modifier = Modifier
                                     .align(Alignment.End)
                                     .clickable {
-                                        scope.launch {
-                                            handleRemoveEditingFavorites()
+                                        if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) {
+                                            showDialog = true
+                                        } else {
+                                            orderViewModel.exitEditMode()
                                         }
                                     },
                                 color = if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) WemadeColors.MainGreen
@@ -280,6 +302,7 @@ fun OrderScreen(
                     Column(
                         modifier = Modifier
                             .background(WemadeColors.White900)
+                            .fillMaxSize()
                             .padding(start = 20.dp, end = 20.dp, top = 13.dp)
                     ) {
                         Row(
