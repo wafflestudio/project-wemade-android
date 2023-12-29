@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,7 +54,9 @@ fun CartScreen(
     val isChecked = remember { List(cartMenus.value.size) { mutableStateOf(false) } }
     val orderQuantity = remember { List(cartMenus.value.size) { mutableIntStateOf(1) } }
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .background(WemadeColors.ExtraLightGray)
+            .fillMaxSize()
     ) {
         CenterTopBar(
             modifier = Modifier.fillMaxWidth(),
@@ -67,7 +70,6 @@ fun CartScreen(
             },
             rightAction = {}
         )
-
         Column(
             modifier = Modifier
                 .background(WemadeColors.White900)
@@ -102,6 +104,7 @@ fun CartScreen(
                     )
                 }
             }
+            Divider(thickness = 0.5.dp, color = WemadeColors.NormalGray)
             cartMenus.value.forEachIndexed { idx, menu ->
                 Row(
                     modifier = Modifier.padding(20.dp)
