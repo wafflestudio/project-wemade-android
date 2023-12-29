@@ -31,7 +31,7 @@ import com.wafflestudio.projectwemade.theme.WemadeColors
 import com.wafflestudio.projectwemade.util.clearFocusOnKeyboardDismiss
 
 @Composable
-fun NumericStepper(
+fun CartNumericStepper(
     value: Int,
     onValueChanged: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -42,17 +42,12 @@ fun NumericStepper(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(4.dp))
-            .border(
-                width = 1.dp,
-                color = WemadeColors.LightGray,
-                shape = RoundedCornerShape(4.dp)
-            )
             .background(WemadeColors.White900),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        NumericStepperButton(
+        CartNumericStepperButton(
             onClick = { onValueChanged(value - 1) },
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(27.dp),
             enabled = value > minValue
         ) {
             RemoveIcon(
@@ -85,16 +80,15 @@ fun NumericStepper(
             Row(
                 modifier = Modifier
                     .width(48.dp)
-                    .height(32.dp)
-                    .border(width = 1.dp, color = WemadeColors.LightGray),
+                    .height(27.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 innerTextField()
             }
         }
-        NumericStepperButton(
+        CartNumericStepperButton(
             onClick = { onValueChanged(value + 1) },
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(27.dp),
             enabled = value < maxValue
         ) {
             AddIcon(
@@ -105,7 +99,7 @@ fun NumericStepper(
 }
 
 @Composable
-private fun NumericStepperButton(
+private fun CartNumericStepperButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -122,6 +116,11 @@ private fun NumericStepperButton(
                 } else {
                     Modifier
                 }
+            )
+            .border(
+                width = 1.dp,
+                color = WemadeColors.LightGray,
+                shape = RoundedCornerShape(4.dp)
             )
             .padding(7.dp)
     ) {

@@ -23,6 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +61,7 @@ fun MenuDetailScreen(
     val scope = rememberCoroutineScope()
     val menu by menuDetailViewModel.editingMenu.collectAsState()
     val isInFavorites by menuDetailViewModel.isInFavorites.collectAsState()
+    val quantity = remember{mutableIntStateOf(1)}
 
     LaunchedEffect(Unit) {
         menuDetailViewModel.initializeMenu(
@@ -92,7 +95,7 @@ fun MenuDetailScreen(
             rightAction = {
                 BagIcon(
                     modifier = Modifier.clickable {
-                        navController.navigate(NavigationRoutes.CHECKOUT)
+                        navController.navigate(NavigationRoutes.CART)
                     }
                 )
             }
@@ -201,8 +204,10 @@ fun MenuDetailScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     NumericStepper(
-                        value = 1,
-                        onValueChanged = {},
+                        value = quantity.intValue,
+                        onValueChanged = {
+                            quantity.intValue = it
+                        },
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
                 }
@@ -245,14 +250,16 @@ fun MenuDetailScreen(
                             )
                             .padding(8.dp)
                             .clickable {
-                                navController.navigate(NavigationRoutes.CHECKOUT)
+                                navController.navigate(NavigationRoutes.CART)
                             },
                         color = WemadeColors.DarkGray
                     )
                     CtaButton(
                         text = "주문하기",
                         onClick = {
-                            navController.navigate(NavigationRoutes.CHECKOUT)
+                            navController.navigate(NavigationRoutes.ORDER_COMPLETE){
+                                popUpTo(NavigationRoutes.MAIN)
+                            }
                         },
                         modifier = Modifier
                             .height(48.dp)

@@ -4,8 +4,8 @@ import androidx.navigation.NavController
 
 fun NavController.navigateAsOrigin(route: String) {
     navigate(route) {
-        popUpTo(route = route) {
-            inclusive = true
+        while(popBackStack()) {
+            // pop back until end
         }
         launchSingleTop = true
     }
