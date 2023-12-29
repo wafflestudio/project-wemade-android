@@ -7,6 +7,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,9 +36,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.R
 import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
 import com.wafflestudio.projectwemade.common.LocalNavController
@@ -66,13 +70,17 @@ fun OrderScreen(
 
     val selectedCategory by orderViewModel.selectedCategory.collectAsState()
     val categoryMenus by orderViewModel.categoryMenus.collectAsState()
-    val favoriteMenus by orderViewModel.favoriteMenus.collectAsState()
+    val favorites by orderViewModel.favorites.collectAsState()
+    val favoriteTabState by orderViewModel.favoriteTabState.collectAsState()
+
+    val handleRemoveEditingFavorites = suspend {
+        orderViewModel.removeFavoritesToEdit()
+        orderViewModel.exitEditMode()
+    }
 
     LaunchedEffect(Unit) {
-        orderViewModel.selectedFavMenus.collect { menus ->
-            if (menus.isEmpty()) {
-                bottomSurfaceState.visible = false
-            } else {
+        orderViewModel.favoriteTabState.collect { tabState ->
+            if (tabState is FavoriteTabState.Viewing && tabState.selectedMenu.data != null) {
                 bottomSurfaceState.content = {
                     Column(
                         modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
@@ -85,39 +93,40 @@ fun OrderScreen(
                                 Text(
                                     text = stringResource(R.string.order_favorite_close),
                                     modifier = Modifier.clickable {
-                                        orderViewModel.unselectAllFavorites()
+                                        orderViewModel.unselectFavorite()
                                         bottomSurfaceState.visible = false
                                     },
                                     color = WemadeColors.DarkGray,
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }
-                            menus.forEach {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = it.data.name,
-                                        color = WemadeColors.Black900,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 24.sp,
-                                    )
-                                    Spacer(modifier = Modifier.width(10.dp))
-                                    Text(
-                                        text = it.data.temperature.toString(),
-                                        color = when (it.data.temperature) {
-                                            Temperature.HOT -> WemadeColors.HotRed
-                                            else -> WemadeColors.IceBlue
-                                        },
-                                        fontWeight = FontWeight.SemiBold,
-                                        fontSize = 14.sp,
-                                    )
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    NumericStepper(value = it.state, onValueChanged = { newValue ->
-                                        orderViewModel.setFavoriteQuantity(it.data.id, newValue)
-                                    })
-                                }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = tabState.selectedMenu.data.name,
+                                    color = WemadeColors.Black900,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 24.sp,
+                                )
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Text(
+                                    text = tabState.selectedMenu.data.temperature.toString(),
+                                    color = when (tabState.selectedMenu.data.temperature) {
+                                        Temperature.HOT -> WemadeColors.HotRed
+                                        else -> WemadeColors.IceBlue
+                                    },
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 14.sp,
+                                )
+                                Spacer(modifier = Modifier.weight(1f))
+                                NumericStepper(
+                                    value = tabState.selectedMenu.state,
+                                    onValueChanged = { newValue ->
+                                        orderViewModel.setFavoriteQuantity(newValue)
+                                    }
+                                )
                             }
                         }
 
@@ -127,7 +136,10 @@ fun OrderScreen(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .background(color = WemadeColors.LightGray, shape = RoundedCornerShape(4.dp))
+                                    .background(
+                                        color = WemadeColors.LightGray,
+                                        shape = RoundedCornerShape(4.dp)
+                                    )
                                     .size(48.dp)
                             ) {
                                 BagIcon(
@@ -146,8 +158,14 @@ fun OrderScreen(
                     }
                 }
                 bottomSurfaceState.visible = true
+            } else {
+                bottomSurfaceState.visible = false
             }
         }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose { bottomSurfaceState.visible = false }
     }
 
     Column(
@@ -166,13 +184,19 @@ fun OrderScreen(
                     selected = pagerState.currentPage == index,
                     onClick = {
                         scope.launch {
+                            if (index == 1) {
+                                handleRemoveEditingFavorites()
+                            }
                             pagerState.animateScrollToPage(index)
                         }
                     }
                 )
             }
         }
-        HorizontalPager(state = pagerState) { page ->
+        HorizontalPager(
+            state = pagerState,
+            userScrollEnabled = favoriteTabState is FavoriteTabState.Viewing
+        ) { page ->
             when (page) {
                 0 -> {
                     Column(
@@ -180,18 +204,52 @@ fun OrderScreen(
                             .background(WemadeColors.White900)
                             .padding(start = 20.dp, end = 20.dp, top = 22.dp)
                     ) {
+                        if (favoriteTabState is FavoriteTabState.Editing) {
+                            Text(
+                                text = "목록에서 제거",
+                                modifier = Modifier
+                                    .align(Alignment.End)
+                                    .clickable {
+                                        scope.launch {
+                                            handleRemoveEditingFavorites()
+                                        }
+                                    },
+                                color = if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) WemadeColors.MainGreen
+                                else WemadeColors.DarkGray,
+                                style = MaterialTheme.typography.bodyMedium,
+                                textDecoration = TextDecoration.Underline
+                            )
+                        } else {
+                            Text(
+                                text = "편집하기",
+                                modifier = Modifier
+                                    .align(Alignment.End)
+                                    .clickable {
+                                        orderViewModel.enterEditMode()
+                                    },
+                                color = WemadeColors.DarkGray,
+                                style = MaterialTheme.typography.bodyMedium,
+                                textDecoration = TextDecoration.Underline
+                            )
+                        }
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(2),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp)
+                            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                            contentPadding = PaddingValues(vertical = 15.dp)
                         ) {
-                            items(favoriteMenus.size) { index ->
+                            items(favorites.size) { index ->
                                 FavoriteMenuCard(
-                                    menu = favoriteMenus[index].data,
-                                    checked = favoriteMenus[index].state > 0,
-                                    onCheckChanged = {
-                                        scope.launch {
-                                            orderViewModel.toggleFavorite(favoriteMenus[index].data.id)
+                                    menu = favorites[index],
+                                    isInEditMode = favoriteTabState is FavoriteTabState.Editing,
+                                    checked = (favoriteTabState as? FavoriteTabState.Editing)?.checkedMenus?.contains(
+                                        favorites[index]
+                                    ) ?: false,
+                                    onClick = {
+                                        if (favoriteTabState is FavoriteTabState.Viewing) {
+                                            orderViewModel.toggleFavorite(favorites[index])
+                                        } else {
+                                            orderViewModel.toggleFavoritesToEdit(favorites[index])
                                         }
                                     }
                                 )
@@ -199,6 +257,7 @@ fun OrderScreen(
                         }
                     }
                 }
+
                 1 -> {
                     Column(
                         modifier = Modifier
@@ -221,14 +280,20 @@ fun OrderScreen(
                                 )
                             }
                         }
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(2),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp)
+                            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                            contentPadding = PaddingValues(vertical = 12.dp)
                         ) {
                             items(categoryMenus.size) { index ->
-                                MenuCard(categoryMenus[index])
+                                MenuCard(
+                                    menu = categoryMenus[index],
+                                    onClick = {
+                                        navController.navigate("${NavigationRoutes.MENU_DETAIL}/${categoryMenus[index].id}")
+                                    }
+                                )
                             }
                         }
                     }

@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +23,6 @@ import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.MenuCard
-import com.wafflestudio.projectwemade.component.NumericStepper
 import com.wafflestudio.projectwemade.icon.LeftArrow
 
 @Composable
@@ -82,28 +79,6 @@ fun CheckoutScreen(
             checkoutViewModel.cartMenus.forEach { menu ->
                 MenuCard(
                     menu = menu,
-                    actionTopLeft = {
-                        Checkbox(
-                            checked = false,
-                            onCheckChanged = {},
-                            modifier = Modifier
-                                .padding(top = 6.dp, start = 7.dp)
-                                .size(28.dp)
-                        )
-                    },
-                    actionBottomLeft = {
-                        // TODO: 펼쳐지는 텍스트 컴포넌트 만들어 두면 편할 듯
-                        Button(
-                            onClick = {},
-                            content = {
-                                Text(text = "옵션들")
-                            }
-                        )
-                    },
-                    actionBottomRight = {
-                        // TODO: 테두리 없는 NumericStepper도 따로 만드는 게 나으려나
-                        NumericStepper(value = 1, onValueChanged = {})
-                    }
                 )
             }
             BorderButton(
