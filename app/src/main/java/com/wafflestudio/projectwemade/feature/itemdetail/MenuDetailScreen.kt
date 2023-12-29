@@ -92,7 +92,7 @@ fun MenuDetailScreen(
             rightAction = {
                 BagIcon(
                     modifier = Modifier.clickable {
-                        navController.navigate(NavigationRoutes.CHECKOUT)
+                        navController.navigate(NavigationRoutes.CART)
                     }
                 )
             }
@@ -245,14 +245,14 @@ fun MenuDetailScreen(
                             )
                             .padding(8.dp)
                             .clickable {
-                                navController.navigate(NavigationRoutes.CHECKOUT)
+                                navController.navigate(NavigationRoutes.CART)
                             },
                         color = WemadeColors.DarkGray
                     )
                     CtaButton(
                         text = "주문하기",
                         onClick = {
-                            navController.navigate(NavigationRoutes.CHECKOUT)
+                            navController.navigate(NavigationRoutes.CART)
                         },
                         modifier = Modifier
                             .height(48.dp)
