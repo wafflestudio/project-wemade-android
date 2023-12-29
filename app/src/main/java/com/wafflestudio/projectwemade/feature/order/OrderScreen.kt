@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,6 +58,7 @@ import com.wafflestudio.projectwemade.component.MenuCard
 import com.wafflestudio.projectwemade.component.NumericStepper
 import com.wafflestudio.projectwemade.component.SimpleDialog
 import com.wafflestudio.projectwemade.icon.BagIcon
+import com.wafflestudio.projectwemade.icon.LikeIcon
 import com.wafflestudio.projectwemade.model.dto.Category
 import com.wafflestudio.projectwemade.model.dto.Temperature
 import com.wafflestudio.projectwemade.theme.WemadeColors
@@ -235,64 +237,97 @@ fun OrderScreen(
         ) { page ->
             when (page) {
                 0 -> {
-                    Column(
-                        modifier = Modifier
-                            .background(WemadeColors.White900)
-                            .fillMaxSize()
-                            .padding(start = 20.dp, end = 20.dp, top = 15.dp)
-                    ) {
-                        if (favoriteTabState is FavoriteTabState.Editing) {
-                            Text(
-                                text = "목록에서 제거",
-                                modifier = Modifier
-                                    .align(Alignment.End)
-                                    .clickable {
-                                        if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) {
-                                            showDialog = true
-                                        } else {
-                                            orderViewModel.exitEditMode()
-                                        }
-                                    },
-                                color = if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) WemadeColors.MainGreen
-                                else WemadeColors.DarkGray,
-                                style = MaterialTheme.typography.bodyMedium,
-                                textDecoration = TextDecoration.Underline
-                            )
-                        } else {
-                            Text(
-                                text = "편집하기",
-                                modifier = Modifier
-                                    .align(Alignment.End)
-                                    .clickable {
-                                        orderViewModel.enterEditMode()
-                                    },
-                                color = WemadeColors.DarkGray,
-                                style = MaterialTheme.typography.bodyMedium,
-                                textDecoration = TextDecoration.Underline
-                            )
-                        }
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
-                            modifier = Modifier.weight(1f),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(20.dp),
-                            contentPadding = PaddingValues(vertical = 15.dp)
+                    if (favorites.isEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .background(WemadeColors.White900)
+                                .fillMaxSize()
                         ) {
-                            items(favorites.size) { index ->
-                                FavoriteMenuCard(
-                                    menu = favorites[index],
-                                    isInEditMode = favoriteTabState is FavoriteTabState.Editing,
-                                    checked = (favoriteTabState as? FavoriteTabState.Editing)?.checkedMenus?.contains(
-                                        favorites[index]
-                                    ) ?: false,
-                                    onClick = {
-                                        if (favoriteTabState is FavoriteTabState.Viewing) {
-                                            orderViewModel.toggleFavorite(favorites[index])
-                                        } else {
-                                            orderViewModel.toggleFavoritesToEdit(favorites[index])
-                                        }
-                                    }
+                            Column(
+                                modifier = Modifier.align(Alignment.Center),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                LikeIcon(
+                                    modifier = Modifier.size(64.dp)
                                 )
+                                Spacer(modifier = Modifier.height(52.dp))
+                                Text(
+                                    text = "관심 메뉴를 추가해주세요.",
+                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Spacer(modifier = Modifier.height(12.dp))
+                                Text(
+                                    text = "주문 페이지에서 하트 아이콘을 눌러\n관심 메뉴를 추가해보세요.\n관심 메뉴에 추가된 메뉴는 바로 주문이 가능해요.",
+                                    color = WemadeColors.MediumGray,
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.SemiBold,
+                                    lineHeight = 15.6.sp,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                        }
+                    }
+                    else {
+                        Column(
+                            modifier = Modifier
+                                .background(WemadeColors.White900)
+                                .fillMaxSize()
+                                .padding(start = 20.dp, end = 20.dp, top = 15.dp)
+                        ) {
+                            if (favoriteTabState is FavoriteTabState.Editing) {
+                                Text(
+                                    text = "목록에서 제거",
+                                    modifier = Modifier
+                                        .align(Alignment.End)
+                                        .clickable {
+                                            if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) {
+                                                showDialog = true
+                                            } else {
+                                                orderViewModel.exitEditMode()
+                                            }
+                                        },
+                                    color = if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) WemadeColors.MainGreen
+                                    else WemadeColors.DarkGray,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            } else {
+                                Text(
+                                    text = "편집하기",
+                                    modifier = Modifier
+                                        .align(Alignment.End)
+                                        .clickable {
+                                            orderViewModel.enterEditMode()
+                                        },
+                                    color = WemadeColors.DarkGray,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            }
+                            LazyVerticalGrid(
+                                columns = GridCells.Fixed(2),
+                                modifier = Modifier.weight(1f),
+                                verticalArrangement = Arrangement.spacedBy(12.dp),
+                                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                                contentPadding = PaddingValues(vertical = 15.dp)
+                            ) {
+                                items(favorites.size) { index ->
+                                    FavoriteMenuCard(
+                                        menu = favorites[index],
+                                        isInEditMode = favoriteTabState is FavoriteTabState.Editing,
+                                        checked = (favoriteTabState as? FavoriteTabState.Editing)?.checkedMenus?.contains(
+                                            favorites[index]
+                                        ) ?: false,
+                                        onClick = {
+                                            if (favoriteTabState is FavoriteTabState.Viewing) {
+                                                orderViewModel.toggleFavorite(favorites[index])
+                                            } else {
+                                                orderViewModel.toggleFavoritesToEdit(favorites[index])
+                                            }
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
