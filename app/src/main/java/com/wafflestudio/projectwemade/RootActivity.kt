@@ -37,8 +37,8 @@ import com.wafflestudio.projectwemade.common.rememberBottomSurfaceState
 import com.wafflestudio.projectwemade.feature.authentication.SignInScreen
 import com.wafflestudio.projectwemade.feature.authentication.SignUpScreen
 import com.wafflestudio.projectwemade.feature.authentication.StartScreen
-import com.wafflestudio.projectwemade.feature.checkout.CheckoutScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.MenuDetailScreen
+import com.wafflestudio.projectwemade.feature.cart.CartScreen
 import com.wafflestudio.projectwemade.feature.main.MainScreen
 import com.wafflestudio.projectwemade.feature.mypage.HistoryScreen
 import com.wafflestudio.projectwemade.feature.mypage.SettingsScreen
@@ -81,8 +81,8 @@ fun SetupUI() {
                     ) { backStackEntry ->
                         MenuDetailScreen(backStackEntry.arguments?.getInt("menuId") ?: 0)
                     }
-                    rootComposable(NavigationRoutes.CHECKOUT) {
-                        CheckoutScreen()
+                    rootComposable(NavigationRoutes.CART) {
+                        CartScreen()
                     }
                     rootComposable(NavigationRoutes.HISTORY) {
                         HistoryScreen()

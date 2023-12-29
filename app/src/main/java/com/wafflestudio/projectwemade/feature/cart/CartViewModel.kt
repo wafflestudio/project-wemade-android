@@ -1,4 +1,4 @@
-package com.wafflestudio.projectwemade.feature.checkout
+package com.wafflestudio.projectwemade.feature.cart
 
 import androidx.lifecycle.ViewModel
 import com.wafflestudio.projectwemade.model.dto.Menu
@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CheckoutViewModel @Inject constructor(
+class CartViewModel @Inject constructor(
 
 ) : ViewModel() {
 

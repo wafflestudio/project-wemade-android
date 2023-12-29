@@ -1,4 +1,4 @@
-package com.wafflestudio.projectwemade.feature.checkout
+package com.wafflestudio.projectwemade.feature.cart
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,9 +26,9 @@ import com.wafflestudio.projectwemade.component.MenuCard
 import com.wafflestudio.projectwemade.icon.LeftArrow
 
 @Composable
-fun CheckoutScreen(
+fun CartScreen(
     modifier: Modifier = Modifier,
-    checkoutViewModel: CheckoutViewModel = hiltViewModel()
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
     Column(
@@ -76,7 +76,7 @@ fun CheckoutScreen(
                     )
                 }
             }
-            checkoutViewModel.cartMenus.forEach { menu ->
+            cartViewModel.cartMenus.forEach { menu ->
                 MenuCard(
                     menu = menu,
                 )
@@ -89,7 +89,9 @@ fun CheckoutScreen(
 
         CtaButton(
             text = "주문하기",
-            onClick = { },
+            onClick = {
+                navController.navigate(NavigationRoutes.ORDER_COMPLETE)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp)
