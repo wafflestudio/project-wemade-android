@@ -48,7 +48,7 @@ fun CartScreen(
             leftAction = {
                 LeftArrow(
                     modifier.clickable {
-                        navController.navigate(NavigationRoutes.MAIN)
+                        navController.popBackStack()
                     }
                 )
             },
