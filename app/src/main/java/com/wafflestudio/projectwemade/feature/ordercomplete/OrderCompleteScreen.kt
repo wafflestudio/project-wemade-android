@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.wafflestudio.projectwemade.NavigationRoutes
 import com.wafflestudio.projectwemade.common.LocalNavController
@@ -63,12 +64,13 @@ fun OrderCompleteScreen() {
             Spacer(Modifier.height(52.dp))
             Text(
                 text = "주문 완료되었습니다.",
+                fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(Modifier.height(12.dp))
             Text(
                 text = "메뉴가 준비되기까지 기다려주세요.",
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.bodySmall,
                 color = WemadeColors.MediumGray
             )
         }

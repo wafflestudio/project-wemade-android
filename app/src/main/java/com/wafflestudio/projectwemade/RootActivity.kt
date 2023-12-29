@@ -43,6 +43,7 @@ import com.wafflestudio.projectwemade.feature.main.MainScreen
 import com.wafflestudio.projectwemade.feature.mypage.HistoryScreen
 import com.wafflestudio.projectwemade.feature.mypage.SettingsScreen
 import com.wafflestudio.projectwemade.feature.mypage.supports.SupportScreen
+import com.wafflestudio.projectwemade.feature.ordercomplete.OrderCompleteScreen
 import com.wafflestudio.projectwemade.theme.ProjectWemadeAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -83,6 +84,9 @@ fun SetupUI() {
                     }
                     rootComposable(NavigationRoutes.CART) {
                         CartScreen()
+                    }
+                    rootComposable(NavigationRoutes.ORDER_COMPLETE) {
+                        OrderCompleteScreen()
                     }
                     rootComposable(NavigationRoutes.HISTORY) {
                         HistoryScreen()
