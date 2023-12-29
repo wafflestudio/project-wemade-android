@@ -11,4 +11,5 @@ object NavigationRoutes {
     const val START = "start"
     const val SIGN_IN = "sign_in"
     const val SIGN_UP = "sign_up"
+    const val ORDER_COMPLETE = "order_complete"
 }
