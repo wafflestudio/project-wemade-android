@@ -2,7 +2,14 @@ package com.wafflestudio.projectwemade.model.dto
 
 enum class Temperature {
     HOT,
-    ICE,
+    ICE;
+
+    override fun toString(): String {
+        return when (this) {
+            HOT -> "HOT"
+            ICE -> "ICED"
+        }
+    }
 }
 
 enum class Strength {
