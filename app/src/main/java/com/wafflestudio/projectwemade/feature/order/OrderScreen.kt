@@ -90,7 +90,7 @@ fun OrderScreen(
     if (showDialog) {
         SimpleDialog(
             onDismissRequest = { showDialog = false },
-            title = "선택한 상품을 관심강좌에서 제거할까요?",
+            title = "선택한 상품을 관심상품에서 제거할까요?",
             onClickCancel = { showDialog = false },
             onClickOK = {
                 scope.launch {
