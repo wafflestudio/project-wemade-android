@@ -49,10 +49,10 @@ class CartRepository @Inject constructor(
         }
     }
 
-    suspend fun addToCart(menu: Menu) {
+    suspend fun addToCart(menu: Menu, quantity: Int) {
         userRepository.withUserSnapshot { userSnapshot ->
             val key = userSnapshot.child("cart").ref.push().key
-            userSnapshot.child("cart").child(key!!).writeCartedMenu(CartedMenu(key, menu, 1))
+            userSnapshot.child("cart").child(key!!).writeCartedMenu(CartedMenu(key, menu, quantity))
         }
     }
 

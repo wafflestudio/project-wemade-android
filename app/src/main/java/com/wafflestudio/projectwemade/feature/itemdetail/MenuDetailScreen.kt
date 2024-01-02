@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -63,7 +64,7 @@ fun MenuDetailScreen(
     val scope = rememberCoroutineScope()
     val menu by menuDetailViewModel.editingMenu.collectAsState()
     val isInFavorites by menuDetailViewModel.isInFavorites.collectAsState()
-    val quantity = remember{mutableIntStateOf(1)}
+    var quantity by remember { mutableIntStateOf(1) }
 
     LaunchedEffect(Unit) {
         menuDetailViewModel.initializeMenu(
@@ -206,9 +207,9 @@ fun MenuDetailScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     NumericStepper(
-                        value = quantity.intValue,
+                        value = quantity,
                         onValueChanged = {
-                            quantity.intValue = it
+                            quantity = it
                         },
                         modifier = Modifier.align(Alignment.CenterEnd)
                     )
@@ -253,12 +254,14 @@ fun MenuDetailScreen(
                             .padding(8.dp)
                             .clickable {
                                 scope.launch {
-                                    cartViewModel.addToCart(menu)
-                                    Toast.makeText(
-                                        context,
-                                        "상품을 장바구니에 담았습니다.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    cartViewModel.addToCart(menu, quantity)
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "상품을 장바구니에 담았습니다.",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
                                 }
                             },
                         color = WemadeColors.DarkGray
@@ -266,7 +269,7 @@ fun MenuDetailScreen(
                     CtaButton(
                         text = "주문하기",
                         onClick = {
-                            navController.navigate(NavigationRoutes.ORDER_COMPLETE){
+                            navController.navigate(NavigationRoutes.ORDER_COMPLETE) {
                                 popUpTo(NavigationRoutes.MAIN)
                             }
                         },

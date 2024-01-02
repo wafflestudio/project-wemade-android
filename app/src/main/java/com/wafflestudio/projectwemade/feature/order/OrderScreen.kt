@@ -200,7 +200,7 @@ fun OrderScreen(
                                         .align(Alignment.Center)
                                         .clickable {
                                             scope.launch {
-                                                cartViewModel.addToCart(tabState.selectedMenu.data)
+                                                cartViewModel.addToCart(tabState.selectedMenu.data, tabState.selectedMenu.state)
                                                 Toast
                                                     .makeText(
                                                         context,
