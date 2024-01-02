@@ -8,10 +8,10 @@ enum class Category {
 
     override fun toString(): String {
         return when (this) {
-            COFFEE -> "커피"
-            TEA -> "티"
-            ADE -> "에이드"
-            MILK -> "밀크"
+            COFFEE -> "Coffee"
+            TEA -> "Tea"
+            ADE -> "Ade"
+            MILK -> "Milk"
         }
     }
 }

@@ -19,10 +19,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -39,6 +41,7 @@ import com.wafflestudio.projectwemade.feature.authentication.SignUpScreen
 import com.wafflestudio.projectwemade.feature.authentication.StartScreen
 import com.wafflestudio.projectwemade.feature.itemdetail.MenuDetailScreen
 import com.wafflestudio.projectwemade.feature.cart.CartScreen
+import com.wafflestudio.projectwemade.feature.cart.CartViewModel
 import com.wafflestudio.projectwemade.feature.main.MainScreen
 import com.wafflestudio.projectwemade.feature.mypage.HistoryScreen
 import com.wafflestudio.projectwemade.feature.mypage.SettingsScreen
@@ -80,10 +83,21 @@ fun SetupUI() {
                         "${NavigationRoutes.MENU_DETAIL}/{menuId}",
                         arguments = listOf(navArgument("menuId") { type = NavType.IntType })
                     ) { backStackEntry ->
-                        MenuDetailScreen(backStackEntry.arguments?.getInt("menuId") ?: 0)
+                        val parentEntry = remember(backStackEntry) {
+                            navController.getBackStackEntry(NavigationRoutes.MAIN)
+                        }
+                        val cartViewModel = hiltViewModel<CartViewModel>(parentEntry)
+                        MenuDetailScreen(
+                            menuId = backStackEntry.arguments?.getInt("menuId") ?: 0,
+                            cartViewModel = cartViewModel
+                        )
                     }
                     rootComposable(NavigationRoutes.CART) {
-                        CartScreen()
+                        val parentEntry = remember(it) {
+                            navController.getBackStackEntry(NavigationRoutes.MAIN)
+                        }
+                        val cartViewModel = hiltViewModel<CartViewModel>(parentEntry)
+                        CartScreen(cartViewModel = cartViewModel)
                     }
                     rootComposable(NavigationRoutes.ORDER_COMPLETE) {
                         OrderCompleteScreen()

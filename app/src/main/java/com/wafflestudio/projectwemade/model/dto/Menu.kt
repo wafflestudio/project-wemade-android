@@ -10,6 +10,16 @@ data class Menu(
     val availableStrength: List<Strength>,
     val strength: Strength?,
 ) {
+    fun optionSummary(): String {
+        val t = temperature?.toString() ?: ""
+        val s = strength?.toString() ?: ""
+        return if (t.isNotEmpty() && s.isNotEmpty()) {
+            "$t/$s"
+        } else {
+            "$t$s"
+        }
+    }
+
     companion object {
         val Default = Menu(
             id = 0,

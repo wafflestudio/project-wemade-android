@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wafflestudio.projectwemade.model.dto.Category
 import com.wafflestudio.projectwemade.model.dto.Menu
+import com.wafflestudio.projectwemade.repository.FavoritesRepository
 import com.wafflestudio.projectwemade.repository.MenuItemsRepository
 import com.wafflestudio.projectwemade.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OrderViewModel @Inject constructor(
     private val menuItemsRepository: MenuItemsRepository,
-    private val userRepository: UserRepository
+    private val favoritesRepository: FavoritesRepository
 ) : ViewModel() {
 
     val menus get() = menuItemsRepository.menus
@@ -29,7 +30,7 @@ class OrderViewModel @Inject constructor(
         menus.filter { it.category == category }
     }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
-    val favorites: StateFlow<List<Menu>> get() = userRepository.favorites
+    val favorites: StateFlow<List<Menu>> get() = favoritesRepository.favorites
 
     private val _favoriteTabState = MutableStateFlow<FavoriteTabState>(FavoriteTabState.Viewing())
     val favoriteTabState get() = _favoriteTabState
@@ -92,7 +93,7 @@ class OrderViewModel @Inject constructor(
         _favoriteTabState.value.let {
             if (it is FavoriteTabState.Editing) {
                 it.checkedMenus.forEach { menu ->
-                    userRepository.removeFromFavorites(menu.id)
+                    favoritesRepository.removeFromFavorites(menu.id)
                 }
             }
         }
