@@ -42,7 +42,9 @@ fun OrderCompleteScreen() {
             rightAction = {
                 BagIcon(
                     modifier = Modifier.clickable {
-                        navController.navigate(NavigationRoutes.CART)
+                        navController.navigate(NavigationRoutes.CART) {
+                            popUpTo(NavigationRoutes.MAIN)
+                        }
                     }
                 )
             }

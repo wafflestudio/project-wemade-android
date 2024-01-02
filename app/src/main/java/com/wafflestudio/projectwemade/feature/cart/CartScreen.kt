@@ -40,6 +40,7 @@ import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.icon.LeftArrow
 import com.wafflestudio.projectwemade.theme.WemadeColors
+import com.wafflestudio.projectwemade.util.navigateAsOrigin
 import kotlinx.coroutines.launch
 
 @Composable
@@ -160,9 +161,7 @@ fun CartScreen(
             BorderButton(
                 text = "메뉴 추가하기",
                 onClick = {
-                    navController.navigate(NavigationRoutes.MAIN) {
-                        launchSingleTop = true
-                    }
+                    navController.navigateAsOrigin(NavigationRoutes.MAIN)
                 },
                 modifier = Modifier
                     .background(WemadeColors.White900)
