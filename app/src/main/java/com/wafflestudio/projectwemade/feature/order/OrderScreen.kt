@@ -104,6 +104,7 @@ fun OrderScreen(
                 is FavoriteTabState.Editing -> {
                     handleExitFavoriteTab()
                 }
+
                 is FavoriteTabState.Viewing -> {
                     navController.popBackStack()
                 }
@@ -200,7 +201,10 @@ fun OrderScreen(
                                         .align(Alignment.Center)
                                         .clickable {
                                             scope.launch {
-                                                cartViewModel.addToCart(tabState.selectedMenu.data)
+                                                cartViewModel.addToCart(
+                                                    tabState.selectedMenu.data,
+                                                    tabState.selectedMenu.state
+                                                )
                                                 Toast
                                                     .makeText(
                                                         context,
@@ -215,7 +219,11 @@ fun OrderScreen(
                             }
                             CtaButton(
                                 text = stringResource(R.string.order_favorite_button),
-                                onClick = {},
+                                onClick = {
+                                    navController.navigate(NavigationRoutes.ORDER_COMPLETE) {
+                                        popUpTo(NavigationRoutes.MAIN)
+                                    }
+                                },
                                 modifier = Modifier
                                     .height(48.dp)
                                     .weight(1f)

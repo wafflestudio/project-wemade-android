@@ -51,8 +51,7 @@ class FavoritesRepository @Inject constructor(
 
     suspend fun addToFavorites(menu: Menu) {
         userRepository.withUserSnapshot { userSnapshot ->
-            val key = userSnapshot.child("favorites").ref.push().key
-            userSnapshot.child("favorites").child(key!!).writeMenu(menu)
+            userSnapshot.child("favorites").child(menu.id.toString()).writeMenu(menu)
         }
     }
 

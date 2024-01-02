@@ -15,10 +15,14 @@ fun DataSnapshot.readMenu(): Menu {
         .child("strength").children.map { s ->
             Strength.values()[s.getValue(Int::class.java)?.minus(1) ?: 0]
         }
-    val selectedTemperature = Temperature.values()[this.child("selected_options")
-        .child("temperature").getValue(Int::class.java)?.minus(1) ?: 0]
-    val selectedStrength = Strength.values()[this.child("selected_options")
-        .child("strength").getValue(Int::class.java)?.minus(1) ?: 0]
+    val selectedTemperature = this.child("selected_options").child("temperature")
+        .getValue(Int::class.java)?.let {
+            Temperature.values()[it - 1]
+        }
+    val selectedStrength = this.child("selected_options").child("strength")
+        .getValue(Int::class.java)?.let {
+            Strength.values()[it - 1]
+        }
 
     return Menu(
         id = this.child("id").getValue(Int::class.java) ?: 0,
@@ -46,11 +50,15 @@ fun DataSnapshot.writeMenu(menu: Menu) {
         child("options").child("strength").setValue(
             menu.availableStrength.map { it.ordinal + 1 }
         )
-        child("selected_options").child("temperature").setValue(
-            (menu.temperature?.ordinal ?: 0) + 1
-        )
-        child("selected_options").child("strength").setValue(
-            (menu.strength?.ordinal ?: 0) + 1
-        )
+        menu.temperature?.let {
+            child("selected_options").child("temperature").setValue(
+                menu.temperature.ordinal + 1
+            )
+        }
+        menu.strength?.let {
+            child("selected_options").child("strength").setValue(
+                menu.strength.ordinal + 1
+            )
+        }
     }
 }
