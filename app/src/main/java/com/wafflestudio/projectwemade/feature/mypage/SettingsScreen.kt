@@ -69,7 +69,9 @@ fun SettingsScreen(){
                 color = WemadeColors.LightGray
             )
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .background(WemadeColors.White900)
+                    .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 16.dp)
             ) {
                 Row (

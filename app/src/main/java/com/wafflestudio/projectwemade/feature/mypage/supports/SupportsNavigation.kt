@@ -35,7 +35,9 @@ fun SupportsNavigation(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .background(WemadeColors.White900)
+            .fillMaxWidth()
     ) {
         tabItems.forEach {
             val selected = it.route == currentRoute
