@@ -386,11 +386,11 @@ fun OrderScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .horizontalScroll(rememberScrollState()),
-                            horizontalArrangement = Arrangement.spacedBy(22.dp)
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Category.values().forEach {
                                 Chip(
-                                    text = it.toString(),
+                                    text = it.toDisplayName(),
                                     selected = it == selectedCategory,
                                     onClick = {
                                         orderViewModel.selectCategory(it)

@@ -45,7 +45,7 @@ fun Chip(
                     Modifier.border(width = 1.dp, color = WemadeColors.LightGray, shape = RoundedCornerShape(24.dp))
                 }
             )
-            .padding(horizontal = 12.dp, vertical = 9.dp),
+            .padding(horizontal = 20.dp, vertical = 9.dp),
         color = if (selected) WemadeColors.White900 else WemadeColors.DarkGray,
         fontWeight = if (selected) FontWeight.ExtraBold else FontWeight.Normal,
         style = MaterialTheme.typography.bodyLarge
