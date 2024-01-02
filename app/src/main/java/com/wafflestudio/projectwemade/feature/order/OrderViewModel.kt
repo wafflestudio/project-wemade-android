@@ -6,7 +6,6 @@ import com.wafflestudio.projectwemade.model.dto.Category
 import com.wafflestudio.projectwemade.model.dto.Menu
 import com.wafflestudio.projectwemade.repository.FavoritesRepository
 import com.wafflestudio.projectwemade.repository.MenuItemsRepository
-import com.wafflestudio.projectwemade.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -67,11 +66,11 @@ class OrderViewModel @Inject constructor(
         }
     }
 
-    fun enterEditMode() {
+    fun enterFavoriteEditMode() {
         _favoriteTabState.value = FavoriteTabState.Editing()
     }
 
-    fun exitEditMode() {
+    fun exitFavoriteEditMode() {
         _favoriteTabState.value = FavoriteTabState.Viewing()
     }
 

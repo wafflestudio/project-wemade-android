@@ -14,6 +14,15 @@ enum class Category {
             MILK -> "Milk"
         }
     }
+
+    fun toDisplayName(): String {
+        return when (this) {
+            COFFEE -> "커피"
+            TEA -> "티"
+            ADE -> "에이드"
+            MILK -> "밀크"
+        }
+    }
 }
 
 fun String.toCategory(): Category {

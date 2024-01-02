@@ -91,7 +91,8 @@ fun CartScreen(
             ) {
                 Text(
                     text = "전체 선택 (${checkedUids.size}/${cartMenus.size})",
-                    style = MaterialTheme.typography.bodyLarge
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }
