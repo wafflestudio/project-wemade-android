@@ -1,6 +1,7 @@
 package com.wafflestudio.projectwemade.feature.order
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -87,19 +88,43 @@ fun OrderScreen(
     val favoriteTabState by orderViewModel.favoriteTabState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
 
-    val handleRemoveEditingFavorites = suspend {
-        orderViewModel.removeFavoritesToEdit()
-        orderViewModel.exitEditMode()
+    val handleExitFavoriteTab = {
+        if (favoriteTabState is FavoriteTabState.Editing) {
+            if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) {
+                showDialog = true
+            } else {
+                orderViewModel.exitFavoriteEditMode()
+            }
+        }
+    }
+
+    BackHandler {
+        if (pagerState.currentPage == 0) {
+            when (favoriteTabState) {
+                is FavoriteTabState.Editing -> {
+                    handleExitFavoriteTab()
+                }
+                is FavoriteTabState.Viewing -> {
+                    navController.popBackStack()
+                }
+            }
+        } else {
+            navController.popBackStack()
+        }
     }
 
     if (showDialog) {
         SimpleDialog(
             onDismissRequest = { showDialog = false },
             title = "선택한 상품을 관심상품에서 제거할까요?",
-            onClickCancel = { showDialog = false },
+            onClickCancel = {
+                orderViewModel.exitFavoriteEditMode()
+                showDialog = false
+            },
             onClickOK = {
                 scope.launch {
-                    handleRemoveEditingFavorites()
+                    orderViewModel.removeFavoritesToEdit()
+                    orderViewModel.exitFavoriteEditMode()
                     showDialog = false
                 }
             }
@@ -176,11 +201,13 @@ fun OrderScreen(
                                         .clickable {
                                             scope.launch {
                                                 cartViewModel.addToCart(tabState.selectedMenu.data)
-                                                Toast.makeText(
-                                                    context,
-                                                    "상품을 장바구니에 담았습니다.",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                                Toast
+                                                    .makeText(
+                                                        context,
+                                                        "상품을 장바구니에 담았습니다.",
+                                                        Toast.LENGTH_SHORT
+                                                    )
+                                                    .show()
                                             }
                                         },
                                     color = WemadeColors.DarkGray
@@ -238,8 +265,8 @@ fun OrderScreen(
                     unselectedContentColor = WemadeColors.DarkGray,
                     onClick = {
                         scope.launch {
-                            if (index == 1 && (favoriteTabState as? FavoriteTabState.Editing)?.checkedMenus?.isNotEmpty() == true) {
-                                showDialog = true
+                            if (index == 1) {
+                                handleExitFavoriteTab()
                             }
                             pagerState.animateScrollToPage(index)
                         }
@@ -283,8 +310,7 @@ fun OrderScreen(
                                 )
                             }
                         }
-                    }
-                    else {
+                    } else {
                         Column(
                             modifier = Modifier
                                 .background(WemadeColors.White900)
@@ -300,7 +326,7 @@ fun OrderScreen(
                                             if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) {
                                                 showDialog = true
                                             } else {
-                                                orderViewModel.exitEditMode()
+                                                orderViewModel.exitFavoriteEditMode()
                                             }
                                         },
                                     color = if ((favoriteTabState as FavoriteTabState.Editing).checkedMenus.isNotEmpty()) WemadeColors.MainGreen
@@ -314,7 +340,7 @@ fun OrderScreen(
                                     modifier = Modifier
                                         .align(Alignment.End)
                                         .clickable {
-                                            orderViewModel.enterEditMode()
+                                            orderViewModel.enterFavoriteEditMode()
                                         },
                                     color = WemadeColors.DarkGray,
                                     style = MaterialTheme.typography.bodyMedium,
