@@ -20,7 +20,9 @@ class CartViewModel @Inject constructor(
     val checkedCartMenus: StateFlow<Set<String>> get() = _checkedCartMenus
 
     suspend fun addToCart(menu: Menu) {
-        cartRepository.addToCart(menu)
+        cartMenus.value.find { it.menu == menu }?.let {
+            cartRepository.updateCartQuantity(it.copy(quantity = it.quantity + 1))
+        } ?: cartRepository.addToCart(menu)
     }
 
     suspend fun updateQuantity(cartedMenu: CartedMenu) {
