@@ -46,11 +46,15 @@ fun DataSnapshot.writeMenu(menu: Menu) {
         child("options").child("strength").setValue(
             menu.availableStrength.map { it.ordinal + 1 }
         )
-        child("selected_options").child("temperature").setValue(
-            (menu.temperature?.ordinal ?: 0) + 1
-        )
-        child("selected_options").child("strength").setValue(
-            (menu.strength?.ordinal ?: 0) + 1
-        )
+        menu.temperature?.let {
+            child("selected_options").child("temperature").setValue(
+                menu.temperature.ordinal + 1
+            )
+        }
+        menu.strength?.let {
+            child("selected_options").child("strength").setValue(
+                menu.strength.ordinal + 1
+            )
+        }
     }
 }
