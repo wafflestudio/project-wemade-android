@@ -1,123 +1,122 @@
 package com.wafflestudio.projectwemade.feature.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.wafflestudio.projectwemade.common.LocalBottomSurfaceState
-import com.wafflestudio.projectwemade.component.BorderButton
-import com.wafflestudio.projectwemade.component.Checkbox
-import com.wafflestudio.projectwemade.component.Chip
-import com.wafflestudio.projectwemade.component.CtaButton
-import com.wafflestudio.projectwemade.component.NumericStepper
-import com.wafflestudio.projectwemade.component.OptionChip
+import com.wafflestudio.projectwemade.icon.LogoIcon
 import com.wafflestudio.projectwemade.theme.WemadeColors
 
 @Composable
 fun HomeScreen() {
-    val bottomSurfaceState = LocalBottomSurfaceState.current
-    var selectedChip by remember { mutableStateOf("커피") }
-    var selectedOption by remember { mutableStateOf("기본") }
-    var checked by remember { mutableStateOf(false) }
-    var number by remember { mutableStateOf(1) }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(WemadeColors.White900)
-            .padding(horizontal = 16.dp),
+            .background(WemadeColors.White900),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
+        Box(
             modifier = Modifier
+                .background(WemadeColors.MainGreen)
                 .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(22.dp)
+                .fillMaxHeight(0.4f)
         ) {
-            listOf("커피", "티", "에이드", "밀크", "디카페인", "빙수", "식사").forEach {
-                Chip(
-                    text = it,
-                    selected = it == selectedChip,
-                    onClick = {
-                        selectedChip = it
-                    }
-                )
-            }
+            LogoIcon(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .scale(0.7f)
+                    .offset(x = (20).dp),
+                color = WemadeColors.White900
+            )
         }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            listOf("기본", "진하게", "연하게").forEach {
-                OptionChip(
-                    text = it,
-                    selected = it == selectedOption,
-                    onClick = {
-                        selectedOption = it
-                    }
-                )
-            }
-        }
-        Text(
-            text = "Home screen",
+        Column(
             modifier = Modifier
+                .padding(horizontal = 30.dp, vertical = 10.dp)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = "그린텀블러",
+                modifier = Modifier.align(Alignment.Start),
+                fontWeight = FontWeight.ExtraBold,
+                style = MaterialTheme.typography.headlineLarge
+            )
+            Spacer(modifier = Modifier.height(40.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                CreditCard(
+                    role = "PM",
+                    names = listOf("김은혜", "이선재"),
+                    modifier = Modifier.weight(1f)
+                )
+                CreditCard(
+                    role = "Client",
+                    names = listOf("송동엽", "심우진"),
+                    modifier = Modifier.weight(1f)
+                )
+                CreditCard(
+                    role = "Design",
+                    names = listOf("민유진"),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CreditCard(
+    role: String,
+    names: List<String>,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .height(110.dp)
+            .border(
+                width = 0.5.dp,
+                color = WemadeColors.MediumGray,
+                shape = RoundedCornerShape(5.dp)
+            )
+            .background(color = WemadeColors.White900, shape = RoundedCornerShape(5.dp))
+            .padding(horizontal = 10.dp, vertical = 15.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = role,
+            color = WemadeColors.Black900,
+            style = MaterialTheme.typography.titleMedium
         )
-        CtaButton(
-            text = "show bottomsurface",
-            onClick = {
-                bottomSurfaceState.content = {
-                    Text(
-                        text = "hello!!!",
-                        modifier = Modifier.height(100.dp)
-                    )
-                }
-                bottomSurfaceState.visible = bottomSurfaceState.visible.not()
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-        CtaButton(
-            text = "disabled",
-            onClick = {
-                bottomSurfaceState.content = {
-                    Text(
-                        text = "hello!!!",
-                        modifier = Modifier.height(100.dp)
-                    )
-                }
-                bottomSurfaceState.visible = bottomSurfaceState.visible.not()
-            },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = false,
-        )
-        Checkbox(
-            checked = checked,
-            onCheckChanged = { checked = it },
-            modifier = Modifier.size(40.dp)
-        )
-        NumericStepper(
-            value = number,
-            onValueChanged = { number = it },
-            maxValue = 5,
-        )
-        BorderButton(
-            text = "메뉴 추가하기",
-            onClick = {},
-            modifier = Modifier.fillMaxWidth()
-        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Column(
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            names.forEach {
+                Text(
+                    text = it,
+                    color = WemadeColors.DarkGray,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
     }
 }
