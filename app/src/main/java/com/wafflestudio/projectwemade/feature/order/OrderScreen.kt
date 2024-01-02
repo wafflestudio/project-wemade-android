@@ -1,5 +1,6 @@
 package com.wafflestudio.projectwemade.feature.order
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,6 +40,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -57,6 +59,7 @@ import com.wafflestudio.projectwemade.component.FavoriteMenuCard
 import com.wafflestudio.projectwemade.component.MenuCard
 import com.wafflestudio.projectwemade.component.NumericStepper
 import com.wafflestudio.projectwemade.component.SimpleDialog
+import com.wafflestudio.projectwemade.feature.cart.CartViewModel
 import com.wafflestudio.projectwemade.icon.BagIcon
 import com.wafflestudio.projectwemade.icon.LikeIcon
 import com.wafflestudio.projectwemade.model.dto.Category
@@ -67,8 +70,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OrderScreen(
-    orderViewModel: OrderViewModel = hiltViewModel()
+    orderViewModel: OrderViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val navController = LocalNavController.current
     val bottomSurfaceState = LocalBottomSurfaceState.current
     val scope = rememberCoroutineScope()
@@ -166,7 +171,18 @@ fun OrderScreen(
                                     .size(48.dp)
                             ) {
                                 BagIcon(
-                                    modifier = Modifier.align(Alignment.Center),
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .clickable {
+                                            scope.launch {
+                                                cartViewModel.addToCart(tabState.selectedMenu.data)
+                                                Toast.makeText(
+                                                    context,
+                                                    "상품을 장바구니에 담았습니다.",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        },
                                     color = WemadeColors.DarkGray
                                 )
                             }

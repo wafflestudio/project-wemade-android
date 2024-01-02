@@ -43,6 +43,7 @@ import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.component.NumericStepper
 import com.wafflestudio.projectwemade.component.OptionChip
+import com.wafflestudio.projectwemade.feature.cart.CartViewModel
 import com.wafflestudio.projectwemade.icon.BagIcon
 import com.wafflestudio.projectwemade.icon.LeftArrow
 import com.wafflestudio.projectwemade.icon.LikeIcon
@@ -54,7 +55,8 @@ import kotlinx.coroutines.launch
 fun MenuDetailScreen(
     menuId: Int,
     modifier: Modifier = Modifier,
-    menuDetailViewModel: MenuDetailViewModel = hiltViewModel()
+    menuDetailViewModel: MenuDetailViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
     val context = LocalContext.current
@@ -250,7 +252,14 @@ fun MenuDetailScreen(
                             )
                             .padding(8.dp)
                             .clickable {
-                                navController.navigate(NavigationRoutes.CART)
+                                scope.launch {
+                                    cartViewModel.addToCart(menu)
+                                    Toast.makeText(
+                                        context,
+                                        "상품을 장바구니에 담았습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             },
                         color = WemadeColors.DarkGray
                     )

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.wafflestudio.projectwemade.model.dto.Menu
 import com.wafflestudio.projectwemade.model.dto.Strength
 import com.wafflestudio.projectwemade.model.dto.Temperature
+import com.wafflestudio.projectwemade.repository.FavoritesRepository
 import com.wafflestudio.projectwemade.repository.MenuItemsRepository
 import com.wafflestudio.projectwemade.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,13 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MenuDetailViewModel @Inject constructor(
     private val menuItemsRepository: MenuItemsRepository,
-    private val userRepository: UserRepository,
+    private val favoritesRepository: FavoritesRepository
 ) : ViewModel() {
 
     private val _editingMenu = MutableStateFlow(Menu.Default)
     val editingMenu: StateFlow<Menu> get() = _editingMenu
 
-    private val favorites get() = userRepository.favorites
+    private val favorites get() = favoritesRepository.favorites
     private val _isInFavorites = combine(favorites, _editingMenu) { favoritesList, menu ->
         favoritesList.any { it.id == menu.id }
     }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
@@ -50,10 +51,10 @@ class MenuDetailViewModel @Inject constructor(
     }
 
     suspend fun addToFavorites() {
-        userRepository.addToFavorites(_editingMenu.value)
+        favoritesRepository.addToFavorites(_editingMenu.value)
     }
 
     suspend fun removeFromFavorites() {
-        userRepository.removeFromFavorites(_editingMenu.value.id)
+        favoritesRepository.removeFromFavorites(_editingMenu.value.id)
     }
 }

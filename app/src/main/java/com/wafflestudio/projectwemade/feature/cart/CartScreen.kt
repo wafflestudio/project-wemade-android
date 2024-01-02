@@ -21,9 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -40,9 +39,9 @@ import com.wafflestudio.projectwemade.component.CenterTopBar
 import com.wafflestudio.projectwemade.component.Checkbox
 import com.wafflestudio.projectwemade.component.CtaButton
 import com.wafflestudio.projectwemade.icon.LeftArrow
-import com.wafflestudio.projectwemade.model.dto.Strength
-import com.wafflestudio.projectwemade.model.dto.Temperature
 import com.wafflestudio.projectwemade.theme.WemadeColors
+import com.wafflestudio.projectwemade.util.navigateAsOrigin
+import kotlinx.coroutines.launch
 
 @Composable
 fun CartScreen(
@@ -50,9 +49,10 @@ fun CartScreen(
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
-    val cartMenus = cartViewModel.cartMenus.collectAsState()
-    val isChecked = remember { List(cartMenus.value.size) { mutableStateOf(false) } }
-    val orderQuantity = remember { List(cartMenus.value.size) { mutableIntStateOf(1) } }
+    val cartMenus by cartViewModel.cartMenus.collectAsState()
+    val checkedUids by cartViewModel.checkedCartMenus.collectAsState()
+    val scope = rememberCoroutineScope()
+
     Column(
         modifier = modifier
             .background(WemadeColors.ExtraLightGray)
@@ -70,50 +70,50 @@ fun CartScreen(
             },
             rightAction = {}
         )
-        Column(
+        Row(
             modifier = Modifier
                 .background(WemadeColors.White900)
+                .fillMaxWidth()
+                .padding(vertical = 20.dp, horizontal = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = cartMenus.isNotEmpty() && checkedUids.size == cartMenus.size,
+                onCheckChanged = {
+                    cartViewModel.toggleCheckAll()
+                }
+            )
+            Row(
+                modifier = Modifier
+                    .weight(1f),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "전체 선택 (${checkedUids.size}/${cartMenus.size})",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
+        Divider(thickness = 0.5.dp, color = WemadeColors.NormalGray)
+        Column(
+            modifier = Modifier
+                .background(WemadeColors.ExtraLightGray)
                 .fillMaxWidth()
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(
-                    checked = isChecked.filter { it.value }.size == cartMenus.value.size,
-                    onCheckChanged = {
-                        isChecked.forEach { it.value = true }
-                    }
-                )
+            cartMenus.forEachIndexed { idx, carted ->
                 Row(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = "전체 선택 (",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = isChecked.filter { it.value }.size.toString()
-                                + "/" + cartMenus.value.size.toString() + ")",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            }
-            Divider(thickness = 0.5.dp, color = WemadeColors.NormalGray)
-            cartMenus.value.forEachIndexed { idx, menu ->
-                Row(
-                    modifier = Modifier.padding(20.dp)
+                    modifier = Modifier
+                        .background(WemadeColors.White900)
+                        .padding(20.dp)
                 ) {
                     Box {
                         Checkbox(
-                            checked = isChecked[idx].value,
+                            checked = checkedUids.contains(carted.uid),
                             onCheckChanged = {
-                                isChecked[idx].value = !isChecked[idx].value
+                                cartViewModel.toggleCheckCartMenu(carted)
                             },
                             modifier = Modifier
                                 .zIndex(1f)
@@ -121,7 +121,7 @@ fun CartScreen(
                                 .size(28.dp)
                         )
                         AsyncImage(
-                            model = menu.image,
+                            model = carted.menu.image,
                             contentDescription = "",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(64.dp),
@@ -132,21 +132,28 @@ fun CartScreen(
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(
-                            text = menu.name,
+                            text = carted.menu.name,
                             fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.titleMedium
                         )
                         Spacer(modifier = Modifier.height(5.dp))
                         Text(
-                            text = (menu.temperature ?: Temperature.HOT).toString()
-                                    + "/" + (menu.strength ?: Strength.LIGHT).toString(),
+                            text = carted.menu.optionSummary(),
                             color = WemadeColors.DarkGray,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
                     CartNumericStepper(
-                        value = orderQuantity[idx].intValue,
-                        onValueChanged = { orderQuantity[idx].intValue = it },
+                        value = carted.quantity,
+                        onValueChanged = {
+                            scope.launch {
+                                cartViewModel.updateQuantity(
+                                    carted.copy(
+                                        quantity = it
+                                    )
+                                )
+                            }
+                        },
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
                 }
@@ -154,11 +161,10 @@ fun CartScreen(
             BorderButton(
                 text = "메뉴 추가하기",
                 onClick = {
-                    navController.navigate(NavigationRoutes.MAIN) {
-                        launchSingleTop = true
-                    }
+                    navController.navigateAsOrigin(NavigationRoutes.MAIN)
                 },
                 modifier = Modifier
+                    .background(WemadeColors.White900)
                     .fillMaxWidth()
                     .padding(20.dp)
             )
@@ -166,12 +172,19 @@ fun CartScreen(
 
         CtaButton(
             text = "주문하기",
+            enabled = checkedUids.isNotEmpty(),
             onClick = {
-                navController.navigate(NavigationRoutes.ORDER_COMPLETE) {
-                    popUpTo(NavigationRoutes.MAIN)
+                scope.launch {
+                    checkedUids.forEach {
+                        cartViewModel.removeFromCart(it)
+                    }
+                    navController.navigate(NavigationRoutes.ORDER_COMPLETE) {
+                        popUpTo(NavigationRoutes.MAIN)
+                    }
                 }
             },
             modifier = Modifier
+                .background(WemadeColors.White900)
                 .fillMaxWidth()
                 .padding(20.dp)
         )
