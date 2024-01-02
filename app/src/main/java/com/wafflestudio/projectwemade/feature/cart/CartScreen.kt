@@ -69,39 +69,44 @@ fun CartScreen(
             },
             rightAction = {}
         )
-        Column(
+        Row(
             modifier = Modifier
                 .background(WemadeColors.White900)
+                .fillMaxWidth()
+                .padding(vertical = 20.dp, horizontal = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = cartMenus.isNotEmpty() && checkedUids.size == cartMenus.size,
+                onCheckChanged = {
+                    cartViewModel.toggleCheckAll()
+                }
+            )
+            Row(
+                modifier = Modifier
+                    .weight(1f),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "전체 선택 (${checkedUids.size}/${cartMenus.size})",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
+        Divider(thickness = 0.5.dp, color = WemadeColors.NormalGray)
+        Column(
+            modifier = Modifier
+                .background(WemadeColors.ExtraLightGray)
                 .fillMaxWidth()
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(
-                    checked = cartMenus.isNotEmpty() && checkedUids.size == cartMenus.size,
-                    onCheckChanged = {
-                        cartViewModel.toggleCheckAll()
-                    }
-                )
-                Row(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = "전체 선택 (${checkedUids.size}/${cartMenus.size})",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            }
-            Divider(thickness = 0.5.dp, color = WemadeColors.NormalGray)
             cartMenus.forEachIndexed { idx, carted ->
                 Row(
-                    modifier = Modifier.padding(20.dp)
+                    modifier = Modifier
+                        .background(WemadeColors.White900)
+                        .padding(20.dp)
                 ) {
                     Box {
                         Checkbox(
@@ -139,13 +144,15 @@ fun CartScreen(
                     }
                     CartNumericStepper(
                         value = carted.quantity,
-                        onValueChanged = { scope.launch {
-                            cartViewModel.updateQuantity(
-                                carted.copy(
-                                    quantity = it
+                        onValueChanged = {
+                            scope.launch {
+                                cartViewModel.updateQuantity(
+                                    carted.copy(
+                                        quantity = it
+                                    )
                                 )
-                            )
-                        } },
+                            }
+                        },
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
                 }
@@ -158,6 +165,7 @@ fun CartScreen(
                     }
                 },
                 modifier = Modifier
+                    .background(WemadeColors.White900)
                     .fillMaxWidth()
                     .padding(20.dp)
             )
@@ -177,6 +185,7 @@ fun CartScreen(
                 }
             },
             modifier = Modifier
+                .background(WemadeColors.White900)
                 .fillMaxWidth()
                 .padding(20.dp)
         )
