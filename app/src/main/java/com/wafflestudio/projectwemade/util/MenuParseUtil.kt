@@ -15,10 +15,14 @@ fun DataSnapshot.readMenu(): Menu {
         .child("strength").children.map { s ->
             Strength.values()[s.getValue(Int::class.java)?.minus(1) ?: 0]
         }
-    val selectedTemperature = Temperature.values()[this.child("selected_options")
-        .child("temperature").getValue(Int::class.java)?.minus(1) ?: 0]
-    val selectedStrength = Strength.values()[this.child("selected_options")
-        .child("strength").getValue(Int::class.java)?.minus(1) ?: 0]
+    val selectedTemperature = this.child("selected_options").child("temperature")
+        .getValue(Int::class.java)?.let {
+            Temperature.values()[it - 1]
+        }
+    val selectedStrength = this.child("selected_options").child("strength")
+        .getValue(Int::class.java)?.let {
+            Strength.values()[it - 1]
+        }
 
     return Menu(
         id = this.child("id").getValue(Int::class.java) ?: 0,
