@@ -32,7 +32,6 @@
 
 필요시 maintainer에게 요청해주세요.
 
-## Installation
 ### Installation
 1. [Android Studio](https://developer.android.com/studio)를 설치합니다.
 2. 다음 명령어를 입력하여 repository를 clone하고, Android Studio로 프로젝트를 엽니다.
